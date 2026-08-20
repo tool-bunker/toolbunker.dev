@@ -1,1 +1,150 @@
-toolbunker
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Toolbunker — Tools for developers."
+    />
+    <title>Toolbunker — Tools for developers</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap");
+
+      :root {
+        color-scheme: dark;
+        font-family: "IBM Plex Mono", monospace;
+        background: #11120f;
+        color: #e6e5dc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+          #11120f;
+        background-size: 42px 42px;
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        content: "";
+        background:
+          radial-gradient(circle at 50% 48%, rgba(197, 255, 82, 0.08), transparent 28rem),
+          repeating-linear-gradient(115deg, transparent 0 8px, rgba(255, 255, 255, 0.009) 9px 10px);
+        pointer-events: none;
+      }
+
+      main {
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
+        padding: 2rem;
+      }
+
+      .hero {
+        position: relative;
+        width: min(100%, 780px);
+        padding: clamp(3rem, 9vw, 6.5rem) 1.5rem;
+        border-block: 1px solid #383a32;
+        text-align: center;
+      }
+
+      .hero::before,
+      .hero::after {
+        position: absolute;
+        top: -4px;
+        width: 7px;
+        height: 7px;
+        border: 1px solid #c5ff52;
+        content: "";
+      }
+
+      .hero::before {
+        left: 0;
+      }
+
+      .hero::after {
+        right: 0;
+      }
+
+      .eyebrow {
+        margin: 0 0 1.25rem;
+        color: #c5ff52;
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(3.2rem, 11vw, 7rem);
+        font-weight: 700;
+        letter-spacing: -0.075em;
+        line-height: 0.88;
+        text-transform: lowercase;
+      }
+
+      h1 span {
+        color: #c5ff52;
+      }
+
+      .subtitle {
+        margin: 1.75rem 0 0;
+        color: #a6a79e;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        letter-spacing: 0.04em;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        margin-top: 3rem;
+        color: #686a62;
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .status::before {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #c5ff52;
+        box-shadow: 0 0 10px rgba(197, 255, 82, 0.7);
+        content: "";
+      }
+
+      @media (max-width: 520px) {
+        main {
+          padding: 1.25rem;
+        }
+
+        .hero {
+          padding-inline: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero" aria-labelledby="site-title">
+        <h1 id="site-title">tool<span>bunker</span></h1>
+        <p class="subtitle">Tools for developers.</p>
+      </section>
+    </main>
+  </body>
+</html>
