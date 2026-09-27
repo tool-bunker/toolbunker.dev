@@ -1,0 +1,309 @@
+<section class="workflow-illustration" aria-labelledby="workflow-illustration-title">
+  <div class="wrap">
+    <div class="illustration-heading">
+      <span class="eyebrow">Repository-aware analysis</span>
+      <h2 id="workflow-illustration-title">Find what your AI agent missed.</h2>
+      <p>Code Buster scans the code and surfaces potential bugs for you or your agent to evaluate and fix.</p>
+    </div>
+
+    <div class="diagram-page" data-buster-diagram>
+      <div class="page-bar" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <strong>CODE BUSTER / LIVE</strong>
+        <em>SCANNING</em>
+      </div>
+      <div class="diagram-stage" aria-hidden="true"></div>
+      <noscript><p class="no-script">Code Buster scans code and reports potential bugs.</p></noscript>
+      <p class="sr-only">Green code signals and red potential bugs move toward Code Buster. Each scan pulse visually clears the red markers.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { Application, Assets, Container, Graphics, Sprite, Text } from "pixi.js";
+
+  type Particle = {
+    x: number;
+    y: number;
+    previousX: number;
+    previousY: number;
+    vx: number;
+    vy: number;
+    targetX: number;
+    targetY: number;
+    speed: number;
+    radius: number;
+    red: boolean;
+    age: number;
+    phase: number;
+    frequency: number;
+    alive: boolean;
+    respawnIn: number;
+  };
+
+  type Fragment = {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    life: number;
+    maxLife: number;
+  };
+
+
+  const GREEN = 0x6fbe8c;
+  const RED = 0xd24a27;
+  const INK = 0x12100c;
+  const DIM = 0x756b58;
+  const TAU = Math.PI * 2;
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-buster-diagram]")) {
+    const host = root.querySelector<HTMLElement>(".diagram-stage");
+    if (!host) continue;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const app = new Application();
+    await app.init({
+      resizeTo: host,
+      antialias: true,
+      autoDensity: true,
+      backgroundAlpha: 0,
+      resolution: Math.min(window.devicePixelRatio, 2),
+    });
+    host.appendChild(app.canvas);
+
+    const orbitGraphics = new Graphics();
+    const trailGraphics = new Graphics();
+    const particleGraphics = new Graphics();
+    const effectGraphics = new Graphics();
+    const buster = new Container();
+    const halo = new Graphics();
+    const texture = await Assets.load("/code-buster/assets/code-buster.png");
+    const machine = new Sprite(texture);
+    const label = new Text({
+      text: "CODE BUSTER",
+      style: { fontFamily: "monospace", fontSize: 9, fontWeight: "700", fill: GREEN, letterSpacing: 2 },
+    });
+
+    machine.anchor.set(.5);
+    label.anchor.set(.5, 0);
+    buster.addChild(halo, machine, label);
+    app.stage.addChild(orbitGraphics, trailGraphics, particleGraphics, effectGraphics, buster);
+
+    let width = host.clientWidth;
+    let height = host.clientHeight;
+    let centerX = width / 2;
+    let centerY = height / 2;
+    let coreRadius = Math.min(width, height) * .14;
+    let pulseRadius = 0;
+    let previousPulseRadius = 0;
+    let elapsed = 0;
+    let previousCycle = -1;
+    const particles: Particle[] = [];
+    const fragments: Fragment[] = [];
+
+    const randomTarget = () => {
+      const angle = Math.random() * TAU;
+      const radius = Math.random() * coreRadius * .72;
+      return { x: centerX + Math.cos(angle) * radius, y: centerY + Math.sin(angle) * radius };
+    };
+
+    const spawn = (particle: Particle, scatter = false) => {
+      const margin = 45 + Math.random() * 65;
+      const side = Math.floor(Math.random() * 4);
+      let x = 0;
+      let y = 0;
+      if (side === 0) { x = -margin; y = Math.random() * height; }
+      if (side === 1) { x = width + margin; y = Math.random() * height; }
+      if (side === 2) { x = Math.random() * width; y = -margin; }
+      if (side === 3) { x = Math.random() * width; y = height + margin; }
+      const target = randomTarget();
+      const dx = target.x - x;
+      const dy = target.y - y;
+      const distance = Math.hypot(dx, dy) || 1;
+      const speed = 38 + Math.random() * 54;
+      const progress = scatter ? Math.random() * .88 : 0;
+      particle.x = x + dx * progress;
+      particle.y = y + dy * progress;
+      particle.previousX = particle.x;
+      particle.previousY = particle.y;
+      particle.vx = dx / distance * speed;
+      particle.vy = dy / distance * speed;
+      particle.targetX = target.x;
+      particle.targetY = target.y;
+      particle.speed = speed;
+      particle.radius = particle.red ? 4.5 + Math.random() * 2 : 2.5 + Math.random() * 2.5;
+      particle.age = Math.random() * 8;
+      particle.phase = Math.random() * TAU;
+      particle.frequency = .7 + Math.random() * 1.4;
+      particle.alive = true;
+      particle.respawnIn = 0;
+    };
+
+    const particleCount = () => width < 600 ? 150 : 230;
+    const reconcileParticles = () => {
+      const count = particleCount();
+      while (particles.length < count) {
+        const index = particles.length;
+        const particle = { red: index % 5 === 2 || index % 13 === 7 } as Particle;
+        spawn(particle, true);
+        particles.push(particle);
+      }
+      particles.length = count;
+    };
+
+    const layout = () => {
+      width = host.clientWidth;
+      height = host.clientHeight;
+      centerX = width / 2;
+      centerY = height / 2;
+      coreRadius = Math.min(width, height) * .14;
+      machine.position.set(centerX, centerY);
+      machine.width = coreRadius * 2.15;
+      machine.scale.y = machine.scale.x;
+      label.position.set(centerX, centerY + coreRadius * 1.35);
+      reconcileParticles();
+      orbitGraphics.clear();
+      for (const ratio of [.32, .56, .8]) {
+        orbitGraphics.circle(centerX, centerY, Math.hypot(width, height) * ratio * .5)
+          .stroke({ width: 1, color: DIM, alpha: .14 });
+      }
+    };
+
+    const destroyBug = (particle: Particle) => {
+      particle.alive = false;
+      particle.respawnIn = .35 + Math.random() * .55;
+      for (let index = 0; index < 7; index++) {
+        const angle = index / 7 * TAU + Math.random() * .35;
+        const speed = 28 + Math.random() * 40;
+        fragments.push({
+          x: particle.x,
+          y: particle.y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: .42,
+          maxLife: .42,
+        });
+      }
+    };
+
+
+    const cycleDuration = 3.8;
+    const chargeDuration = .65;
+    const pulseDuration = 1.45;
+
+    app.ticker.add((ticker) => {
+      const dt = Math.min(ticker.deltaMS / 1000, .034);
+      if (!reduceMotion) elapsed += dt;
+      const cycle = Math.floor(elapsed / cycleDuration);
+      const cycleElapsed = elapsed % cycleDuration;
+      const charge = cycleElapsed < chargeDuration ? Math.sin(cycleElapsed / chargeDuration * Math.PI) : 0;
+      const rawPulse = Math.max(0, Math.min(1, (cycleElapsed - chargeDuration) / pulseDuration));
+      const easedPulse = 1 - Math.pow(1 - rawPulse, 3);
+      const maxPulseRadius = Math.hypot(width, height) * .58;
+      pulseRadius = rawPulse > 0 && rawPulse < 1 ? easedPulse * maxPulseRadius : 0;
+      if (cycle !== previousCycle) {
+        previousCycle = cycle;
+        previousPulseRadius = 0;
+      }
+
+      halo.clear().circle(centerX, centerY, coreRadius * 1.16)
+        .fill({ color: INK, alpha: .96 })
+        .stroke({ width: 1.5 + charge * 2.5, color: GREEN, alpha: .65 + charge * .35 });
+
+      trailGraphics.clear();
+      particleGraphics.clear();
+      effectGraphics.clear();
+      if (pulseRadius > 0) {
+        effectGraphics.circle(centerX, centerY, pulseRadius)
+          .stroke({ width: 2.5, color: GREEN, alpha: (1 - easedPulse) * .85 });
+      }
+
+      for (const particle of particles) {
+        if (!particle.alive) {
+          particle.respawnIn -= dt;
+          if (particle.respawnIn <= 0) spawn(particle);
+          continue;
+        }
+
+        particle.previousX = particle.x;
+        particle.previousY = particle.y;
+        if (!reduceMotion) {
+          particle.age += dt;
+          const dx = particle.targetX - particle.x;
+          const dy = particle.targetY - particle.y;
+          const distance = Math.hypot(dx, dy) || 1;
+          const directionX = dx / distance;
+          const directionY = dy / distance;
+          const drift = Math.sin(particle.age * particle.frequency + particle.phase) * 16;
+          const desiredX = directionX * particle.speed - directionY * drift;
+          const desiredY = directionY * particle.speed + directionX * drift;
+          particle.vx += (desiredX - particle.vx) * Math.min(1, dt * 2.2);
+          particle.vy += (desiredY - particle.vy) * Math.min(1, dt * 2.2);
+          particle.x += particle.vx * dt;
+          particle.y += particle.vy * dt;
+          if (distance < coreRadius * .35) spawn(particle);
+        }
+
+        const distanceFromCenter = Math.hypot(particle.x - centerX, particle.y - centerY);
+        if (!reduceMotion && particle.red && pulseRadius > previousPulseRadius && distanceFromCenter <= pulseRadius + particle.radius + 4 && distanceFromCenter >= previousPulseRadius - particle.radius - 4) {
+          destroyBug(particle);
+          continue;
+        }
+
+        const color = particle.red ? RED : GREEN;
+        trailGraphics.moveTo(particle.previousX, particle.previousY).lineTo(particle.x - particle.vx * .085, particle.y - particle.vy * .085)
+          .stroke({ width: particle.red ? 1.8 : 1.2, color, alpha: particle.red ? .38 : .22 });
+        particleGraphics.circle(particle.x, particle.y, particle.radius)
+          .fill({ color, alpha: particle.red ? .96 : .82 });
+        if (particle.red) {
+          particleGraphics.moveTo(particle.x - particle.radius * .55, particle.y).lineTo(particle.x + particle.radius * .55, particle.y)
+            .stroke({ width: 1, color: INK, alpha: .8 });
+        }
+      }
+
+      for (let index = fragments.length - 1; index >= 0; index--) {
+        const fragment = fragments[index];
+        fragment.life -= dt;
+        if (fragment.life <= 0) {
+          fragments.splice(index, 1);
+          continue;
+        }
+        fragment.x += fragment.vx * dt;
+        fragment.y += fragment.vy * dt;
+        const alpha = fragment.life / fragment.maxLife;
+        effectGraphics.circle(fragment.x, fragment.y, 1.5 + alpha * 1.5).fill({ color: RED, alpha });
+      }
+
+
+      previousPulseRadius = pulseRadius;
+    });
+
+    const observer = new ResizeObserver(layout);
+    observer.observe(host);
+    layout();
+  }
+</script>
+
+<style>
+  .workflow-illustration { padding: 6.5rem 0 7rem; border-bottom: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
+  .illustration-heading { display: grid; grid-template-columns: .45fr 1.15fr 1fr; align-items: end; gap: 2rem; margin-bottom: 2.5rem; }
+  .illustration-heading h2 { margin: 0; font-family: var(--mono); font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.04em; line-height: 1.08; }
+  .illustration-heading p { margin: 0; color: var(--text-dim); }
+  .diagram-page { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 4px; background: #12100c; box-shadow: 0 2rem 5rem -2.5rem rgb(0 0 0 / 80%); }
+  .page-bar { display: flex; align-items: center; gap: .45rem; min-height: 2.8rem; padding: 0 1rem; border-bottom: 1px solid var(--line); background: rgb(231 221 190 / 3%); }
+  .page-bar > span { width: .42rem; height: .42rem; border-radius: 50%; background: var(--text-dimmer); }
+  .page-bar > span:first-child { background: var(--terminal); }
+  .page-bar strong, .page-bar em { color: var(--terminal); font: 700 .58rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .page-bar strong { margin-left: .6rem; }
+  .page-bar em { margin-left: auto; font-style: normal; }
+  .diagram-stage { width: 100%; height: 620px; background: radial-gradient(circle at center, rgb(111 190 140 / 9%), transparent 35%), linear-gradient(rgb(231 221 190 / 3%) 1px, transparent 1px), linear-gradient(90deg, rgb(231 221 190 / 3%) 1px, transparent 1px), #12100c; background-size: auto, 2rem 2rem, 2rem 2rem, auto; }
+  .diagram-stage canvas { display: block; width: 100%; height: 100%; }
+  .no-script { padding: 2rem; color: var(--text-dim); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  @media (max-width: 700px) {
+    .illustration-heading { grid-template-columns: 1fr; gap: 1rem; }
+    .diagram-stage { height: 560px; }
+  }
+  @media (max-width: 480px) { .page-bar strong { display: none; } }
+</style>

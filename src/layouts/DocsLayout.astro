@@ -1,0 +1,74 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import CodeBusterHeader from "../components/CodeBusterHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import "../styles/code-buster.css";
+import "../styles/docs.css";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+const groups = [
+  {
+    label: "Getting started",
+    links: [
+      ["Installation", "/code-buster/docs/getting-started/installation"],
+      ["Quickstart", "/code-buster/docs/getting-started/quickstart"],
+    ],
+  },
+  {
+    label: "Guides",
+    links: [
+      ["Configuration", "/code-buster/docs/guides/configuration"],
+      ["Analysis workflows", "/code-buster/docs/guides/workflows"],
+      ["CI and integrations", "/code-buster/docs/guides/integrations"],
+    ],
+  },
+  {
+    label: "Reference",
+    links: [
+      ["Commands", "/code-buster/docs/reference/commands"],
+      ["Reports", "/code-buster/docs/reference/reports"],
+      ["Languages", "/code-buster/docs/reference/languages"],
+    ],
+  },
+  {
+    label: "Project",
+    links: [
+      ["Contributing", "/code-buster/docs/project/contributing"],
+      ["Security and releases", "/code-buster/docs/project/security-releases"],
+    ],
+  },
+] as const;
+---
+
+<BaseLayout
+  title={`${frontmatter.title} - Code Buster docs`}
+  description={frontmatter.description ?? `Code Buster documentation: ${frontmatter.title}.`}
+  bodyClass="code-buster-page docs-page"
+>
+  <CodeBusterHeader />
+  <div class="wrap docs-shell">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <a href="/code-buster/docs/">CODE BUSTER / DOCS</a>
+      {groups.map((group) => (
+        <nav class="docs-group" aria-label={group.label}>
+          <strong>{group.label}</strong>
+          {group.links.map(([label, href]) => (
+            <a href={href} aria-current={currentPath === href ? "page" : undefined}>{label}</a>
+          ))}
+        </nav>
+      ))}
+    </aside>
+    <article class="docs-content">
+      <slot />
+    </article>
+  </div>
+  <SiteFooter variant="code-buster" />
+</BaseLayout>
