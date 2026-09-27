@@ -1,150 +1,141 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta
-      name="description"
-      content="Toolbunker — Tools for developers."
-    />
-    <title>Toolbunker — Tools for developers</title>
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+---
+
+<BaseLayout
+  title="Tool Bunker - Open-source tools for developers"
+  description="Tool Bunker is an open-source home for useful developer tools, shared in public and open to everyone."
+  bodyClass="home-page"
+>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap");
-
-      :root {
-        color-scheme: dark;
-        font-family: "IBM Plex Mono", monospace;
-        background: #11120f;
-        color: #e6e5dc;
+      .hero { min-height: 72vh; display: grid; place-items: center; padding: 7rem 0 5rem; }
+      .hero-inner { position: relative; width: 100%; text-align: center; }
+      .hero-inner::before {
+        position: absolute; inset: 50% 12% auto; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+        content: ""; z-index: -1;
       }
-
-      * {
-        box-sizing: border-box;
+      .stamp {
+        display: inline-block; padding: 0.42rem 0.8rem; border: 1.5px solid var(--stamp);
+        border-radius: 2px; color: #d24a27; font-family: var(--mono); font-size: 0.68rem;
+        font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; transform: rotate(-2deg);
       }
-
-      body {
-        margin: 0;
-        min-width: 320px;
-        min-height: 100vh;
-        background:
-          linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-          #11120f;
-        background-size: 42px 42px;
-      }
-
-      body::before {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        content: "";
-        background:
-          radial-gradient(circle at 50% 48%, rgba(197, 255, 82, 0.08), transparent 28rem),
-          repeating-linear-gradient(115deg, transparent 0 8px, rgba(255, 255, 255, 0.009) 9px 10px);
-        pointer-events: none;
-      }
-
-      main {
-        display: grid;
-        min-height: 100vh;
-        place-items: center;
-        padding: 2rem;
-      }
-
-      .hero {
-        position: relative;
-        width: min(100%, 780px);
-        padding: clamp(3rem, 9vw, 6.5rem) 1.5rem;
-        border-block: 1px solid #383a32;
-        text-align: center;
-      }
-
-      .hero::before,
-      .hero::after {
-        position: absolute;
-        top: -4px;
-        width: 7px;
-        height: 7px;
-        border: 1px solid #c5ff52;
-        content: "";
-      }
-
-      .hero::before {
-        left: 0;
-      }
-
-      .hero::after {
-        right: 0;
-      }
-
-      .eyebrow {
-        margin: 0 0 1.25rem;
-        color: #c5ff52;
-        font-size: 0.7rem;
-        font-weight: 500;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-      }
-
       h1 {
-        margin: 0;
-        font-family: "Space Grotesk", sans-serif;
-        font-size: clamp(3.2rem, 11vw, 7rem);
-        font-weight: 700;
-        letter-spacing: -0.075em;
-        line-height: 0.88;
-        text-transform: lowercase;
+        margin: 1.7rem 0 1rem; font-family: var(--mono); font-size: clamp(3.4rem, 10vw, 7.2rem);
+        letter-spacing: -0.075em; line-height: 0.9; text-transform: lowercase;
       }
+      h1 em { color: var(--terminal); font-style: normal; }
+      .tagline { margin: 1.5rem 0 0; color: var(--text-dim); font-family: var(--mono); font-size: clamp(1rem, 2vw, 1.2rem); }
+      .scroll-mark { display: inline-block; margin-top: 4rem; color: var(--text-dimmer); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-decoration: none; text-transform: uppercase; }
+      .scroll-mark:hover { color: var(--tape); }
 
-      h1 span {
-        color: #c5ff52;
-      }
+      .tools { padding: 1rem 0 8rem; }
+      .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line-strong); }
+      .eyebrow { color: var(--terminal); font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
+      h2 { margin: 0; font-family: var(--mono); font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.04em; line-height: 1.1; }
+      .section-count { color: var(--text-dimmer); font-family: var(--mono); font-size: 0.8rem; }
+      .tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+      .tool-card { position: relative; min-height: 21rem; padding: 2rem; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--ink-2); }
+      a.tool-card { color: var(--text); text-decoration: none; transition: border-color 0.15s ease, transform 0.15s ease; }
+      a.tool-card:hover { border-color: var(--terminal); transform: translateY(-2px); }
+      .tool-card.featured { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 0.82fr) minmax(22rem, 1.18fr); align-items: center; min-height: 25rem; background: linear-gradient(135deg, rgb(111 190 140 / 5%), transparent 55%), var(--ink-2); }
+      .tool-number { color: var(--text-dimmer); font-family: var(--mono); font-size: 0.68rem; }
+      .tool-card h3 { margin: 2rem 0 0.8rem; font-family: var(--mono); font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: -0.03em; }
+      .tool-card p { max-width: 38rem; margin: 0; color: var(--text-dim); }
+      .tool-link { display: inline-block; margin-top: 2rem; color: var(--terminal); font-family: var(--mono); font-size: 0.8rem; font-weight: 700; }
+      .tool-art { position: relative; align-self: stretch; display: grid; place-items: center; }
+      .tool-art::before { position: absolute; inset: 20%; border-radius: 50%; background: rgb(111 190 140 / 10%); filter: blur(3rem); content: ""; }
+      .tool-art img { position: relative; width: 100%; height: auto; filter: drop-shadow(0 1.5rem 2.5rem rgb(0 0 0 / 45%)); }
 
-      .subtitle {
-        margin: 1.75rem 0 0;
-        color: #a6a79e;
-        font-size: clamp(0.9rem, 2vw, 1.1rem);
-        letter-spacing: 0.04em;
-      }
+      .coming-card { grid-column: 1 / -1; min-height: 12rem; border-style: dashed; }
+      .coming-card h3 { margin-top: 2rem; }
+      .principles { padding: 7rem 0; border-top: 1px solid var(--line); }
+      .principles-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(3rem, 9vw, 8rem); }
+      .principles h2 { margin-top: 0.65rem; }
+      .principle-list { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line-strong); background: var(--line-strong); gap: 1px; }
+      .principle { min-height: 10rem; padding: 1.5rem; background: var(--ink-2); }
+      .principle strong { display: block; margin-bottom: 0.7rem; color: var(--terminal); font-family: var(--mono); }
+      .principle p { margin: 0; color: var(--text-dim); font-size: 0.9rem; }
+      .about { padding: 7rem 0; border-block: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
+      .about-grid { display: grid; grid-template-columns: 0.55fr 1.45fr; gap: clamp(3rem, 9vw, 8rem); }
+      .about-copy { max-width: 48rem; }
+      .about-copy h2 { margin-bottom: 1.5rem; }
+      .about-copy p { margin: 0; color: var(--text-dim); font-size: clamp(1.05rem, 2vw, 1.25rem); }
+      .about-copy p + p { margin-top: 1rem; }
+      .about-copy a { color: var(--terminal); font-weight: 600; text-decoration-color: rgb(111 190 140 / 45%); text-underline-offset: 0.2em; }
+      .about-copy a:hover { text-decoration-color: var(--terminal); }
 
-      .status {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.55rem;
-        margin-top: 3rem;
-        color: #686a62;
-        font-size: 0.65rem;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .status::before {
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: #c5ff52;
-        box-shadow: 0 0 10px rgba(197, 255, 82, 0.7);
-        content: "";
-      }
-
-      @media (max-width: 520px) {
-        main {
-          padding: 1.25rem;
-        }
-
-        .hero {
-          padding-inline: 0;
-        }
+      @media (max-width: 720px) {
+        .hero { min-height: 65vh; padding-top: 5rem; }
+        .tool-grid, .about-grid, .principles-grid { grid-template-columns: 1fr; }
+        .tool-card.featured { grid-template-columns: 1fr; padding-bottom: 0; }
+        .tool-card.featured .tool-art { min-height: 15rem; margin-top: 1rem; padding-bottom: 2rem; }
+        .tool-card { min-height: 18rem; }
+        .tool-card.coming-card { min-height: 12rem; }
+        .principle-list { grid-template-columns: 1fr; }
       }
     </style>
-  </head>
-  <body>
     <main>
       <section class="hero" aria-labelledby="site-title">
-        <h1 id="site-title">tool<span>bunker</span></h1>
-        <p class="subtitle">Tools for developers.</p>
+        <div class="wrap hero-inner">
+          <span class="stamp">Open-source toolbox</span>
+          <h1 id="site-title">tool<em>bunker</em></h1>
+          <p class="tagline">Open-source tools for developers.</p>
+          <a class="scroll-mark" href="#tools">Explore the tools ↓</a>
+        </div>
+      </section>
+
+      <section class="tools" id="tools" aria-labelledby="tools-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <div><span class="eyebrow">Built in the open</span><h2 id="tools-title">The tools</h2></div>
+            <span class="section-count">01 active project · MIT licensed</span>
+          </div>
+          <div class="tool-grid">
+            <a class="tool-card featured" href="/code-buster/">
+              <div class="tool-copy">
+                <span class="tool-number">TOOL / 001</span>
+                <h3>Code Buster</h3>
+                <p>The AI Improver for code. Code Buster reviews an agent’s completed work against the repository and gives the AI actionable feedback for a better result.</p>
+                <span class="tool-link">Inspect Code Buster →</span>
+              </div>
+              <div class="tool-art">
+                <img src="/code-buster/assets/code-buster.png" alt="Code Buster analysis machine" width="720" height="402" />
+              </div>
+            </a>
+            <article class="tool-card coming-card">
+              <span class="tool-number">MORE TOOLS</span>
+              <h3>Coming soon.</h3>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="principles" aria-labelledby="principles-title">
+        <div class="wrap principles-grid">
+          <div>
+            <span class="eyebrow">How it’s built</span>
+            <h2 id="principles-title">Principles behind the work.</h2>
+          </div>
+          <div class="principle-list">
+            <article class="principle"><strong>Open by default.</strong><p>Source, issues, decisions, and development belong where everyone can participate.</p></article>
+            <article class="principle"><strong>Simple enough to maintain.</strong><p>Boring, understandable software survives longer than clever machinery.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="about" aria-labelledby="about-title">
+        <div class="wrap about-grid">
+          <span class="eyebrow">About the project</span>
+          <div class="about-copy">
+            <h2 id="about-title">Useful tools.<br />Built in the open.</h2>
+            <p>Tool Bunker is an open-source home for useful developer tools, built in public and open to anyone who wants to use, discuss, or improve them.</p>
+            <p>This is not a company or a product suite. It is a place for practical tools and open collaboration, with the hope that it grows into a group of contributors building useful software for developers.</p>
+            <p>Tool Bunker is currently maintained by <a href="https://github.com/robertsson">@robertsson</a>. Have an idea, a question, or something worth discussing? <a href="https://github.com/robertsson">Get in touch on GitHub</a>.</p>
+          </div>
+        </div>
       </section>
     </main>
-  </body>
-</html>
+    <SiteFooter />
+</BaseLayout>

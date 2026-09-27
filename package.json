@@ -9,6 +9,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "7.2.4"
+    "astro": "7.2.4",
+    "pixi.js": "^8.21.0"
   }
 }

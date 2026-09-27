@@ -1,0 +1,414 @@
+---
+import CodeBusterLayout from "../../layouts/CodeBusterLayout.astro";
+import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
+---
+
+<CodeBusterLayout
+  title="Code Buster - Build better with your AI agent. Drift less."
+  description="Code Buster reviews completed work against the repository and finds issues for you or your AI agent to evaluate and fix."
+>
+  <style slot="head">
+    .ai-hero { padding: clamp(5rem, 10vw, 8rem) 0 4.5rem; }
+    .ai-hero-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(25rem, 1.05fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
+    .ai-hero h1 { max-width: 12ch; margin: 1.5rem 0 1.35rem; font-family: var(--mono); font-size: clamp(2.75rem, 5.8vw, 4.8rem); letter-spacing: -.045em; line-height: 1.02; }
+    .ai-hero h1 em { color: var(--terminal); font-style: normal; }
+    .ai-hero .lede { max-width: 44rem; font-size: clamp(1.05rem, 1.7vw, 1.25rem); }
+    .ai-art { position: relative; }
+    .ai-art::before { position: absolute; z-index: -1; inset: 16%; border-radius: 50%; background: rgb(111 190 140 / 12%); filter: blur(4rem); content: ''; }
+    .ai-art img { width: 100%; height: auto; filter: drop-shadow(0 1.8rem 3rem rgb(0 0 0 / 45%)); }
+    .compatibility { padding: 1.35rem 0; border-block: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
+    .compatibility-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .7rem; }
+    .compatibility-label { margin-right: .4rem; color: var(--text-dimmer); font-family: var(--mono); font-size: .69rem; letter-spacing: .1em; text-transform: uppercase; }
+    .engine { padding: .38rem .7rem; border: 1px solid var(--line-strong); border-radius: 2px; color: var(--text-dim); font-family: var(--mono); font-size: .75rem; }
+    .engine-any { border-style: dashed; color: var(--terminal); }
+    .history { padding: 7rem 0; border-bottom: 1px solid var(--line); }
+    .history-heading { display: grid; grid-template-columns: .65fr 1.35fr; gap: clamp(2rem, 7vw, 7rem); align-items: end; margin-bottom: 3rem; }
+    .history-heading h2 { max-width: 16ch; margin: .8rem 0 0; font-family: var(--mono); font-size: clamp(2rem, 4.7vw, 3.55rem); letter-spacing: -.04em; line-height: 1.1; }
+    .history-heading p { max-width: 40rem; margin: 0; color: var(--text-dim); font-size: 1.08rem; }
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line-strong); background: var(--line-strong); gap: 1px; }
+    .era { position: relative; min-height: 20rem; padding: 1.7rem; background: var(--ink-2); }
+    .era::after { position: absolute; z-index: 2; top: 2rem; right: -0.72rem; display: grid; width: 1.35rem; height: 1.35rem; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--ink); color: var(--text-dimmer); content: '→'; font-family: var(--mono); font-size: .65rem; }
+    .era:last-child::after { display: none; }
+    .era-number { color: var(--text-dimmer); font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; }
+    .era h3 { margin: 2.2rem 0 .8rem; font-family: var(--mono); font-size: 1.15rem; line-height: 1.25; }
+    .era p { margin: 0; color: var(--text-dim); font-size: .88rem; }
+    .era strong { color: var(--text); font-weight: 600; }
+    .era-now { background: linear-gradient(155deg, rgb(111 190 140 / 10%), transparent 58%), var(--ink-2); box-shadow: inset 0 0 0 1px rgb(111 190 140 / 55%); }
+    .era-now .era-number, .era-now h3 { color: var(--terminal); }
+    .era-tag { display: inline-block; margin-top: 1.4rem; padding: .32rem .55rem; border: 1px solid var(--terminal); border-radius: 2px; color: var(--terminal); font-family: var(--mono); font-size: .61rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transform: rotate(-1deg); }
+    .explanation { padding: 7rem 0 3rem; text-align: center; }
+    .explanation h2 { max-width: 18ch; margin: .8rem auto 1.2rem; font-family: var(--mono); font-size: clamp(2rem, 4.7vw, 3.55rem); letter-spacing: -.04em; line-height: 1.12; }
+    .explanation > .wrap > p { max-width: 45rem; margin: 0 auto; color: var(--text-dim); font-size: 1.08rem; }
+    .feedback-flow { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 62rem; margin: 3rem auto 0; border: 1px solid var(--line-strong); background: var(--line-strong); gap: 1px; text-align: left; }
+    .flow-node { position: relative; min-height: 10rem; padding: 1.35rem; background: var(--ink-2); }
+    .flow-node::after { position: absolute; z-index: 2; top: 50%; right: -.75rem; width: 1.45rem; height: 1.45rem; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--ink); color: var(--terminal); content: '→'; font-family: var(--mono); font-size: .7rem; line-height: 1.35rem; text-align: center; transform: translateY(-50%); }
+    .flow-node:last-child::after { content: '↻'; }
+    .flow-node span { color: var(--terminal); font-family: var(--mono); font-size: .65rem; letter-spacing: .09em; text-transform: uppercase; }
+    .flow-node strong { display: block; margin-top: 1.2rem; font-family: var(--mono); font-size: .95rem; }
+    .flow-node p { margin: .45rem 0 0; color: var(--text-dim); font-size: .8rem; }
+    .comparison { padding: 3rem 0 7rem; }
+    .comparison-grid { display: grid; grid-template-columns: 1fr 4rem 1fr; align-items: stretch; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    .way { position: relative; padding: clamp(1.5rem, 3vw, 2.5rem); border: 1px solid var(--line-strong); border-radius: 4px; background: #1c1811; }
+    .way-old { opacity: .82; }
+    .way-new { border-color: rgb(111 190 140 / 55%); background: linear-gradient(155deg, rgb(111 190 140 / 8%), transparent 50%), #1c1811; box-shadow: 0 1.5rem 4rem -2rem rgb(111 190 140 / 25%); }
+    .way-label { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--line); color: var(--text-dimmer); font-family: var(--mono); font-size: .67rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    .way-new .way-label { color: var(--terminal); }
+    .way h3 { margin: 1.5rem 0 .8rem; font-family: var(--mono); font-size: clamp(1.35rem, 2.5vw, 2rem); line-height: 1.2; }
+    .way-intro { min-height: 4.8rem; margin: 0 0 1.5rem; color: var(--text-dim); }
+    .conversation { display: grid; gap: .8rem; }
+    .message { padding: 1rem; border-left: 2px solid var(--stamp-bright); background: rgb(0 0 0 / 18%); }
+    .way-new .message { border-left-color: var(--terminal); }
+    .speaker { display: block; margin-bottom: .35rem; color: var(--text-dimmer); font-family: var(--mono); font-size: .63rem; letter-spacing: .09em; text-transform: uppercase; }
+    .message p { margin: 0; color: var(--text-dim); font-size: .9rem; }
+    .way-new .message p { color: var(--text); }
+    .outcome { display: flex; gap: .75rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--text-dim); font-size: .85rem; }
+    .outcome::before { color: var(--stamp-bright); content: '×'; font-family: var(--mono); font-weight: 700; }
+    .way-new .outcome::before { color: var(--terminal); content: '✓'; }
+    .bridge { display: grid; place-items: center; color: var(--terminal); font-family: var(--mono); font-size: 1.4rem; }
+    .bridge span { display: grid; width: 3rem; height: 3rem; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--ink); }
+    .proof { padding: 0 0 7rem; }
+    .proof-heading, .catalog-heading, .participate-heading { display: grid; grid-template-columns: .7fr 1.3fr; gap: 4rem; align-items: end; margin-bottom: 2.5rem; }
+    .proof h2, .catalog h2, .participate h2 { margin: .7rem 0 0; font-family: var(--mono); font-size: clamp(2rem, 4.2vw, 3.2rem); letter-spacing: -.04em; line-height: 1.1; }
+    .proof-heading p, .catalog-heading p, .participate-heading p { margin: 0; color: var(--text-dim); }
+    .proof-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border: 1px solid var(--line-strong); background: var(--line-strong); gap: 1px; }
+    .proof-step { min-height: 20rem; padding: 1.7rem; background: var(--ink-2); }
+    .proof-step:nth-child(2) { background: #121a14; }
+    .proof-label { color: var(--text-dimmer); font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; }
+    .proof-step:nth-child(2) .proof-label { color: var(--terminal); }
+    .proof-step h3 { margin: 2rem 0 .8rem; font-family: var(--mono); font-size: 1.15rem; }
+    .proof-step p { color: var(--text-dim); font-size: .9rem; }
+    .proof-step pre { margin: 1.3rem 0 0; padding: 1rem; overflow-x: auto; border: 1px solid var(--line); background: rgb(0 0 0 / 25%); color: var(--text); font-family: var(--mono); font-size: .72rem; line-height: 1.6; white-space: pre-wrap; }
+    .proof-note { margin: 1rem 0 0; color: var(--text-dimmer); font-size: .72rem; }
+    .loop { padding: 7rem 0; border-block: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
+    .loop-heading { display: grid; grid-template-columns: .7fr 1.3fr; gap: 4rem; align-items: end; margin-bottom: 3rem; }
+    .loop h2 { margin: .75rem 0 0; font-family: var(--mono); font-size: clamp(2rem, 4.2vw, 3.25rem); letter-spacing: -.04em; line-height: 1.1; }
+    .loop-heading p { margin: 0; color: var(--text-dim); font-size: 1.08rem; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--line-strong); background: var(--line-strong); }
+    .step { min-height: 14rem; padding: 1.75rem; background: var(--ink-2); }
+    .step-number { color: var(--terminal); font-family: var(--mono); font-size: .7rem; }
+    .step h3 { margin: 1.8rem 0 .7rem; font-family: var(--mono); font-size: 1.2rem; }
+    .step p { margin: 0; color: var(--text-dim); font-size: .9rem; }
+    .catalog { padding: 7rem 0; }
+    .finding-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line-strong); background: var(--line-strong); gap: 1px; }
+    .finding-type { min-height: 11rem; padding: 1.4rem; background: var(--ink-2); }
+    .finding-type strong { display: block; color: var(--text); font-family: var(--mono); font-size: .9rem; }
+    .finding-type p { margin: .65rem 0 0; color: var(--text-dim); font-size: .8rem; }
+    .engine-section { padding: 7rem 0; }
+    .engine-panel { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; padding: clamp(2rem, 5vw, 4.5rem); border: 1px solid var(--line-strong); background: linear-gradient(135deg, rgb(111 190 140 / 7%), transparent 55%), var(--ink-2); }
+    .engine-panel h2 { margin: .9rem 0 1.2rem; font-family: var(--mono); font-size: clamp(2rem, 4vw, 3.15rem); letter-spacing: -.04em; line-height: 1.1; }
+    .engine-panel p { color: var(--text-dim); }
+    .engine-list { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    .engine-card { padding: 1.1rem; border: 1px solid var(--line); color: var(--text); font-family: var(--mono); font-size: .82rem; text-align: center; }
+    .engine-card:last-child { grid-column: 1 / -1; border-style: dashed; color: var(--terminal); }
+    .compatibility-note { margin: 1rem 0 0; color: var(--text-dimmer); font-size: .75rem; text-align: center; }
+    .participate { padding: 7rem 0; border-block: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
+    .participation-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid var(--line-strong); background: var(--line-strong); }
+    .participation-card { min-height: 13rem; padding: 1.5rem; background: var(--ink-2); color: var(--text); text-decoration: none; }
+    .participation-card:hover { background: #242019; }
+    .participation-card span { color: var(--terminal); font-family: var(--mono); font-size: .65rem; letter-spacing: .08em; }
+    .participation-card strong { display: block; margin: 1.5rem 0 .6rem; font-family: var(--mono); }
+    .participation-card p { margin: 0; color: var(--text-dim); font-size: .82rem; }
+    .closing-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .85rem; margin-top: 2rem; }
+    @media (max-width: 800px) {
+      .ai-hero-grid, .loop-heading, .engine-panel, .proof-heading, .catalog-heading, .participate-heading { grid-template-columns: 1fr; }
+      .history-heading { grid-template-columns: 1fr; gap: 1.5rem; }
+      .timeline { grid-template-columns: 1fr 1fr; }
+      .era::after { display: none; }
+      .feedback-flow, .finding-grid, .participation-grid { grid-template-columns: 1fr 1fr; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .flow-node::after { display: none; }
+      .ai-art { max-width: 38rem; margin-inline: auto; padding-bottom: 2rem; }
+      .comparison-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .bridge { min-height: 3rem; transform: rotate(90deg); }
+      .way-intro { min-height: 0; }
+      .steps { grid-template-columns: 1fr; }
+      .loop-heading { gap: 1.5rem; }
+    }
+    @media (max-width: 560px) {
+      .ai-hero { padding-top: 4rem; }
+      .compatibility-label { width: 100%; margin: 0 0 .25rem; text-align: center; }
+      .engine-list { grid-template-columns: 1fr; }
+      .timeline { grid-template-columns: 1fr; }
+      .era { min-height: 0; }
+      .feedback-flow, .finding-grid, .participation-grid { grid-template-columns: 1fr; }
+      .engine-card:last-child { grid-column: auto; }
+    }
+  </style>
+    <section class="ai-hero">
+      <div class="wrap">
+        <div class="ai-hero-grid">
+          <div>
+            <span class="status-stamp"><span></span>The AI Improver for code</span>
+            <h1>Build <em>better</em> with your AI agent. Drift less.</h1>
+            <p class="lede">Your agent writes the code. Code Buster reviews the completed work against the repository and returns potential issues for you or your agent to evaluate and fix.</p>
+            <div class="cta-row">
+              <a class="button button-primary" href="/code-buster/docs/getting-started/quickstart">Find issues with Code Buster</a>
+              <a class="button button-secondary" href="#comparison">See the difference ↓</a>
+            </div>
+          </div>
+          <div class="ai-art">
+            <img src="/code-buster/assets/code-buster.png" alt="Code Buster analysis machine" width="720" height="402">
+          </div>
+        </div>
+        <div class="evidence-tag reveal">
+          <div class="install-switcher">
+            <div class="install-bar">
+              <div class="install-tabs" role="tablist" aria-label="Installation method">
+                <button type="button" role="tab" aria-selected="true" tabindex="0" data-command="brew install tool-bunker/tap/code-buster" data-note="Native install for Apple Silicon macOS. Dart is not required.">Brew</button>
+                <button type="button" role="tab" aria-selected="false" tabindex="-1" data-command="curl -fsSL https://codebuster.toolbunker.dev/install | sh" data-note="Native install for Apple Silicon macOS and x86-64 Linux.">Curl</button>
+                <button type="button" role="tab" aria-selected="false" tabindex="-1" data-command="irm https://codebuster.toolbunker.dev/install.ps1 | iex" data-note="Native install for x86-64 Windows PowerShell.">PowerShell</button>
+                <button type="button" role="tab" aria-selected="false" tabindex="-1" data-command="dart pub global activate code_buster" data-note="Cross-platform install requiring Dart 3.11 or newer.">Dart</button>
+              </div>
+              <a href="/code-buster/docs/getting-started/installation">All options</a>
+            </div>
+            <div class="install-command" role="tabpanel" aria-live="polite">
+              <code>brew install tool-bunker/tap/code-buster</code>
+              <button type="button" class="copy-install" aria-label="Copy install command">Copy</button>
+            </div>
+            <p class="install-note">Native install for Apple Silicon macOS. Dart is not required.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="wrap">
+        <div class="stats-grid reveal">
+          <div class="stat"><strong>18<sup>*</sup></strong><span>Languages</span></div>
+          <div class="stat"><strong>450</strong><span>Registered rules</span></div>
+          <div class="stat"><strong>7</strong><span>Report formats</span></div>
+          <div class="stat"><strong>0</strong><span>Required cloud services</span></div>
+        </div>
+        <p class="stats-footnote">* Code Buster recognizes 18 source languages. Analysis depth varies by language and rule family. <a href="/code-buster/docs/reference/languages">Review current support →</a></p>
+      </div>
+    </section>
+
+    <section class="notice">
+      <div class="wrap">
+        <div class="notice-box reveal">
+          <span class="notice-stamp">Case status: open</span>
+          <h2>Powerful today. Still evolving.</h2>
+          <p>Use Code Buster for local exploration, AI context, and reviewing changes before handoff. Until version 1.0.0, do not rely on it as a blocking quality gate in production pipelines. CI and report integrations are available for evaluation and non-blocking visibility.</p>
+          <nav class="file-tabs" aria-label="Popular documentation">
+            <a href="/code-buster/docs/getting-started/quickstart"><span>Quickstart</span><strong>Analyze a repository in minutes.</strong></a>
+            <a href="/code-buster/docs/guides/configuration"><span>Configuration</span><strong>Shape analysis around your repository.</strong></a>
+            <a href="/code-buster/docs/reference/languages"><span>Languages</span><strong>Review current support and depth.</strong></a>
+            <a href="/code-buster/docs/guides/integrations"><span>Integrations</span><strong>Evaluate reports and non-blocking CI.</strong></a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <AiImproverDiagram />
+
+    <section class="compatibility" aria-label="Compatible AI coding tools">
+      <div class="wrap compatibility-row">
+        <span class="compatibility-label">Works with</span>
+        <span class="engine">Pi</span><span class="engine">OMP</span><span class="engine">Codex</span><span class="engine">Claude Code</span><span class="engine">Cursor</span><span class="engine engine-any">and any other coding agent</span>
+      </div>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <div class="wrap">
+        <div class="history-heading">
+          <div>
+            <span class="eyebrow">The context problem</span>
+            <h2 id="history-title">When context overflows, important details disappear.</h2>
+          </div>
+          <p>Large repositories contain more code, conventions, dependencies, and history than a person or an AI agent can hold in view at once. Adding everything to the prompt does not solve that problem - it buries the evidence that matters.</p>
+        </div>
+        <div class="timeline">
+          <article class="era">
+            <span class="era-number">01 / GROWTH</span>
+            <h3>The repository outgrows the prompt</h3>
+            <p>As a codebase grows, no developer or agent can inspect every file, relationship, convention, and previous decision for each change.</p>
+          </article>
+          <article class="era">
+            <span class="era-number">02 / OVERFLOW</span>
+            <h3>Everything competes for attention</h3>
+            <p>Loading more source, documentation, tool output, and instructions consumes the same limited attention needed to understand the task.</p>
+          </article>
+          <article class="era">
+            <span class="era-number">03 / DRIFT</span>
+            <h3>The useful signals get buried</h3>
+            <p>Existing solutions, architectural boundaries, and local conventions are easy to miss. The result may work while still pulling the repository apart.</p>
+          </article>
+          <article class="era era-now">
+            <span class="era-number">04 / FOCUS</span>
+            <h3>Code Buster returns focused evidence</h3>
+            <p>Code Buster analyzes the repository and surfaces relevant findings instead of handing you or your AI agent the entire codebase to reason through at once.</p>
+            <span class="era-tag">Less noise. More signal.</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="explanation" id="how-it-works">
+      <div class="wrap">
+        <span class="eyebrow">How it works</span>
+        <h2>Show your agent what it missed.</h2>
+        <p>Code Buster analyzes completed work and returns focused findings. You or your agent decide what matters and make the fix.</p>
+        <div class="feedback-flow" aria-label="Code Buster review workflow">
+          <article class="flow-node"><span>01 / Create</span><strong>Agent changes code</strong><p>Your preferred coding agent completes the requested work.</p></article>
+          <article class="flow-node"><span>02 / Analyze</span><strong>Agent uses Code Buster</strong><p>The agent runs Code Buster against the repository and completed change.</p></article>
+          <article class="flow-node"><span>03 / Decide</span><strong>Agent judges findings</strong><p>Relevant issues are accepted; bad advice can be rejected.</p></article>
+          <article class="flow-node"><span>04 / Improve</span><strong>Agent corrects its work</strong><p>The refined result can be reviewed again.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="comparison" id="comparison" aria-labelledby="comparison-title">
+      <div class="wrap">
+        <h2 id="comparison-title" class="visually-hidden">Development workflow comparison</h2>
+        <div class="comparison-grid">
+          <article class="way way-old">
+            <div class="way-label"><span>The old way</span><span>No context</span></div>
+            <h3>Developer becomes the feedback system</h3>
+            <p class="way-intro">The AI completes the task, but the developer has to find and explain everything that does not fit.</p>
+            <div class="conversation">
+              <div class="message"><span class="speaker">Developer</span><p>“We already have a helper for this.”</p></div>
+              <div class="message"><span class="speaker">Developer</span><p>“Why did you bypass the existing component?”</p></div>
+              <div class="message"><span class="speaker">Developer</span><p>“This works, but it does not follow our architecture.”</p></div>
+              <div class="message"><span class="speaker">AI</span><p>“You're right. Let me try again.”</p></div>
+            </div>
+            <div class="outcome">Repeated prompts, review fatigue, duplicated code, and changes that slowly pull the repository apart.</div>
+          </article>
+
+          <div class="bridge" aria-hidden="true"><span>→</span></div>
+
+          <article class="way way-new">
+            <div class="way-label"><span>With Code Buster</span><span>Repository-aware</span></div>
+            <h3>Code Buster gives the AI feedback</h3>
+            <p class="way-intro">The agent inspects the real system before editing and checks its own work before handing it back.</p>
+            <div class="conversation">
+              <div class="message"><span class="speaker">Code Buster → AI</span><p>“This repository already solves that in <code>src/shared</code>. Reuse the established path.”</p></div>
+              <div class="message"><span class="speaker">Code Buster → AI</span><p>“These modules form a boundary. Keep the new dependency on the correct side.”</p></div>
+              <div class="message"><span class="speaker">Code Buster → AI</span><p>“Your change introduced a duplicate pattern. Consolidate it before handoff.”</p></div>
+              <div class="message"><span class="speaker">AI → Developer</span><p>“Implemented using the existing conventions and reviewed for drift.”</p></div>
+            </div>
+            <div class="outcome">More consistent changes, fewer avoidable review rounds, and an AI that improves by working from repository evidence.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof" aria-labelledby="proof-title">
+      <div class="wrap">
+        <div class="proof-heading">
+          <div><span class="eyebrow">Repository evidence</span><h2 id="proof-title">A problem becomes actionable feedback.</h2></div>
+          <p>This representative review uses Code Buster’s tested circular-dependency finding. The finding message and evidence format come from the real rule; the agent still owns the remediation decision.</p>
+        </div>
+        <div class="proof-grid">
+          <article class="proof-step">
+            <span class="proof-label">AI result</span>
+            <h3>A change closes a dependency loop</h3>
+            <p>The new import works locally, but connects three modules in a cycle that makes the architecture harder to change and test.</p>
+            <pre><code>a.code → b.code
+b.code → c.code
+c.code → a.code</code></pre>
+          </article>
+          <article class="proof-step">
+            <span class="proof-label">Code Buster finding</span>
+            <h3>The exact problem is returned</h3>
+            <p>The agent receives a concrete path through the cycle instead of a vague request to “follow the architecture.”</p>
+            <pre><code>circular dependency:
+a.code → b.code → c.code → a.code
+
+confidence: medium
+severity: warning</code></pre>
+          </article>
+          <article class="proof-step">
+            <span class="proof-label">Improved result</span>
+            <h3>The agent evaluates and corrects</h3>
+            <p>It can move the shared responsibility behind an existing boundary, remove the backward dependency, and rerun Code Buster to confirm the cycle is gone.</p>
+            <pre><code>a.code → shared.code
+b.code → shared.code
+c.code → shared.code
+
+cycle removed</code></pre>
+          </article>
+        </div>
+        <p class="proof-note">Representative scenario grounded in the tested <code>cycle</code> rule. A clean report does not prove behavioral correctness; tests and human review still matter.</p>
+      </div>
+    </section>
+
+    <section class="loop">
+      <div class="wrap">
+        <div class="loop-heading">
+          <div><span class="eyebrow">One command. Two moments.</span><h2>Before and after every change.</h2></div>
+          <p>Code Buster turns repository analysis into context the agent can act on. Run it before the change to understand the system, then after the change to catch drift before review.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><span class="step-number">01 / UNDERSTAND</span><h3>Map the repository</h3><p>Surface structure, dependencies, conventions, hotspots, and existing solutions before the agent starts editing.</p></article>
+          <article class="step"><span class="step-number">02 / BUILD</span><h3>Give the AI evidence</h3><p>Put relevant findings into the coding workflow so decisions follow the codebase instead of generic assumptions.</p></article>
+          <article class="step"><span class="step-number">03 / REVIEW</span><h3>Check for drift</h3><p>Analyze the result for duplication, broken boundaries, dead code, UI inconsistency, and other avoidable decay.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog" aria-labelledby="catalog-title">
+      <div class="wrap">
+        <div class="catalog-heading">
+          <div><span class="eyebrow">What Code Buster finds</span><h2 id="catalog-title">Issues you miss when reviewing one file at a time.</h2></div>
+          <p>Code Buster examines individual files and relationships across the repository. Each finding shows what it found, where it appears, why it matters, and what you or your agent should inspect next.</p>
+        </div>
+        <div class="finding-grid">
+          <article class="finding-type"><strong>Architecture drift</strong><p>Find forbidden dependencies, layer cycles, and changes that cross configured boundaries.</p></article>
+          <article class="finding-type"><strong>Duplication</strong><p>Surface repeated functions and source blocks before parallel implementations spread.</p></article>
+          <article class="finding-type"><strong>Dead code</strong><p>Identify production files and declarations no longer reachable from known entry points.</p></article>
+          <article class="finding-type"><strong>Dependency cycles</strong><p>Expose circular relationships that make modules harder to isolate, change, and test.</p></article>
+          <article class="finding-type"><strong>Complexity growth</strong><p>Highlight long and complex functions that concentrate review and maintenance risk.</p></article>
+          <article class="finding-type"><strong>UI drift</strong><p>Detect repeated styles, raw values, and bypasses of established design patterns.</p></article>
+          <article class="finding-type"><strong>Repository structure</strong><p>Check required directories, misplaced files, and conventions configured by the project.</p></article>
+          <article class="finding-type"><strong>Language-specific risks</strong><p>Apply focused rules with analysis depth appropriate to each supported language.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="engine-section" id="any-ai">
+      <div class="wrap">
+        <div class="engine-panel">
+          <div>
+            <span class="eyebrow">Model-agnostic by design</span>
+            <h2>Keep your AI. Improve its view of the code.</h2>
+            <p>Code Buster is a local CLI, not another model. Any coding agent that can run a command and understand terminal or JSON output can use its evidence. The named tools below are CLI-compatible examples - not claims of native vendor integrations.</p>
+            <a class="button button-secondary" href="/code-buster/docs/guides/workflows#use-code-buster-with-ai-coding-assistants">Read the AI workflow →</a>
+          </div>
+          <div>
+            <div class="engine-list" aria-label="CLI-compatible example tools">
+              <div class="engine-card">Pi</div><div class="engine-card">OMP</div><div class="engine-card">Codex</div><div class="engine-card">Claude Code</div><div class="engine-card">Cursor</div><div class="engine-card">Any agent with CLI access</div>
+            </div>
+            <p class="compatibility-note">Compatibility requirement: run <code>cb</code> and read its output. Structured JSON and NDJSON are available for automated workflows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="participate" aria-labelledby="participate-title">
+      <div class="wrap">
+        <div class="participate-heading">
+          <div><span class="eyebrow">Built in the open</span><h2 id="participate-title">Help define the AI Improver.</h2></div>
+          <p>Code Buster is MIT licensed. Real repositories make it better: useful rules need positive examples, nearby negative cases, and evidence about false positives.</p>
+        </div>
+        <div class="participation-grid">
+          <a class="participation-card" href="https://github.com/tool-bunker/code-buster/issues/new?template=bug_report.md"><span>01 / REPORT</span><strong>Report a finding</strong><p>Share noisy output or a minimal reproduction of behavior that should be caught.</p></a>
+          <a class="participation-card" href="https://github.com/tool-bunker/code-buster/issues/new?template=feature_request.md"><span>02 / SUGGEST</span><strong>Propose a rule</strong><p>Describe the costly behavior, useful evidence, and cases that must not be reported.</p></a>
+          <a class="participation-card" href="https://github.com/tool-bunker/code-buster/blob/main/CONTRIBUTING.md"><span>03 / BUILD</span><strong>Improve a language</strong><p>Add precise rules, semantic depth, fixtures, documentation, or integrations.</p></a>
+          <a class="participation-card" href="https://github.com/tool-bunker/code-buster/issues/new?template=question.md"><span>04 / DISCUSS</span><strong>Shape the workflow</strong><p>Bring a real agent workflow, question, or idea for how Improvers should work.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="wrap">
+        <span class="eyebrow">Review with less repetition</span>
+        <h2>Spend less time explaining issues<br>your tools can find.</h2>
+        <div class="closing-actions">
+          <a class="button button-primary" href="/code-buster/docs/getting-started/quickstart">Try Code Buster</a>
+          <a class="button button-secondary" href="/code-buster/docs/">Read the docs →</a>
+        </div>
+      </div>
+    </section>
+</CodeBusterLayout>

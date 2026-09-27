@@ -1,0 +1,72 @@
+---
+interface Props {
+  variant?: "tool-bunker" | "code-buster";
+}
+
+const { variant = "tool-bunker" } = Astro.props;
+---
+
+<footer class:list={[`footer--${variant}`]}>
+  <div class="wrap footer-row">
+    <span>
+      {variant === "code-buster"
+        ? "Code Buster · AI Improver for code · pre-1.0"
+        : "Tool Bunker · open source"}
+    </span>
+    {variant === "code-buster" ? (
+      <div class="footer-links">
+        <a href="/">Tool Bunker</a>
+        <a href="/code-buster/docs/">Docs</a>
+        <a href="https://github.com/tool-bunker/code-buster">GitHub</a>
+      </div>
+    ) : (
+      <a href="https://github.com/tool-bunker">View the projects on GitHub ↗</a>
+    )}
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding: 2rem 0;
+  }
+
+  .footer--tool-bunker {
+    color: var(--text-dimmer);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+  }
+
+  .footer--code-buster {
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--text-dimmer);
+    font-size: 0.78rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--tape);
+  }
+
+  @media (max-width: 40rem) {
+    .footer-row {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+</style>
