@@ -2,3 +2,4 @@ node_modules/
 dist/
 .astro/
 .code-buster-cache/
+.DS_Store

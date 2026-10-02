@@ -18,31 +18,31 @@ const groups = [
   {
     label: "Getting started",
     links: [
-      ["Installation", "/code-buster/docs/getting-started/installation"],
-      ["Quickstart", "/code-buster/docs/getting-started/quickstart"],
+      ["Installation", "/codebuster/docs/getting-started/installation"],
+      ["Quickstart", "/codebuster/docs/getting-started/quickstart"],
     ],
   },
   {
     label: "Guides",
     links: [
-      ["Configuration", "/code-buster/docs/guides/configuration"],
-      ["Analysis workflows", "/code-buster/docs/guides/workflows"],
-      ["CI and integrations", "/code-buster/docs/guides/integrations"],
+      ["Configuration", "/codebuster/docs/guides/configuration"],
+      ["Analysis workflows", "/codebuster/docs/guides/workflows"],
+      ["CI and integrations", "/codebuster/docs/guides/integrations"],
     ],
   },
   {
     label: "Reference",
     links: [
-      ["Commands", "/code-buster/docs/reference/commands"],
-      ["Reports", "/code-buster/docs/reference/reports"],
-      ["Languages", "/code-buster/docs/reference/languages"],
+      ["Commands", "/codebuster/docs/reference/commands"],
+      ["Reports", "/codebuster/docs/reference/reports"],
+      ["Languages", "/codebuster/docs/reference/languages"],
     ],
   },
   {
     label: "Project",
     links: [
-      ["Contributing", "/code-buster/docs/project/contributing"],
-      ["Security and releases", "/code-buster/docs/project/security-releases"],
+      ["Contributing", "/codebuster/docs/project/contributing"],
+      ["Security and releases", "/codebuster/docs/project/security-releases"],
     ],
   },
 ] as const;
@@ -56,7 +56,7 @@ const groups = [
   <CodeBusterHeader />
   <div class="wrap docs-shell">
     <aside class="docs-sidebar" aria-label="Documentation navigation">
-      <a href="/code-buster/docs/">CODE BUSTER / DOCS</a>
+      <a href="/codebuster/docs/">CODE BUSTER / DOCS</a>
       {groups.map((group) => (
         <nav class="docs-group" aria-label={group.label}>
           <strong>{group.label}</strong>
