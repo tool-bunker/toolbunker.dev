@@ -5,7 +5,7 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
 
 <CodeBusterLayout
   title="Code Buster - Build better with your AI agent. Drift less."
-  description="Code Buster reviews completed work against the repository and finds issues for you or your AI agent to evaluate and fix."
+  description="Code Buster gives AI coding agents a deterministic, token-free feedback loop for repository-wide issues that prompts can miss."
 >
   <style slot="head">
     .ai-hero { padding: clamp(5rem, 10vw, 8rem) 0 4.5rem; }
@@ -141,7 +141,7 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
           <div>
             <span class="status-stamp"><span></span>The AI Improver for code</span>
             <h1>Build <em>better</em> with your AI agent. Drift less.</h1>
-            <p class="lede">Your agent writes the code. Code Buster reviews the completed work against the repository and returns potential issues for you or your agent to evaluate and fix.</p>
+            <p class="lede">Code Buster gives your AI coding agent a deterministic, token-free feedback loop while it works. Context overload and hallucinations remain practical constraints, so Code Buster checks the repository for issues that prompts can miss.</p>
             <div class="cta-row">
               <a class="button button-primary" href="/codebuster/docs/getting-started/quickstart">Find issues with Code Buster</a>
               <a class="button button-secondary" href="#comparison">See the difference ↓</a>
@@ -247,13 +247,13 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
     <section class="explanation" id="how-it-works">
       <div class="wrap">
         <span class="eyebrow">How it works</span>
-        <h2>Show your agent what it missed.</h2>
-        <p>Code Buster analyzes completed work and returns focused findings. You or your agent decide what matters and make the fix.</p>
-        <div class="feedback-flow" aria-label="Code Buster review workflow">
-          <article class="flow-node"><span>01 / Create</span><strong>Agent changes code</strong><p>Your preferred coding agent completes the requested work.</p></article>
-          <article class="flow-node"><span>02 / Analyze</span><strong>Agent uses Code Buster</strong><p>The agent runs Code Buster against the repository and completed change.</p></article>
+        <h2>Keep your agent grounded while it works.</h2>
+        <p>Code Buster returns focused repository evidence throughout the task. You or your agent decide what matters and what to fix.</p>
+        <div class="feedback-flow" aria-label="Code Buster feedback workflow">
+          <article class="flow-node"><span>01 / Create</span><strong>Agent changes code</strong><p>Your preferred coding agent makes a focused change.</p></article>
+          <article class="flow-node"><span>02 / Analyze</span><strong>Agent uses Code Buster</strong><p>The agent runs the narrowest relevant check during the task.</p></article>
           <article class="flow-node"><span>03 / Decide</span><strong>Agent judges findings</strong><p>Relevant issues are accepted; bad advice can be rejected.</p></article>
-          <article class="flow-node"><span>04 / Improve</span><strong>Agent corrects its work</strong><p>The refined result can be reviewed again.</p></article>
+          <article class="flow-node"><span>04 / Iterate</span><strong>Agent improves its work</strong><p>The agent applies accepted feedback and reruns checks as needed.</p></article>
         </div>
       </div>
     </section>
