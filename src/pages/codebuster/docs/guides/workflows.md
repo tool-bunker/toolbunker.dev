@@ -58,7 +58,7 @@ Complexity and duplication provide focused evidence. Scores and quality gates su
 
 ## Use Code Buster with AI coding assistants
 
-Code Buster can give an AI coding assistant a compact, repository-aware review signal without placing large amounts of source code into the model's context. Run it after an AI makes a change, or periodically during a longer task, to catch duplicate functions, repeated blocks, dependency problems, architecture drift, and other common issues before they accumulate.
+Code Buster gives an AI coding assistant a compact, repository-aware feedback signal without placing large amounts of source code into the model's context. Run the narrowest relevant command throughout a longer task, not only after the work is complete, to catch duplicate functions, repeated blocks, dependency problems, architecture drift, and other common issues before they accumulate.
 
 ```sh
 cb review --format json
@@ -70,13 +70,13 @@ Pass the relevant findings - not necessarily the entire report - to the assistan
 
 Code Buster does not make AI-generated code correct by itself. Models vary: one may apply a recommendation blindly, another may ignore an important finding, and neither Code Buster nor the model knows your complete product intent. A reported duplication may be deliberate, a suggested abstraction may be worse than repetition, and a clean report does not prove that behavior is correct.
 
-Treat the workflow as a review loop:
+Treat the workflow as a proactive feedback loop:
 
 1. Let the assistant make a focused change.
-2. Run the narrowest relevant Code Buster command.
-3. Ask the assistant to evaluate each finding against the intended behavior.
-4. Review the proposed remediation and resulting diff yourself.
-5. Run the project's tests and exercise the changed behavior.
+2. Run the narrowest relevant Code Buster command during the task.
+3. Ask the assistant to evaluate relevant findings against the intended behavior.
+4. Let it iterate, then review the proposed remediation and resulting diff yourself.
+5. Run the project's tests and exercise the changed behavior before completion.
 
 Code Buster has been used successfully as feedback for AI-assisted development, particularly for identifying duplication and recurring implementation risks. It improves the evidence available to the model; it does not remove the developer from design, verification, or accountability.
 
