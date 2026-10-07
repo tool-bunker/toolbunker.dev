@@ -33,13 +33,15 @@ dart run tool/release_version.dart <tag>
 dart format --output=none --set-exit-if-changed bin example lib tool/*.dart
 dart analyze
 dart run tool/default_contract.dart
-dart test
+dart test -j 1
 dart doc --dry-run
 dart pub publish --dry-run
 python3 tool/release_evidence.py
 ```
 
-The release workflow also compiles and tests platform artifacts. `release_version.dart` keeps the tag and `pubspec.yaml` aligned. GitHub generates the release notes automatically, and `release_evidence.py` validates archived precision evidence offline.
+Prepare each release in a reviewed pull request targeting `main`. After that
+pull request is merged, a maintainer manually runs the `Code Buster Release`
+workflow from `main` with the exact package version when it is time.
 
 ## Precision evidence
 

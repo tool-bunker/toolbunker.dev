@@ -12,8 +12,8 @@ Run development commands from the `code-buster/` directory. Read the repository'
 
 ## Branches
 
-Open pull requests against `develop`. The `main` branch is reserved for
-reviewed, release-ready changes and coordinated hotfixes.
+Open pull requests against `main`. Keep feature and fix branches short-lived.
+`main` is the single long-lived branch and must remain releasable.
 
 ## Development checks
 
