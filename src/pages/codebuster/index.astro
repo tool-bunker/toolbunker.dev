@@ -1,11 +1,11 @@
 ---
 import CodeBusterLayout from "../../layouts/CodeBusterLayout.astro";
-import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
+import AnalysisFeedbackDiagram from "../../components/AnalysisFeedbackDiagram.astro";
 ---
 
 <CodeBusterLayout
   title="Code Buster - Build better with your AI agent. Drift less."
-  description="Code Buster gives AI coding agents a deterministic, token-free feedback loop for repository-wide issues that prompts can miss."
+  description="Code Buster is a local static-analysis CLI that gives coding agents deterministic repository evidence without calling an AI model."
 >
   <style slot="head">
     .ai-hero { padding: clamp(5rem, 10vw, 8rem) 0 4.5rem; }
@@ -139,9 +139,9 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
       <div class="wrap">
         <div class="ai-hero-grid">
           <div>
-            <span class="status-stamp"><span></span>The AI Improver for code</span>
+            <span class="status-stamp"><span></span>Static analysis for AI-assisted development</span>
             <h1>Build <em>better</em> with your AI agent. Drift less.</h1>
-            <p class="lede">Code Buster gives your AI coding agent a deterministic, token-free feedback loop while it works. Context overload and hallucinations remain practical constraints, so Code Buster checks the repository for issues that prompts can miss.</p>
+            <p class="lede">Code Buster is a local static-analysis CLI that gives your coding agent deterministic repository evidence while it works. Code Buster itself does not call an AI model or consume model tokens; the agent still uses tokens when it reads findings, inspects code, or makes changes.</p>
             <div class="cta-row">
               <a class="button button-primary" href="/codebuster/docs/getting-started/quickstart">Find issues with Code Buster</a>
               <a class="button button-secondary" href="#comparison">See the difference ↓</a>
@@ -176,7 +176,7 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
       <div class="wrap">
         <div class="stats-grid reveal">
           <div class="stat"><strong>18<sup>*</sup></strong><span>Languages</span></div>
-          <div class="stat"><strong>450</strong><span>Registered rules</span></div>
+          <div class="stat"><strong>480+</strong><span>Registered rules</span></div>
           <div class="stat"><strong>7</strong><span>Report formats</span></div>
           <div class="stat"><strong>0</strong><span>Required cloud services</span></div>
         </div>
@@ -189,7 +189,7 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
         <div class="notice-box reveal">
           <span class="notice-stamp">Case status: open</span>
           <h2>Powerful today. Still evolving.</h2>
-          <p>Use Code Buster for local exploration, AI context, and reviewing changes before handoff. Until version 1.0.0, do not rely on it as a blocking quality gate in production pipelines. CI and report integrations are available for evaluation and non-blocking visibility.</p>
+          <p>Use Code Buster for local exploration, AI context, and reviewing changes before handoff. It complements compilers, linters, tests, and specialist security tools rather than replacing them. Until version 1.0.0, do not rely on it as a blocking quality gate in production pipelines.</p>
           <nav class="file-tabs" aria-label="Popular documentation">
             <a href="/codebuster/docs/getting-started/quickstart"><span>Quickstart</span><strong>Analyze a repository in minutes.</strong></a>
             <a href="/codebuster/docs/guides/configuration"><span>Configuration</span><strong>Shape analysis around your repository.</strong></a>
@@ -200,7 +200,7 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
       </div>
     </section>
 
-    <AiImproverDiagram />
+    <AnalysisFeedbackDiagram />
 
     <section class="compatibility" aria-label="Compatible AI coding tools">
       <div class="wrap compatibility-row">
@@ -280,14 +280,14 @@ import AiImproverDiagram from "../../components/AiImproverDiagram.astro";
           <article class="way way-new">
             <div class="way-label"><span>With Code Buster</span><span>Repository-aware</span></div>
             <h3>Code Buster gives the AI feedback</h3>
-            <p class="way-intro">The agent inspects the real system before editing and checks its own work before handing it back.</p>
+            <p class="way-intro">A developer or agent can run Code Buster before editing and again after a change. The tool reports evidence; it does not inspect, edit, or approve code on the agent’s behalf.</p>
             <div class="conversation">
-              <div class="message"><span class="speaker">Code Buster → AI</span><p>“This repository already solves that in <code>src/shared</code>. Reuse the established path.”</p></div>
-              <div class="message"><span class="speaker">Code Buster → AI</span><p>“These modules form a boundary. Keep the new dependency on the correct side.”</p></div>
-              <div class="message"><span class="speaker">Code Buster → AI</span><p>“Your change introduced a duplicate pattern. Consolidate it before handoff.”</p></div>
-              <div class="message"><span class="speaker">AI → Developer</span><p>“Implemented using the existing conventions and reviewed for drift.”</p></div>
+              <div class="message"><span class="speaker">Example finding</span><p>“This new implementation matches unchanged behavior in <code>src/shared</code>. Inspect whether the existing function should be reused.”</p></div>
+              <div class="message"><span class="speaker">Example finding</span><p>“This dependency violates a configured architecture boundary.”</p></div>
+              <div class="message"><span class="speaker">Example finding</span><p>“This change introduces a duplicate source pattern.”</p></div>
+              <div class="message"><span class="speaker">Developer or agent</span><p>“I’ll evaluate that evidence against the intended behavior.”</p></div>
             </div>
-            <div class="outcome">More consistent changes, fewer avoidable review rounds, and an AI that improves by working from repository evidence.</div>
+            <div class="outcome">A repeatable review signal that can catch repository-level issues, while the developer remains responsible for design and correctness.</div>
           </article>
         </div>
       </div>
@@ -340,7 +340,7 @@ cycle removed</code></pre>
           <p>Code Buster turns repository analysis into context the agent can act on. Run it before the change to understand the system, then after the change to catch drift before review.</p>
         </div>
         <div class="steps">
-          <article class="step"><span class="step-number">01 / UNDERSTAND</span><h3>Map the repository</h3><p>Surface structure, dependencies, conventions, hotspots, and existing solutions before the agent starts editing.</p></article>
+          <article class="step"><span class="step-number">01 / UNDERSTAND</span><h3>Map the repository</h3><p>Surface structure, dependencies, configured architecture, hotspots, and repeated implementations before the agent starts editing.</p></article>
           <article class="step"><span class="step-number">02 / BUILD</span><h3>Give the AI evidence</h3><p>Put relevant findings into the coding workflow so decisions follow the codebase instead of generic assumptions.</p></article>
           <article class="step"><span class="step-number">03 / REVIEW</span><h3>Check for drift</h3><p>Analyze the result for duplication, broken boundaries, dead code, UI inconsistency, and other avoidable decay.</p></article>
         </div>
@@ -389,14 +389,14 @@ cycle removed</code></pre>
     <section class="participate" aria-labelledby="participate-title">
       <div class="wrap">
         <div class="participate-heading">
-          <div><span class="eyebrow">Built in the open</span><h2 id="participate-title">Help define the AI Improver.</h2></div>
+          <div><span class="eyebrow">Built in the open</span><h2 id="participate-title">Help improve Code Buster.</h2></div>
           <p>Code Buster is MIT licensed. Real repositories make it better: useful rules need positive examples, nearby negative cases, and evidence about false positives.</p>
         </div>
         <div class="participation-grid">
           <a class="participation-card" href="https://github.com/tool-bunker/code-buster/issues/new?template=bug_report.md"><span>01 / REPORT</span><strong>Report a finding</strong><p>Share noisy output or a minimal reproduction of behavior that should be caught.</p></a>
           <a class="participation-card" href="https://github.com/tool-bunker/code-buster/issues/new?template=feature_request.md"><span>02 / SUGGEST</span><strong>Propose a rule</strong><p>Describe the costly behavior, useful evidence, and cases that must not be reported.</p></a>
           <a class="participation-card" href="https://github.com/tool-bunker/code-buster/blob/main/CONTRIBUTING.md"><span>03 / BUILD</span><strong>Improve a language</strong><p>Add precise rules, semantic depth, fixtures, documentation, or integrations.</p></a>
-          <a class="participation-card" href="https://github.com/tool-bunker/code-buster/issues/new?template=question.md"><span>04 / DISCUSS</span><strong>Shape the workflow</strong><p>Bring a real agent workflow, question, or idea for how Improvers should work.</p></a>
+          <a class="participation-card" href="https://github.com/tool-bunker/code-buster/issues/new?template=question.md"><span>04 / DISCUSS</span><strong>Shape the workflow</strong><p>Bring a real agent workflow, question, or idea for repository-aware analysis.</p></a>
         </div>
       </div>
     </section>
