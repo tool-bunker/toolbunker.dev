@@ -56,9 +56,27 @@ cb actions
 
 Complexity and duplication provide focused evidence. Scores and quality gates summarize policy. Plans and actions prioritize remediation without rewriting source automatically.
 
+## Use it alongside existing analyzers
+
+Code Buster is a static analyzer, not a replacement for a language compiler,
+type checker, formatter, linter, test suite, or specialist security scanner.
+Keep those tools in the verification pipeline; they usually understand their
+own language or domain more deeply.
+
+Code Buster adds one local interface for repository-level and cross-file
+evidence across supported languages, including dependency structure,
+architecture policy, reachability, duplication, and focused change review.
+Analysis depth varies by language and rule family, and a clean report does not
+prove behavioral correctness.
+
+Good prompts, project instructions, and focused context remain the proactive
+first step for AI-assisted work. Static analysis supplies an independent,
+repeatable check because neither instructions nor experience guarantee correct
+code on the first attempt.
+
 ## Use Code Buster with AI coding assistants
 
-Code Buster gives an AI coding assistant a compact, repository-aware feedback signal without placing large amounts of source code into the model's context. Run the narrowest relevant command throughout a longer task, not only after the work is complete, to catch duplicate functions, repeated blocks, dependency problems, architecture drift, and other common issues before they accumulate.
+Code Buster gives an AI coding assistant a compact, repository-aware feedback signal without sending source code to an AI provider. Code Buster itself consumes no model tokens; the assistant still consumes tokens when it reads the findings, inspects relevant source, and changes code. Run the narrowest relevant command before, during, or after a task to catch duplicate functions, repeated blocks, dependency problems, architecture drift, and other supported issues.
 
 ```sh
 cb review --format json
@@ -66,7 +84,7 @@ cb duplication --format json
 cb actions --format json
 ```
 
-Pass the relevant findings - not necessarily the entire report - to the assistant and ask it to explain the evidence before proposing a change. Newer models can often make a useful decision from Code Buster's structured results while using substantially less context than a repository-wide integration.
+Pass the relevant findings - not necessarily the entire report - to the assistant and ask it to explain the evidence before proposing a change. This can use less model context than sending broad sections of the repository, but the actual token use depends on the agent and the source it must inspect.
 
 Code Buster does not make AI-generated code correct by itself. Models vary: one may apply a recommendation blindly, another may ignore an important finding, and neither Code Buster nor the model knows your complete product intent. A reported duplication may be deliberate, a suggested abstraction may be worse than repetition, and a clean report does not prove that behavior is correct.
 
