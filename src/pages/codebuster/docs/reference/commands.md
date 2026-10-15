@@ -63,4 +63,29 @@ Run `cb <command> --help` for the options supported by the installed version.
 
 ## Common options
 
-Common options include `--root`, `--language`, `--format`, `--include-tests`, `--include-examples`, `--include-vendored`, `--all`, `--force`, and command-specific targets. Prefer `--format json` for automation and `--force` only when intentionally bypassing cache reuse.
+Common options include `--root`, `--language`, `--format`, `--include-tests`,
+`--include-examples`, `--include-vendored`, `--all`, `--force`, and
+command-specific targets. Prefer `--format json` for automation and `--force`
+only when intentionally bypassing cache reuse.
+
+## Profile rule execution
+
+Run a complete, automatically uncached timing profile:
+
+```sh
+cb summary --profile
+```
+
+The terminal report sorts independently scheduled rule packs from slowest to
+fastest and separates shared analysis from independently measurable rule
+checks. Percentages are relative to the measured section so shared work is not
+incorrectly assigned to every rule that consumes it.
+
+For structured microsecond measurements:
+
+```sh
+cb summary --profile --format json
+```
+
+The profile is available for `summary` with text or JSON output. It cannot be
+combined with `--cache` or `--cache-dir`.
