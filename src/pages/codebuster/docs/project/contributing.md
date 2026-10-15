@@ -6,9 +6,12 @@ description: Develop Code Buster, add precise rules, and build maintainable sour
 
 # Contributing
 
-Develop Code Buster, add rules, and build maintainable source fixtures.
+Develop Code Buster, add precise rules, and keep the generated catalog and
+execution plan deterministic.
 
-Run development commands from the `code-buster/` directory. Read the repository's `CONTRIBUTING.md` for the complete contribution contract.
+Run development commands from the `code-buster/` directory. Rust 1.88 or newer
+is required. Read the repository's `CONTRIBUTING.md` for the complete
+contribution contract.
 
 ## Branches
 
@@ -18,44 +21,50 @@ Open pull requests against `main`. Keep feature and fix branches short-lived.
 ## Development checks
 
 ```sh
-dart pub get
-dart analyze
-dart run tool/default_contract.dart
-dart test
-dart doc --dry-run
-dart compile exe bin/cb.dart -o build/cb
-./build/cb version
-python3 tool/precision_benchmark.py
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features --locked -- -D warnings
+cargo test --all-targets --all-features --locked
+cargo package --allow-dirty --locked
+cargo build --release --locked
+./target/release/cb version
 ```
 
-## Add a language rule
+## Project layout
 
-1. Add `lib/src/rules/<language>/<rule_name>.dart`.
-2. Extend the appropriate self-contained, source-pattern, or semantic rule base.
-3. Keep canonical metadata beside executable behavior.
-4. Register it once in `lib/src/rules/<language>/rules.dart`.
-5. Add a mirrored test under `test/rules/<language>/`.
+- Language analyzers: `src/languages/<language>/`
+- Repository-wide analyzers: `src/rules/`
+- Auto-discovered execution packs: `src/rule_packs/`
+- Canonical rule definitions: `rules/catalog/<language>/<rule-id>.json`
+- CLI commands: `src/app/commands/`
+- Integration tests: `tests/`
 
-Cover a real positive, a nearby negative, a plausible false positive, stable location data, and comments or strings when textual matching could encounter them.
+## Add a rule
 
-## Inline samples or fixture files?
+1. Add the detector to the matching analyzer or a focused module beside it.
+2. Add `rules/catalog/<language>/<rule-id>.json`.
+3. Point the definition's `packs` and `implementation` fields at the executing
+   family and source file.
+4. Add focused positive, negative, and plausible false-positive coverage.
+5. Run the focused test and then the complete checks above.
 
-Keep a one-to-five-line lexical sample inline when the test varies one token or expression. Add a fixture when source is longer, substantially escaped, formatting-sensitive, line-sensitive, multi-file, or representative of a complete declaration.
+`build.rs` discovers and validates catalog definitions and execution packs.
+Normal rules do not require edits to a parallel registry, execution planner, or
+CLI listing.
 
-Store source under:
+## Test evidence
 
-```text
-test/fixtures/languages/<language>/<scenario>/
+Prefer compact inline source for one-expression lexical cases. Use test helpers
+or fixtures for multiline, formatting-sensitive, line-sensitive, or multi-file
+behavior. Cover comments and string literals whenever textual matching can
+encounter them, and do not format intentionally malformed fixtures.
+
+## Releases
+
+Add user-visible notes under `## Unreleased`, then run:
+
+```sh
+./tool/prepare-release.sh <version>
 ```
 
-Load it with `sourceFixture` from `test/support/source_fixture.dart`. Map keys represent repository-visible paths; fixture storage paths do not need to match them. Never name a Dart source fixture `*_test.dart`, because the Dart runner will discover it as a test.
-
-Do not format intentionally malformed or oddly formatted fixtures. Explain suspicious fixture syntax when its purpose would otherwise be mistaken for an accidental error.
-
-## Public API
-
-External integrations import `package:code_buster/code_buster.dart`. Files under `lib/src/` are private implementation and test surfaces.
-
-## Benchmarks and contracts
-
-Run `tool/update_inventories.py` after changing the command enum. Run `dart run tool/benchmark.dart test/fixtures/mixed_realistic 5` for performance-sensitive changes. Update compatibility snapshots only after reviewing the behavior change they expose.
+The script updates Cargo metadata, the lockfile, the pinned README source
+install, and the changelog heading. It does not tag, push, or publish.

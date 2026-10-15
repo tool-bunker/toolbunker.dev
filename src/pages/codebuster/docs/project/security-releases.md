@@ -26,25 +26,33 @@ A security heuristic can identify a confirmed defect, a suspicious pattern, or a
 
 ## Release checks
 
-A release verifies:
+Prepare the version in a reviewed pull request:
 
 ```sh
-dart run tool/release_version.dart <tag>
-dart format --output=none --set-exit-if-changed bin example lib tool/*.dart
-dart analyze
-dart run tool/default_contract.dart
-dart test -j 1
-dart doc --dry-run
-dart pub publish --dry-run
-python3 tool/release_evidence.py
+./tool/prepare-release.sh <version>
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features --locked -- -D warnings
+cargo test --all-targets --all-features --locked
+cargo package --allow-dirty --locked
+cargo build --release --locked
+./target/release/cb version
 ```
 
-Prepare each release in a reviewed pull request targeting `main`. After that
-pull request is merged, a maintainer manually runs the `Code Buster Release`
-workflow from `main` with the exact package version when it is time.
+After that pull request is merged, a maintainer manually runs the
+`Code Buster Release` workflow from `main` with the exact package version. The
+workflow rechecks formatting, Clippy, tests, packaging, the changelog heading,
+and the pinned README install command before it creates the tag. It then builds
+and smokes native Linux, macOS, and Windows artifacts and publishes checksums.
 
-## Precision evidence
+## Release evidence
 
-`tool/precision_benchmark.py` compares actual findings with reviewed accepted and rejected labels. A passing benchmark requires no unexpected finding, no missed accepted finding, and no rejected-case hit. Keep the report with its source revision and tool version.
+CI audits the committed lockfile with RustSec and builds on all supported
+release operating systems. `tool/rehearse-release.sh` builds and exercises the
+host artifact from an exact committed Git archive. Fresh self-analysis should
+also complete with zero processing diagnostics:
+
+```sh
+cb summary --root . --format json --advisory --no-cache
+```
 
 See the repository's `SECURITY_ASSURANCE.md` for the maintained assurance case, trust boundaries, open hardening work, and private reporting process. Release history is recorded in `CHANGELOG.md`; executable release checks live in `.github/workflows/release.yml`.

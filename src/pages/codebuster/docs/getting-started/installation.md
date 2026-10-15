@@ -1,17 +1,15 @@
 ---
 layout: ../../../../layouts/DocsLayout.astro
 title: Installation
-description: Install Code Buster with Homebrew, a native install script, PowerShell, Dart, or from source.
+description: Install Code Buster with Homebrew, a native installer, Cargo, or a source build.
 ---
 
 # Installation
 
-Install a native Code Buster release or build the canonical Dart CLI from source.
+Install a native Code Buster release or build the canonical Rust CLI from
+source. Native packages do not require a Rust toolchain. The executable is
+named `cb`.
 
-Building from source requires Dart 3.11 or newer. Native packages do not require
-the Dart SDK. The executable is named `cb`.
-
-> [!CAUTION]
 > **Pre-1.0 software:** Code Buster is under heavy development. It can already
 > support local repository exploration and provide additional context to AI
 > coding agents, but behavior and findings may change before version 1.0.0. Do
@@ -62,46 +60,42 @@ irm https://toolbunker.dev/codebuster/install.ps1 | iex
 ```
 
 The script verifies the release checksum and installs `cb.exe` under
-`$HOME\\.local\\bin`. Add that directory to `PATH` when the installer asks.
+`$HOME\.local\bin`. Add that directory to `PATH` when the installer asks.
 
 To inspect it before execution:
 
 ```powershell
 Invoke-WebRequest https://toolbunker.dev/codebuster/install.ps1 -OutFile install-code-buster.ps1
-Get-Content .\\install-code-buster.ps1
-& .\\install-code-buster.ps1
+Get-Content .\install-code-buster.ps1
+& .\install-code-buster.ps1
 ```
 
-## pub.dev
+## Cargo
 
-When Dart 3.11 or newer is already installed:
+With Rust 1.88 or newer installed, build and install the pinned release:
 
 ```sh
-dart pub global activate code_buster
+cargo install --git https://github.com/tool-bunker/code-buster.git --tag v0.9.0 --locked
 cb version
 ```
-
-Ensure `$HOME/.pub-cache/bin` is on `PATH`.
 
 ## Build from source
 
 Run these commands from the `code-buster/` directory:
 
 ```sh
-dart pub get
-dart compile exe bin/cb.dart -o build/cb
-./build/cb version
+cargo build --release --locked
+./target/release/cb version
 ```
 
-The compiled executable is self-contained and can be copied to a directory on your `PATH`.
+The release executable is self-contained and can be copied to a directory on
+your `PATH`.
 
-
-## Run without compiling
-
-During development, invoke the Dart entry point directly:
+During development, run the debug build directly:
 
 ```sh
-dart run bin/cb.dart version
+cargo run --locked -- version
 ```
 
-Use the compiled executable for performance measurements and release evidence so startup behavior matches distributed builds.
+Use the release executable for performance measurements and release evidence
+so startup behavior matches distributed builds.

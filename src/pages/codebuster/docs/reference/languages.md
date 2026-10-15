@@ -12,7 +12,7 @@ Implementation depth and real-world validation are tracked separately. **High**,
 
 | Language | Depth | Testing status | Main capabilities |
 | --- | --- | --- | --- |
-| Dart | High | Done | Analyzer AST, multi-package workspace graph, callables, broad rules, self-hosting |
+| Dart | High | Done | Multi-package workspace graph, callables, broad language rules, Flutter analysis, and analyzer-policy checks |
 | C# | High | Done | Project-aware graph, production/test classification, and validated correctness, reliability, security, and style rules |
 | Java | High | Done | Validated package cycles, resources, exceptions, concurrency, SQL, cryptography, and serialization rules |
 | Nim | High | Needs more testing | Dedicated parser, complete rule-pack wiring, and focused regressions |
@@ -22,7 +22,7 @@ Implementation depth and real-world validation are tracked separately. **High**,
 | JavaScript, TypeScript | Moderate | Done | Validated module graph, callables, frontend sinks, Node.js, SQL templates, security, and TypeScript checks |
 | Lua, Luau | Moderate | Needs more testing | Module and callable extraction with correctness, runtime, and style checks |
 | SQL dialects | Moderate | Needs more testing | Dialect-aware statements, correctness, safety, and maintainability |
-| Rust | Moderate | Needs real-world validation | Modules, use edges, callables, panic and unsafe boundaries, ownership leaks, debug residue, and shell execution |
+| Rust | Moderate | Self-hosted and validated on real repositories | Modules, use edges, callables, Cargo policy, panic and unsafe boundaries, ownership leaks, debug residue, and shell execution |
 | Mojo | Moderate | Needs real-world validation | Imports, callables, current syntax migration, string indexing, and raises contracts |
 | Odin | Moderate | Needs real-world validation | Directory-package imports, procedures, and focused panic, pointer, transmute, and initialization rules |
 | Wren | Moderate | Needs more testing | Imports, callables, and a dedicated rule pack |

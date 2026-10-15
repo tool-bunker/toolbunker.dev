@@ -28,14 +28,6 @@ cb summary --format junit > code-buster.xml
 
 Upload SARIF to code-scanning systems. Use JUnit where CI understands test-style failure reports.
 
-## Code Climate
-
-```sh
-cb summary --format json | python3 tool/code_climate_report.py > code-climate.json
-```
-
-The converter consumes the stable JSON contract and emits deterministic Code Climate issue JSON.
-
 ## GitHub Actions
 
 The repository contains `integrations/github/code-buster.yml` as a starting workflow. Compile or install a pinned `cb`, run the desired command, preserve its report artifact, and let explicit CI policy determine failure.
