@@ -8,65 +8,66 @@ description: Reference for Code Buster command families and common global option
 
 Reference for Code Buster command families and common global options.
 
-Run `cb <command> --help` for the options supported by the installed version.
+Run `cb --help` to inspect the command surface and global options supported by
+the installed version.
 
-## Analysis
+## Analysis and review
 
 | Command | Purpose |
 | --- | --- |
 | `summary` | Repository overview, findings, language counts, coverage, and run manifest |
+| `review` | Review findings, changed lines, remediation plans, and structured actions |
+| `inspect` | Explain path classification, relationships, and dependency reachability |
 | `graph` | Dependency graph |
 | `dead` | Unreachable production code |
 | `duplication` | Repeated source blocks |
-| `structure` | Repository and package structure |
-| `clusters` | Related dependency clusters |
-| `complexity` | Function complexity and cognitive complexity |
-| `flags` | Feature flags and conditional behavior |
-| `hotspots` | Concentrated change or quality risk |
+| `quality` | Quality gates, scores, complexity, hotspots, and repository structure |
+| `rules` | List rules or explain one rule's rationale and remediation |
 
-## Investigation
+## Repository operations
 
 | Command | Purpose |
 | --- | --- |
-| `inspect` | Explain one path's classification and analysis state |
-| `related` | Find code related to a path |
-| `why` | Explain why a path is reachable or selected |
-| `path` | Find a dependency route between two paths |
-| `explain` | Show rule rationale, limitations, and remediation |
-| `rules` | List available rules and metadata |
-| `config explain` | Show effective configuration and precedence |
-
-## Quality and remediation
-
-| Command | Purpose |
-| --- | --- |
-| `score` | Per-file and repository quality scores |
-| `quality` | Quality-gate summary |
-| `plan` | Prioritized remediation plan |
-| `actions` | Action-oriented finding view |
-| `review` | Review-oriented findings |
-| `pr` | Pull-request-oriented changed analysis |
-| `preview` | Preview selected files without creating analysis cache state |
 | `baseline` | Create, update, prune, or inspect a finding baseline |
 | `fix` | Preview or apply supported safe fixes |
-
-## Operations
-
-| Command | Purpose |
-| --- | --- |
 | `init` | Create minimal repository configuration |
 | `doctor` | Diagnose setup, discovery, and processing |
-| `version` | Print the runtime version |
-| `test` | Run a repository analysis smoke test |
+| `config` | Explain configuration or show selected files |
 | `update` | Update Code Buster through its detected installation channel |
 | `completions` | Generate shell completion data |
+| `version` | Print the runtime version |
+
+## Focused views
+
+Focused views are options on the command that owns their data rather than
+separate top-level commands.
+
+| Invocation | Purpose |
+| --- | --- |
+| `cb review --changed-base <revision>` | Review findings on lines changed from a Git revision |
+| `cb review --format plan` | Prioritized remediation plan |
+| `cb review --format actions` | Structured remediation actions |
+| `cb review --only feature-flag --advisory` | Feature-flag lifecycle references |
+| `cb quality --score` | Per-file quality scores |
+| `cb quality --complexity` | Function and cognitive complexity |
+| `cb quality --hotspots` | Concentrated change and maintenance risk |
+| `cb quality --structure` | Repository and package structure |
+| `cb inspect --related <path>` | Files related to a source path |
+| `cb inspect --why <path>` | Why a source path is reachable |
+| `cb inspect --path <source> <target>` | Dependency route between two paths |
+| `cb rules <rule-id>` | Rule rationale, limitations, and remediation |
+| `cb config --files` | Files selected by the resolved configuration |
+
+`duplication` includes grouped duplicate blocks; there is no separate cluster
+view.
 
 ## Common options
 
 Common options include `--root`, `--language`, `--format`, `--include-tests`,
-`--include-examples`, `--include-vendored`, `--all`, `--force`, and
-command-specific targets. Prefer `--format json` for automation and `--force`
-only when intentionally bypassing cache reuse.
+`--include-examples`, `--include-vendored`, `--all`, `--no-cache`, and
+command-specific targets. Prefer `--format json` for automation. Use
+`--no-cache` for a one-off uncached run and `--fail-on-issues` when findings
+must control the process exit status.
 
 ## Profile rule execution
 

@@ -38,7 +38,7 @@ Frameworks are detected independently from source languages. A framework profile
 | Flutter | Dart | Flutter SDK dependencies in `pubspec.yaml` | Widget lifecycle, build behavior, layout, themes, and shared UI components |
 | React | JavaScript, TypeScript | `react` or `react-dom` dependencies in `package.json` | Repository classification; dedicated framework rules are not yet available |
 
-`cb config explain` reports detected frameworks. `cb explain <rule>` reports a required framework when a rule belongs to a framework profile.
+`cb config explain` reports detected frameworks. `cb rules <rule>` reports a required framework when a rule belongs to a framework profile.
 
 Use `languages = ["auto"]` for manifest and source-based detection, or list languages explicitly in `code-buster.toml`. Use `cb inspect <path>` when an extension, generated marker, or repository profile produces unexpected classification.
 

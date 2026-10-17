@@ -51,11 +51,11 @@ Production source is analyzed by default. Tests, examples, fixtures, benchmarks,
 
 ## Rule selection
 
-Configure rule groups, disabled rules, and per-rule severity only when repository policy differs from defaults. Rule IDs are stable contract identifiers; use `cb rules` and `cb explain <rule-id>` before adding overrides.
+Configure rule groups, disabled rules, and per-rule severity only when repository policy differs from defaults. Rule IDs are stable contract identifiers; use `cb rules` and `cb rules <rule-id>` before adding overrides.
 
 ## Architecture boundaries
 
-Architecture policy can restrict allowed source-to-target dependencies and define project entry points. Prefer project-relative globs and validate them with `cb graph`, `cb structure`, and `cb path <source> <target>`.
+Architecture policy can restrict allowed source-to-target dependencies and define project entry points. Prefer project-relative globs and validate them with `cb graph`, `cb quality --structure`, and `cb inspect --path <source> <target>`.
 
 ## CI behavior
 

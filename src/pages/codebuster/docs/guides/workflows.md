@@ -14,47 +14,56 @@ Code Buster commands are repository views over shared discovery, parsing, graph,
 
 ```sh
 cb summary
-cb structure
+cb quality --structure
 cb graph
-cb clusters
-cb hotspots
+cb duplication
+cb quality --hotspots
 ```
 
-Start with coverage in `summary`. Use `structure` and `clusters` for package shape, `graph` for dependency wiring, and `hotspots` for concentrated risk.
+Start with coverage in `summary`. Use the structure view and `duplication` for
+package shape, `graph` for dependency wiring, and the hotspots view for
+concentrated risk.
 
 ## Investigate dependencies
 
 ```sh
-cb related path/to/file
-cb why path/to/file
-cb path source/file target/file
+cb inspect --related path/to/file
+cb inspect --why path/to/file
+cb inspect --path source/file target/file
 cb dead
 ```
 
-`related` ranks neighboring code, `why` explains reachability, `path` finds a dependency route, and `dead` reports production code unreachable from configured or inferred entry points.
+The `inspect` views rank neighboring code, explain reachability, and find a
+dependency route. `dead` reports production code unreachable from configured
+or inferred entry points.
 
 ## Review a change
 
 ```sh
 cb review
-cb pr
-cb preview
+cb review --changed-base main
+cb config --files
 ```
 
-Use changed-file analysis for pull requests and local work. Coverage and the run manifest record what was selected and whether processing completed cleanly; a short report without complete coverage is not equivalent to a clean repository.
+Use changed-line analysis for pull requests and local work. The selected-files
+view and run manifest record what was selected and whether processing completed
+cleanly; a short report without complete coverage is not equivalent to a clean
+repository.
 
 ## Plan remediation
 
 ```sh
-cb complexity
+cb quality --complexity
 cb duplication
-cb score
+cb quality --score
 cb quality
-cb plan
-cb actions
+cb review --format plan
+cb review --format actions
 ```
 
-Complexity and duplication provide focused evidence. Scores and quality gates summarize policy. Plans and actions prioritize remediation without rewriting source automatically.
+Complexity and duplication provide focused evidence. Scores and quality gates
+summarize policy. Review plans and actions prioritize remediation without
+rewriting source automatically.
 
 ## Use it alongside existing analyzers
 
@@ -81,7 +90,7 @@ Code Buster gives an AI coding assistant a compact, repository-aware feedback si
 ```sh
 cb review --format json
 cb duplication --format json
-cb actions --format json
+cb review --format actions
 ```
 
 Pass the relevant findings - not necessarily the entire report - to the assistant and ask it to explain the evidence before proposing a change. This can use less model context than sending broad sections of the repository, but the actual token use depends on the agent and the source it must inspect.

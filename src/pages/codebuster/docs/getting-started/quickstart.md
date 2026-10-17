@@ -39,25 +39,29 @@ The summary coverage ledger distinguishes selected, test, example, vendored, gen
 
 ```sh
 cb inspect path/to/file.dart
-cb explain <rule-id>
-cb why path/to/file.dart
-cb related path/to/file.dart
+cb rules <rule-id>
+cb inspect --why path/to/file.dart
+cb inspect --related path/to/file.dart
+cb inspect --path path/to/entry.dart path/to/file.dart
 ```
 
-Use `inspect` to understand file classification. Use `explain` for rule rationale and remediation. Use `why`, `related`, and `path` when investigating repository wiring.
+Use `inspect` to understand file classification and repository wiring. Use
+`rules <rule-id>` for rule rationale and remediation.
 
 ## Review quality
 
 ```sh
-cb score
 cb quality
-cb hotspots
-cb plan
-cb actions
+cb quality --score
+cb quality --complexity
+cb quality --hotspots
 cb review
+cb review --format plan
+cb review --format actions
 ```
 
-These views organize the same analysis evidence for different decisions: prioritization, quality gates, high-risk areas, remediation, and code review.
+These focused views organize the same analysis evidence for quality gates,
+prioritization, high-risk areas, remediation, and code review.
 
 ## Add configuration only when needed
 
