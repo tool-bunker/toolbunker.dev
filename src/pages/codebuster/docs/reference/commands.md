@@ -44,6 +44,7 @@ separate top-level commands.
 
 | Invocation | Purpose |
 | --- | --- |
+| `cb review --pr` | Review findings on pull-request lines changed from the branch merge base |
 | `cb review --changed-base <revision>` | Review findings on lines changed from a Git revision |
 | `cb review --format plan` | Prioritized remediation plan |
 | `cb review --format actions` | Structured remediation actions |
@@ -60,6 +61,11 @@ separate top-level commands.
 
 `duplication` includes grouped duplicate blocks; there is no separate cluster
 view.
+
+`cb review --pr` reads the target branch from CI when available, then tries
+`origin/HEAD`, `origin/main`, `origin/master`, `main`, and `master`. It reports
+an error when no merge base is available. Use `--changed` for staged, unstaged,
+and untracked work relative to `HEAD`.
 
 ## Common options
 
