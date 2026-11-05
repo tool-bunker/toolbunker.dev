@@ -14,6 +14,15 @@ Do not run a globally installed `astro` executable. The project pins Astro
 7.2.4; mixing it with another global Astro runtime can fail while rendering
 pages with `Unknown chunk type`.
 
+Run the complete local quality gate before publishing:
+
+```sh
+npm run check
+```
+
+It runs Astro diagnostics, creates the production build, validates generated
+HTML, and checks internal links and anchors.
+
 ## Code Buster installers
 
 `public/codebuster/install` and `public/codebuster/install.ps1` are the canonical

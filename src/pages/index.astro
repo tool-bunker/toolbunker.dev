@@ -1,39 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import BunkerHeroLandscape from "../components/BunkerHeroLandscape.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 ---
 
 <BaseLayout
-  title="Tool Bunker - Open-source tools for developers"
-  description="Tool Bunker is an open-source home for useful developer tools, shared in public and open to everyone."
+  title="Tool Bunker - Open-source tools, apps, and experiments"
+  description="Tool Bunker is an open-source home for useful tools, apps, and playful experiments built in public."
   bodyClass="home-page"
 >
     <style>
-      .hero { min-height: 72vh; display: grid; place-items: center; padding: 7rem 0 5rem; }
-      .hero-inner { position: relative; width: 100%; text-align: center; }
-      .hero-inner::before {
-        position: absolute; inset: 50% 12% auto; height: 1px;
-        background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
-        content: ""; z-index: -1;
+      .hero {
+        position: relative;
+        isolation: isolate;
+        display: grid;
+        min-height: max(54rem, 100svh);
+        align-items: start;
+        padding: clamp(5rem, 12vh, 8rem) 0 clamp(23rem, calc(53vw - 9rem), 55rem);
+        overflow: hidden;
+        background: #000;
       }
-      .stamp {
-        display: inline-block; padding: 0.42rem 0.8rem; border: 1.5px solid var(--stamp);
-        border-radius: 2px; color: #d24a27; font-family: var(--mono); font-size: 0.68rem;
-        font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; transform: rotate(-2deg);
-      }
+      .hero-inner { position: relative; z-index: 2; width: 100%; text-align: center; }
       h1 {
-        margin: 1.7rem 0 1rem; font-family: var(--mono); font-size: clamp(3.4rem, 10vw, 7.2rem);
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.16em;
+        margin: 1.7rem 0 1rem; font-family: var(--sans); font-size: clamp(3.4rem, 10vw, 7.2rem);
         letter-spacing: -0.075em; line-height: 0.9; text-transform: lowercase;
       }
+      .hero-logo { width: 1.05em; height: auto; flex: none; }
       h1 em { color: var(--terminal); font-style: normal; }
-      .tagline { margin: 1.5rem 0 0; color: var(--text-dim); font-family: var(--mono); font-size: clamp(1rem, 2vw, 1.2rem); }
-      .scroll-mark { display: inline-block; margin-top: 4rem; color: var(--text-dimmer); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-decoration: none; text-transform: uppercase; }
+      .tagline { max-width: 46rem; margin: 1.5rem auto 0; color: var(--text-dim); font-family: var(--sans); font-size: clamp(1.05rem, 2vw, 1.25rem); }
+      .hero-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+      .hero-action { display: inline-flex; min-height: 2.8rem; align-items: center; padding: .65rem .9rem; border: 1px solid var(--line-strong); border-radius: 2px; color: var(--text); font: 700 .75rem var(--mono); text-decoration: none; }
+      .hero-action-primary { border-color: var(--terminal); background: var(--terminal); color: var(--ink); }
+      .hero-action:hover { border-color: var(--tape); }
+      .scroll-mark { display: inline-block; margin-top: 2.5rem; color: var(--text-dimmer); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-decoration: none; text-transform: uppercase; }
       .scroll-mark:hover { color: var(--tape); }
 
-      .tools { padding: 1rem 0 8rem; }
+      .tools { position: relative; z-index: 2; padding: 4.5rem 0 8rem; background: var(--ink); }
       .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line-strong); }
       .eyebrow { color: var(--terminal); font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
-      h2 { margin: 0; font-family: var(--mono); font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.04em; line-height: 1.1; }
+      h2 { margin: 0; font-family: var(--sans); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 650; letter-spacing: -0.045em; line-height: 1.05; }
       .section-count { color: var(--text-dimmer); font-family: var(--mono); font-size: 0.8rem; }
       .tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
       .tool-card { position: relative; min-height: 21rem; padding: 2rem; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--ink-2); }
@@ -41,21 +47,26 @@ import SiteFooter from "../components/SiteFooter.astro";
       a.tool-card:hover { border-color: var(--terminal); transform: translateY(-2px); }
       .tool-card.featured { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 0.82fr) minmax(22rem, 1.18fr); align-items: center; min-height: 25rem; background: linear-gradient(135deg, rgb(111 190 140 / 5%), transparent 55%), var(--ink-2); }
       .tool-number { color: var(--text-dimmer); font-family: var(--mono); font-size: 0.68rem; }
-      .tool-card h3 { margin: 2rem 0 0.8rem; font-family: var(--mono); font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: -0.03em; }
+      .tool-card h3 { margin: 2rem 0 0.8rem; font-family: var(--sans); font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: -0.035em; }
       .tool-card p { max-width: 38rem; margin: 0; color: var(--text-dim); }
       .tool-link { display: inline-block; margin-top: 2rem; color: var(--terminal); font-family: var(--mono); font-size: 0.8rem; font-weight: 700; }
       .tool-art { position: relative; align-self: stretch; display: grid; place-items: center; }
       .tool-art::before { position: absolute; inset: 20%; border-radius: 50%; background: rgb(111 190 140 / 10%); filter: blur(3rem); content: ""; }
-      .tool-art img { position: relative; width: 100%; height: auto; filter: drop-shadow(0 1.5rem 2.5rem rgb(0 0 0 / 45%)); }
+      .tool-art img { position: relative; width: min(68%, 18rem); height: auto; filter: drop-shadow(0 1.5rem 2.5rem rgb(0 0 0 / 45%)); }
+      .spagetti-card { background: linear-gradient(135deg, rgb(255 213 90 / 7%), transparent 55%), var(--ink-2); }
+      a.tool-card.spagetti-card:hover { border-color: #ffd55a; }
+      .spagetti-card .tool-link { color: #ffd55a; }
+      .spagetti-card .tool-art::before { background: rgb(255 213 90 / 10%); }
+      .spagetti-card .tool-art img { width: min(60%, 17rem); }
 
       .coming-card { grid-column: 1 / -1; min-height: 12rem; border-style: dashed; }
-      .coming-card h3 { margin-top: 2rem; }
+      .coming-card h3 { margin-top: 1.2rem; }
       .principles { padding: 7rem 0; border-top: 1px solid var(--line); }
       .principles-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(3rem, 9vw, 8rem); }
       .principles h2 { margin-top: 0.65rem; }
       .principle-list { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line-strong); background: var(--line-strong); gap: 1px; }
       .principle { min-height: 10rem; padding: 1.5rem; background: var(--ink-2); }
-      .principle strong { display: block; margin-bottom: 0.7rem; color: var(--terminal); font-family: var(--mono); }
+      .principle strong { display: block; margin-bottom: 0.7rem; color: var(--terminal); font-family: var(--sans); font-weight: 650; }
       .principle p { margin: 0; color: var(--text-dim); font-size: 0.9rem; }
       .about { padding: 7rem 0; border-block: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
       .about-grid { display: grid; grid-template-columns: 0.55fr 1.45fr; gap: clamp(3rem, 9vw, 8rem); }
@@ -67,30 +78,35 @@ import SiteFooter from "../components/SiteFooter.astro";
       .about-copy a:hover { text-decoration-color: var(--terminal); }
 
       @media (max-width: 720px) {
-        .hero { min-height: 65vh; padding-top: 5rem; }
+        .hero { min-height: 56rem; padding: 4rem 0 24rem; }
+        .hero-inner { padding-inline: 1rem; }
         .tool-grid, .about-grid, .principles-grid { grid-template-columns: 1fr; }
-        .tool-card.featured { grid-template-columns: 1fr; padding-bottom: 0; }
-        .tool-card.featured .tool-art { min-height: 15rem; margin-top: 1rem; padding-bottom: 2rem; }
+        .tool-card.featured { grid-template-columns: 1fr; padding-bottom: 2rem; }
+        .tool-card.featured .tool-art { order: -1; min-height: 12rem; margin: 0 0 .5rem; padding: 0; }
         .tool-card { min-height: 18rem; }
         .tool-card.coming-card { min-height: 12rem; }
         .principle-list { grid-template-columns: 1fr; }
       }
     </style>
-    <main>
+    <main id="main-content">
       <section class="hero" aria-labelledby="site-title">
+        <BunkerHeroLandscape />
         <div class="wrap hero-inner">
-          <span class="stamp">Open-source toolbox</span>
-          <h1 id="site-title">tool<em>bunker</em></h1>
-          <p class="tagline">Open-source tools for developers.</p>
-          <a class="scroll-mark" href="#tools">Explore the tools ↓</a>
+          <h1 id="site-title"><img class="hero-logo" src="/toolbunker_logo_green.svg" alt="" width="307" height="359" /> <span>tool<em>bunker</em></span></h1>
+          <p class="tagline">Practical tools, apps, and playful experiments—open-source, transparent, and made for anyone who finds them useful.</p>
+          <div class="hero-actions">
+            <a class="hero-action hero-action-primary" href="/codebuster/">Explore Code Buster →</a>
+            <a class="hero-action" href="https://github.com/tool-bunker">View source on GitHub ↗</a>
+          </div>
+          <a class="scroll-mark" href="#tools">Explore the projects ↓</a>
         </div>
       </section>
 
       <section class="tools" id="tools" aria-labelledby="tools-title">
         <div class="wrap">
           <div class="section-heading">
-            <div><span class="eyebrow">Built in the open</span><h2 id="tools-title">The tools</h2></div>
-            <span class="section-count">01 active project · MIT licensed</span>
+            <div><span class="eyebrow">Built in the open</span><h2 id="tools-title">The projects</h2></div>
+            <span class="section-count">02 projects · MIT licensed</span>
           </div>
           <div class="tool-grid">
             <a class="tool-card featured" href="/codebuster/">
@@ -101,18 +117,31 @@ import SiteFooter from "../components/SiteFooter.astro";
                 <span class="tool-link">Inspect Code Buster →</span>
               </div>
               <div class="tool-art">
-                <img src="/codebuster/assets/code-buster.png" alt="Code Buster analysis machine" width="720" height="402" />
+                <img src="/codebuster_logo.svg" alt="Code Buster logo" width="309" height="334" loading="lazy" decoding="async" />
+              </div>
+            </a>
+            <a class="tool-card featured spagetti-card" href="/spagetti/">
+              <div class="tool-copy">
+                <span class="tool-number">APP / 002 · PRE-RELEASE</span>
+                <h3>Spagetti</h3>
+                <p>A local desktop app that measures how tangled a repository is, then drops the score into a bowl of animated spaghetti.</p>
+                <span class="tool-link">Meet Spagetti →</span>
+              </div>
+              <div class="tool-art">
+                <img src="/spaghetti.svg" alt="Spagetti bowl logo" width="543" height="420" loading="lazy" decoding="async" />
               </div>
             </a>
             <article class="tool-card coming-card">
-              <span class="tool-number">MORE TOOLS</span>
-              <h3>Coming soon.</h3>
+              <span class="tool-number">BUILD WITH US</span>
+              <h3>Have an idea worth making?</h3>
+              <p>Tool Bunker grows through useful problems, strange ideas, open discussion, and maintainable implementations.</p>
+              <a class="tool-link" href="https://github.com/tool-bunker">Propose or contribute on GitHub →</a>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="principles" aria-labelledby="principles-title">
+      <section class="principles" id="principles" aria-labelledby="principles-title">
         <div class="wrap principles-grid">
           <div>
             <span class="eyebrow">How it’s built</span>
@@ -120,18 +149,18 @@ import SiteFooter from "../components/SiteFooter.astro";
           </div>
           <div class="principle-list">
             <article class="principle"><strong>Open by default.</strong><p>Source, issues, decisions, and development belong where everyone can participate.</p></article>
-            <article class="principle"><strong>Simple enough to maintain.</strong><p>Boring, understandable software survives longer than clever machinery.</p></article>
+            <article class="principle"><strong>Simple enough to maintain.</strong><p>Clear, understandable projects are easier to use, improve, and keep alive.</p></article>
           </div>
         </div>
       </section>
 
-      <section class="about" aria-labelledby="about-title">
+      <section class="about" id="about" aria-labelledby="about-title">
         <div class="wrap about-grid">
           <span class="eyebrow">About the project</span>
           <div class="about-copy">
-            <h2 id="about-title">Useful tools.<br />Built in the open.</h2>
-            <p>Tool Bunker is an open-source home for useful developer tools, built in public and open to anyone who wants to use, discuss, or improve them.</p>
-            <p>This is not a company or a product suite. It is a place for practical tools and open collaboration, with the hope that it grows into a group of contributors building useful software for developers.</p>
+            <h2 id="about-title">Useful things.<br />Built in the open.</h2>
+            <p>Tool Bunker is an open-source home for practical tools, apps, and playful experiments, built in public and open to anyone who wants to use, discuss, or improve them.</p>
+            <p>This is not a company or a product suite. It is a place for useful ideas and open collaboration, with the hope that it grows into a group of contributors making things people enjoy using.</p>
             <p>Tool Bunker is currently maintained by <a href="https://github.com/robertsson">@robertsson</a>. Have an idea, a question, or something worth discussing? <a href="https://github.com/robertsson">Get in touch on GitHub</a>.</p>
           </div>
         </div>

@@ -32,6 +32,10 @@
   letter-spacing: 0.02em;
   text-decoration: none;
 }
+.brand img {
+  width: 1.6rem;
+  height: auto;
+}
 
 
 .nav > nav {
@@ -140,7 +144,7 @@
 .hero h1 {
   max-width: 16ch;
   margin: 1.5rem 0 1.25rem;
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: clamp(2.4rem, 5.4vw, 3.75rem);
   letter-spacing: -0.02em;
   line-height: 1.08;
@@ -373,7 +377,7 @@
 
 .notice h2 {
   margin: 0 0 0.85rem;
-  font: 700 clamp(1.3rem, 3vw, 1.65rem) var(--mono);
+  font: 700 clamp(1.3rem, 3vw, 1.65rem) var(--sans);
 }
 
 .notice-box > p {
@@ -445,7 +449,7 @@
 .closing h2 {
   max-width: 16ch;
   margin: 0.65rem 0 1rem;
-  font: 700 clamp(1.55rem, 3.2vw, 2rem) / 1.25 var(--mono);
+  font: 700 clamp(1.55rem, 3.2vw, 2rem) / 1.2 var(--sans);
 }
 
 .feature-copy > p {
@@ -563,6 +567,10 @@
 
   .brand {
     font-size: 0.72rem;
+  }
+
+  .brand img {
+    width: 1.35rem;
   }
 
   .nav > nav a {

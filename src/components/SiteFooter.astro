@@ -16,11 +16,15 @@ const { variant = "tool-bunker" } = Astro.props;
     {variant === "code-buster" ? (
       <div class="footer-links">
         <a href="/">Tool Bunker</a>
+        <a href="/spagetti/">Spagetti</a>
         <a href="/codebuster/docs/">Docs</a>
         <a href="https://github.com/tool-bunker/code-buster">GitHub</a>
       </div>
     ) : (
-      <a href="https://github.com/tool-bunker">View the projects on GitHub ↗</a>
+      <div class="footer-links">
+        <a href="/#tools">Projects</a>
+        <a href="https://github.com/tool-bunker">GitHub ↗</a>
+      </div>
     )}
   </div>
 </footer>

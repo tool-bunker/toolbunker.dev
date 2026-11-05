@@ -11,10 +11,19 @@
   "scripts": {
     "dev": "node ./node_modules/astro/bin/astro.mjs dev",
     "build": "node ./node_modules/astro/bin/astro.mjs build",
-    "preview": "node ./node_modules/astro/bin/astro.mjs preview"
+    "preview": "node ./node_modules/astro/bin/astro.mjs preview",
+    "check": "astro check && npm run build && npm run check:html && npm run check:links",
+    "check:html": "html-validate \"dist/**/*.html\"",
+    "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "7.2.4",
     "pixi.js": "^8.21.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "html-validate": "^11.17.0",
+    "typescript": "^6.0.3"
   }
 }

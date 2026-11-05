@@ -1,9 +1,11 @@
 <section class="workflow-illustration" aria-labelledby="workflow-illustration-title">
   <div class="wrap">
     <div class="illustration-heading">
-      <span class="eyebrow">Repository-aware analysis</span>
-      <h2 id="workflow-illustration-title">Find what your AI agent missed.</h2>
-      <p>Code Buster scans the code and surfaces potential bugs for you or your agent to evaluate and fix.</p>
+      <div>
+        <span class="eyebrow">Repository-aware analysis</span>
+        <h2 id="workflow-illustration-title">Find what your AI agent missed.</h2>
+        <p>Code Buster scans the code and surfaces potential bugs for you or your agent to evaluate and fix.</p>
+      </div>
     </div>
 
     <div class="diagram-page" data-buster-diagram>
@@ -12,7 +14,12 @@
         <strong>CODE BUSTER / LIVE</strong>
         <em>SCANNING</em>
       </div>
-      <div class="diagram-stage" aria-hidden="true"></div>
+      <div class="diagram-stage" aria-hidden="true">
+        <div class="diagram-fallback">
+          <img src="/codebuster_logo.svg" alt="" width="309" height="334" loading="lazy" decoding="async" />
+          <span>Static analysis stays local</span>
+        </div>
+      </div>
       <noscript><p class="no-script">Code Buster scans code and reports potential bugs.</p></noscript>
       <p class="sr-only">Green code signals and red potential bugs move toward Code Buster. Each scan pulse visually clears the red markers.</p>
     </div>
@@ -20,7 +27,6 @@
 </section>
 
 <script>
-  import { Application, Assets, Container, Graphics, Sprite, Text } from "pixi.js";
 
   type Particle = {
     x: number;
@@ -57,11 +63,33 @@
   const DIM = 0x756b58;
   const TAU = Math.PI * 2;
 
-  for (const root of document.querySelectorAll<HTMLElement>("[data-buster-diagram]")) {
-    const host = root.querySelector<HTMLElement>(".diagram-stage");
-    if (!host) continue;
+  const roots = [...document.querySelectorAll<HTMLElement>("[data-buster-diagram]")];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion && !saveData) {
+    if ("IntersectionObserver" in window) {
+      const viewportObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            viewportObserver.unobserve(entry.target);
+            void initializeDiagram(entry.target as HTMLElement);
+          }
+        },
+        { rootMargin: "240px" },
+      );
+      roots.forEach((root) => viewportObserver.observe(root));
+    } else {
+      roots.forEach((root) => void initializeDiagram(root));
+    }
+  }
+
+  async function initializeDiagram(root: HTMLElement) {
+    const { Application, Assets, Container, Graphics, Sprite, Text } = await import("pixi.js");
+    const host = root.querySelector<HTMLElement>(".diagram-stage");
+    if (!host) return;
+
     const app = new Application();
     await app.init({
       resizeTo: host,
@@ -71,6 +99,7 @@
       resolution: Math.min(window.devicePixelRatio, 2),
     });
     host.appendChild(app.canvas);
+    root.dataset.ready = "true";
 
     const orbitGraphics = new Graphics();
     const trailGraphics = new Graphics();
@@ -78,7 +107,7 @@
     const effectGraphics = new Graphics();
     const buster = new Container();
     const halo = new Graphics();
-    const texture = await Assets.load("/codebuster/assets/code-buster.png");
+    const texture = await Assets.load("/codebuster_logo.svg");
     const machine = new Sprite(texture);
     const label = new Text({
       text: "CODE BUSTER",
@@ -159,7 +188,7 @@
       centerY = height / 2;
       coreRadius = Math.min(width, height) * .14;
       machine.position.set(centerX, centerY);
-      machine.width = coreRadius * 2.15;
+      machine.width = coreRadius * 1.45;
       machine.scale.y = machine.scale.x;
       label.position.set(centerX, centerY + coreRadius * 1.35);
       reconcileParticles();
@@ -279,17 +308,23 @@
       previousPulseRadius = pulseRadius;
     });
 
-    const observer = new ResizeObserver(layout);
-    observer.observe(host);
+    const resizeObserver = new ResizeObserver(layout);
+    resizeObserver.observe(host);
+    const activityObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) app.start();
+      else app.stop();
+    });
+    activityObserver.observe(root);
     layout();
   }
 </script>
 
 <style>
   .workflow-illustration { padding: 6.5rem 0 7rem; border-bottom: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
-  .illustration-heading { display: grid; grid-template-columns: .45fr 1.15fr 1fr; align-items: end; gap: 2rem; margin-bottom: 2.5rem; }
-  .illustration-heading h2 { margin: 0; font-family: var(--mono); font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.04em; line-height: 1.08; }
-  .illustration-heading p { margin: 0; color: var(--text-dim); }
+  .illustration-heading { margin-bottom: 2.5rem; }
+  .illustration-heading > div { width: 50vw; max-width: 100%; }
+  .illustration-heading h2 { margin: .7rem 0 0; font-family: var(--sans); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 650; letter-spacing: -.045em; line-height: 1.06; }
+  .illustration-heading p { margin: 1.25rem 0 0; color: var(--text-dim); }
   .diagram-page { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 4px; background: #12100c; box-shadow: 0 2rem 5rem -2.5rem rgb(0 0 0 / 80%); }
   .page-bar { display: flex; align-items: center; gap: .45rem; min-height: 2.8rem; padding: 0 1rem; border-bottom: 1px solid var(--line); background: rgb(231 221 190 / 3%); }
   .page-bar > span { width: .42rem; height: .42rem; border-radius: 50%; background: var(--text-dimmer); }
@@ -299,10 +334,14 @@
   .page-bar em { margin-left: auto; font-style: normal; }
   .diagram-stage { width: 100%; height: 620px; background: radial-gradient(circle at center, rgb(111 190 140 / 9%), transparent 35%), linear-gradient(rgb(231 221 190 / 3%) 1px, transparent 1px), linear-gradient(90deg, rgb(231 221 190 / 3%) 1px, transparent 1px), #12100c; background-size: auto, 2rem 2rem, 2rem 2rem, auto; }
   .diagram-stage canvas { display: block; width: 100%; height: 100%; }
+  .diagram-fallback { display: grid; width: 100%; height: 100%; place-items: center; align-content: center; gap: 1rem; }
+  .diagram-fallback img { width: min(44%, 16rem); height: auto; filter: drop-shadow(0 1.5rem 2.5rem rgb(0 0 0 / 45%)); }
+  .diagram-fallback span { color: var(--text-dim); font: 700 .65rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  [data-buster-diagram][data-ready='true'] .diagram-fallback { display: none; }
   .no-script { padding: 2rem; color: var(--text-dim); }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
   @media (max-width: 700px) {
-    .illustration-heading { grid-template-columns: 1fr; gap: 1rem; }
+    .illustration-heading > div { width: auto; }
     .diagram-stage { height: 560px; }
   }
   @media (max-width: 480px) { .page-bar strong { display: none; } }

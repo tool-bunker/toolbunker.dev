@@ -1,0 +1,25 @@
+---
+type Group = {
+  readonly label: string;
+  readonly links: readonly (readonly [string, string])[];
+};
+
+interface Props {
+  groups: readonly Group[];
+  currentPath: string;
+  labelSuffix?: string;
+}
+const { groups, currentPath, labelSuffix = "" } = Astro.props as Props;
+---
+
+<nav class="docs-home-nav" aria-label={`Documentation home${labelSuffix}`}>
+  <a class="docs-home" href="/codebuster/docs/">CODE BUSTER / DOCS</a>
+</nav>
+{groups.map((group) => (
+  <nav class="docs-group" aria-label={`${group.label}${labelSuffix}`}>
+    <strong>{group.label}</strong>
+    {group.links.map(([label, href]) => (
+      <a href={href} aria-current={currentPath === href ? "page" : undefined}>{label}</a>
+    ))}
+  </nav>
+))}

@@ -5,15 +5,20 @@ interface Props {
   title: string;
   description: string;
   favicon?: string;
+  image?: string;
   bodyClass?: string;
 }
 
 const {
   title,
   description,
-  favicon = "/codebuster/assets/favicon.svg",
+  favicon = "/toolbunker_logo_green.svg",
+  image = "/codebuster/assets/code-buster.png",
   bodyClass,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -22,17 +27,27 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#15120e" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tool Bunker" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href={favicon} type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/space-mono-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <slot name="head" />
   </head>
   <body class={bodyClass}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <slot />
   </body>
 </html>
