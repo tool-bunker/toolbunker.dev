@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 543 543" version="1.1" xmlns="http://www.w3.org/2000/svg" role="img">
+    <title>Spaghetti Meter</title>
+    <defs>
+        <linearGradient id="icon-background" x1="54" y1="32" x2="492" y2="514" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#2b126d"/>
+            <stop offset=".5" stop-color="#11194a"/>
+            <stop offset="1" stop-color="#061a2c"/>
+        </linearGradient>
+        <linearGradient id="bowl-gradient" x1="72" y1="96" x2="474" y2="462" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#00e5ff"/>
+            <stop offset=".2" stop-color="#58f06f"/>
+            <stop offset=".4" stop-color="#ffd800"/>
+            <stop offset=".62" stop-color="#ff7a00"/>
+            <stop offset=".8" stop-color="#ff3b1f"/>
+            <stop offset="1" stop-color="#8b5cf6"/>
+        </linearGradient>
+        <linearGradient id="icon-border" x1="30" y1="24" x2="514" y2="520" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#00e5ff"/>
+            <stop offset=".28" stop-color="#58f06f"/>
+            <stop offset=".55" stop-color="#ffd800"/>
+            <stop offset=".78" stop-color="#ff3b1f"/>
+            <stop offset="1" stop-color="#8b5cf6"/>
+        </linearGradient>
+        <pattern id="circle-field-a" width="191" height="167" patternUnits="userSpaceOnUse" patternTransform="rotate(7)">
+            <circle cx="13" cy="21" r="3" fill="#00e5ff" opacity=".48"/>
+            <circle cx="47" cy="58" r="6" fill="#ffd800" opacity=".3"/>
+            <circle cx="91" cy="17" r="4" fill="#58f06f" opacity=".4"/>
+            <circle cx="143" cy="43" r="7" fill="#8b5cf6" opacity=".32"/>
+            <circle cx="179" cy="92" r="3" fill="#ff7a00" opacity=".5"/>
+            <circle cx="28" cy="123" r="5" fill="#ff3b1f" opacity=".35"/>
+            <circle cx="107" cy="111" r="3" fill="#00e5ff" opacity=".48"/>
+            <circle cx="161" cy="151" r="5" fill="#58f06f" opacity=".35"/>
+        </pattern>
+        <pattern id="circle-field-b" width="223" height="199" patternUnits="userSpaceOnUse" patternTransform="rotate(-11)">
+            <circle cx="23" cy="31" r="5" fill="#ff7a00" opacity=".32"/>
+            <circle cx="84" cy="74" r="3" fill="#8b5cf6" opacity=".5"/>
+            <circle cx="151" cy="26" r="6" fill="#00e5ff" opacity=".3"/>
+            <circle cx="201" cy="129" r="4" fill="#ffd800" opacity=".42"/>
+            <circle cx="69" cy="173" r="7" fill="#58f06f" opacity=".25"/>
+            <circle cx="167" cy="183" r="3" fill="#ff3b1f" opacity=".5"/>
+        </pattern>
+        <pattern id="noodle-field-a" width="246" height="211" patternUnits="userSpaceOnUse" patternTransform="rotate(-4)">
+            <path d="M-30 24C8-5 35 58 76 25S148 3 203 36 260 55 290 18" transform="rotate(20 123 105)" fill="none" stroke="#00e5ff" stroke-width="5" stroke-linecap="round" opacity=".2"/>
+            <path d="M18 70C51 35 77 106 111 70S177 38 233 79" transform="rotate(-28 123 105)" fill="none" stroke="#58f06f" stroke-width="6" stroke-linecap="round" opacity=".18"/>
+            <path d="M-20 111C15 78 48 144 86 109S151 74 194 118 250 150 278 103" transform="rotate(54 123 105)" fill="none" stroke="#ffd800" stroke-width="4" stroke-linecap="round" opacity=".22"/>
+            <path d="M24 157C60 122 85 191 128 153S200 119 254 169" transform="rotate(-12 123 105)" fill="none" stroke="#ff7a00" stroke-width="7" stroke-linecap="round" opacity=".16"/>
+            <path d="M-35 197C12 157 49 229 95 188S170 159 214 198 270 220 295 184" transform="rotate(76 123 105)" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-linecap="round" opacity=".22"/>
+            <path d="M55-8C95 22 44 49 87 63S159 77 174 42C188 11 224 8 261 32" transform="rotate(-52 123 105)" fill="none" stroke="#ff3b1f" stroke-width="4" stroke-linecap="round" opacity=".18"/>
+        </pattern>
+        <pattern id="noodle-field-b" width="187" height="163" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+            <path d="M-30 20C6-8 37 54 72 22S134-4 196 35 225 40 247 15" transform="rotate(33 94 82)" fill="none" stroke="#ffd800" stroke-width="3" stroke-linecap="round" opacity=".16"/>
+            <path d="M10 82C42 48 73 113 106 78S158 48 211 91" transform="rotate(-65 94 82)" fill="none" stroke="#00e5ff" stroke-width="4" stroke-linecap="round" opacity=".15"/>
+            <path d="M-25 145C14 108 45 177 82 139S143 109 201 154" transform="rotate(88 94 82)" fill="none" stroke="#ff3b1f" stroke-width="5" stroke-linecap="round" opacity=".14"/>
+        </pattern>
+        <clipPath id="icon-shape">
+            <rect x="4" y="4" width="535" height="535" rx="112"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#icon-shape)">
+        <rect x="4" y="4" width="535" height="535" fill="url(#icon-background)"/>
+        <circle cx="474" cy="72" r="164" fill="#ff3b1f" opacity=".22"/>
+        <circle cx="62" cy="482" r="176" fill="#58f06f" opacity=".17"/>
+        <circle cx="444" cy="478" r="108" fill="#8b5cf6" opacity=".2"/>
+        <rect x="-80" y="-80" width="700" height="700" fill="url(#circle-field-a)"/>
+        <rect x="-80" y="-80" width="700" height="700" fill="url(#circle-field-b)"/>
+        <rect x="-80" y="-80" width="700" height="700" fill="url(#noodle-field-a)"/>
+        <rect x="-80" y="-80" width="700" height="700" fill="url(#noodle-field-b)"/>
+        <circle cx="76" cy="83" r="18" fill="#ffd800" opacity=".22"/>
+        <circle cx="143" cy="49" r="8" fill="#00e5ff" opacity=".38"/>
+        <circle cx="221" cy="76" r="13" fill="#58f06f" opacity=".26"/>
+        <circle cx="302" cy="45" r="22" fill="#8b5cf6" opacity=".22"/>
+        <circle cx="388" cy="90" r="9" fill="#ffd800" opacity=".42"/>
+        <circle cx="492" cy="154" r="18" fill="#00e5ff" opacity=".2"/>
+        <circle cx="46" cy="178" r="10" fill="#ff7a00" opacity=".38"/>
+        <circle cx="103" cy="222" r="28" fill="#8b5cf6" opacity=".2"/>
+        <circle cx="49" cy="290" r="15" fill="#00e5ff" opacity=".28"/>
+        <circle cx="122" cy="364" r="12" fill="#ffd800" opacity=".34"/>
+        <circle cx="486" cy="244" r="12" fill="#58f06f" opacity=".34"/>
+        <circle cx="448" cy="315" r="27" fill="#ffd800" opacity=".16"/>
+        <circle cx="507" cy="344" r="8" fill="#ff3b1f" opacity=".44"/>
+        <circle cx="92" cy="438" r="10" fill="#00e5ff" opacity=".36"/>
+        <circle cx="175" cy="483" r="25" fill="#ff3b1f" opacity=".2"/>
+        <circle cx="256" cy="451" r="13" fill="#ffd800" opacity=".3"/>
+        <circle cx="329" cy="500" r="8" fill="#58f06f" opacity=".42"/>
+        <circle cx="388" cy="445" r="16" fill="#00e5ff" opacity=".24"/>
+        <circle cx="474" cy="490" r="9" fill="#ff7a00" opacity=".38"/>
+        <circle cx="170" cy="125" r="32" fill="none" stroke="#00e5ff" stroke-width="5" opacity=".18"/>
+        <circle cx="350" cy="125" r="18" fill="none" stroke="#58f06f" stroke-width="4" opacity=".24"/>
+        <circle cx="89" cy="327" r="34" fill="none" stroke="#8b5cf6" stroke-width="6" opacity=".22"/>
+        <circle cx="462" cy="366" r="36" fill="none" stroke="#ff7a00" stroke-width="5" opacity=".2"/>
+        <circle cx="276" cy="497" r="30" fill="none" stroke="#ffd800" stroke-width="5" opacity=".16"/>
+    </g>
+    <rect x="5.75" y="5.75" width="531.5" height="531.5" rx="110.25" fill="none" stroke="url(#icon-border)" stroke-opacity=".74" stroke-width="3.5"/>
+    <g transform="translate(59.8 107.5) scale(.78)" fill="url(#bowl-gradient)">
+        <path d="M488.632,98.417L533.901,98.417C538.115,98.417 541.606,101.686 541.884,105.891C541.884,105.891 553.898,287.752 393.901,378.127L393.901,411.417C393.901,415.835 390.319,419.417 385.901,419.417L156.198,419.417C151.78,419.417 148.198,415.835 148.198,411.417L148.198,378.127C-11.799,287.752 0.216,105.891 0.216,105.891C0.493,101.686 3.984,98.417 8.198,98.417L55.398,98.417C59.851,75.82 79.782,7.723 158.528,5.433C164.208,4.69 213.093,-0.272 266.71,40.371C347.329,-16.434 400.842,2.442 406.828,4.846C464.602,21.207 483.693,78.654 488.632,98.417ZM70.216,106.704L71.077,128.202C72.036,129.152 73.111,130.066 74.292,130.948C78.321,101.555 97.158,30.35 185.071,34.402C190.324,34.066 227.672,33.321 270.838,75.355C272.966,73.731 275.072,72.162 277.158,70.646C218.826,12.817 160.418,21.324 160.418,21.324C160.083,21.375 159.744,21.406 159.404,21.414C82.058,23.409 71.058,99.75 70.216,106.704ZM89.459,138.821C93.889,140.525 98.799,142.087 104.072,143.548C102.681,129.956 102.866,103.46 121.291,84.867C132.165,73.893 149.414,65.361 176.888,64.423C177.615,64.386 225.778,62.206 278.344,125.296C278.553,125.547 278.747,125.81 278.923,126.085C278.923,126.085 307.01,155.899 338.554,158.289C368.507,156.112 401.334,152.416 427.9,146.137C428.123,145.641 428.401,145.161 428.734,144.704C428.734,144.704 466.328,93.757 419.51,59.9C419.247,59.709 418.995,59.502 418.756,59.281C418.756,59.281 372.751,18.479 281.942,87.014C284.554,89.96 287.177,93.07 289.808,96.353C290.345,95.053 291.232,93.879 292.445,92.983C345.424,53.843 377.931,53.674 396.75,61.842C417.724,70.946 423.838,91.045 423.838,91.045C423.869,91.144 423.898,91.244 423.925,91.344C428.539,108.544 426.208,120.99 420.235,129.757C414.168,138.661 404.008,144.114 391.543,146.424C369.888,150.438 340.874,144.89 319.687,136.261C292.108,125.029 278.966,108.433 278.966,108.433L278.903,108.354C230.773,46.983 185.957,50.381 185.957,50.381C185.574,50.418 185.189,50.426 184.804,50.407C102.6,46.356 91.071,119.406 89.459,138.821ZM120.761,147.61C123.539,148.203 126.374,148.77 129.255,149.312C128.922,144.78 128.838,138.912 129.678,132.77C130.988,123.189 134.571,113.087 142.189,105.713C150.052,98.102 158.357,91.971 177.817,94.304C182.771,94.897 192.706,95.074 205.472,101.392C220.026,108.595 243.563,124.771 279.201,161.092C284.805,160.959 291.157,160.771 298.066,160.507C279.94,150.847 267.632,137.894 265.805,135.243C219.217,79.506 177.517,80.411 177.517,80.411L177.469,80.413C155.439,81.158 141.372,87.333 132.656,96.129C114.664,114.285 119.614,142.282 120.761,147.61ZM145.599,152.07C184.222,157.905 227.674,160.093 256.341,160.92C232.082,137.415 214.68,124.705 202.563,117.941C191.075,111.527 183.997,111.197 183.997,111.197C183.997,111.197 184.64,111.036 184.68,111.022L182.198,111.417C181.836,111.417 181.475,111.393 181.116,111.344C167.488,109.484 158.724,111.976 153.317,117.21C148.368,121.999 146.381,128.714 145.53,134.938C144.57,141.96 145.13,148.527 145.599,152.07ZM449.717,139.901C458.932,136.628 466.345,132.829 471.023,128.202L471.904,106.189C469.646,93.417 456.485,35.265 402.054,20.125C401.694,20.024 401.341,19.899 400.998,19.749C400.998,19.749 353.946,0.206 279.55,50.938C283.218,54.205 286.894,57.699 290.566,61.436C331.85,34.741 363.984,29.539 386.548,31.4C412.469,33.538 426.728,44.999 429.229,47.184C470.835,77.539 459.729,118.561 449.717,139.901ZM270.911,177.261C236.942,176.671 160.429,173.872 108.575,161.242C84.462,155.369 65.539,146.946 56.999,136.473C55.903,135.13 55.274,133.468 55.205,131.737L54.512,114.417L15.99,114.417C15.88,148.675 23.825,292.198 160.025,366.392C162.597,367.793 164.198,370.488 164.198,373.417L164.198,403.417L377.901,403.417L377.901,373.417C377.901,370.488 379.502,367.793 382.074,366.392C518.274,292.198 526.219,148.675 526.109,114.417L487.587,114.417L486.894,131.737C486.825,133.468 486.196,135.13 485.101,136.473C476.56,146.946 457.637,155.369 433.524,161.242C381.67,173.872 305.157,176.671 271.188,177.261C271.096,177.263 271.003,177.263 270.911,177.261ZM53.249,183.316C52.753,178.929 55.912,174.964 60.299,174.468C64.687,173.972 68.651,177.131 69.148,181.518C69.148,181.518 77.42,252.99 144.124,305.113C147.603,307.832 148.221,312.864 145.502,316.343C142.783,319.822 137.752,320.439 134.272,317.721C61.856,261.134 53.249,183.316 53.249,183.316ZM300.373,106.762C306.056,111.284 314.479,116.864 325.723,121.443C344.285,129.003 369.655,134.209 388.628,130.692C396.479,129.237 403.191,126.357 407.012,120.748C410.905,115.035 411.489,106.865 408.521,95.679C408.078,94.398 403.584,82.251 390.38,76.52C374.273,69.529 347.295,72.353 301.952,105.852C301.451,106.222 300.921,106.525 300.373,106.762Z"/>
+    </g>
+</svg>
