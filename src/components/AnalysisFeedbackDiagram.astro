@@ -16,7 +16,7 @@
       </div>
       <div class="diagram-stage" aria-hidden="true">
         <div class="diagram-fallback">
-          <img src="/codebuster_logo.svg" alt="" width="309" height="334" loading="lazy" decoding="async" />
+          <img src="/codebuster_logo.svg" alt="" width="334" height="334" loading="lazy" decoding="async" />
           <span>Static analysis stays local</span>
         </div>
       </div>
@@ -57,9 +57,8 @@
   };
 
 
-  const GREEN = 0x6fbe8c;
   const RED = 0xd24a27;
-  const INK = 0x12100c;
+  const INK = 0x050806;
   const DIM = 0x756b58;
   const TAU = Math.PI * 2;
 
@@ -89,6 +88,8 @@
     const { Application, Assets, Container, Graphics, Sprite, Text } = await import("pixi.js");
     const host = root.querySelector<HTMLElement>(".diagram-stage");
     if (!host) return;
+    const accentHex = getComputedStyle(root).getPropertyValue("--code-buster-link").trim();
+    const accent = Number.parseInt(accentHex.slice(1), 16);
 
     const app = new Application();
     await app.init({
@@ -111,7 +112,7 @@
     const machine = new Sprite(texture);
     const label = new Text({
       text: "CODE BUSTER",
-      style: { fontFamily: "monospace", fontSize: 9, fontWeight: "700", fill: GREEN, letterSpacing: 2 },
+      style: { fontFamily: "monospace", fontSize: 9, fontWeight: "700", fill: accent, letterSpacing: 2 },
     });
 
     machine.anchor.set(.5);
@@ -238,14 +239,14 @@
 
       halo.clear().circle(centerX, centerY, coreRadius * 1.16)
         .fill({ color: INK, alpha: .96 })
-        .stroke({ width: 1.5 + charge * 2.5, color: GREEN, alpha: .65 + charge * .35 });
+        .stroke({ width: 1.5 + charge * 2.5, color: accent, alpha: .65 + charge * .35 });
 
       trailGraphics.clear();
       particleGraphics.clear();
       effectGraphics.clear();
       if (pulseRadius > 0) {
         effectGraphics.circle(centerX, centerY, pulseRadius)
-          .stroke({ width: 2.5, color: GREEN, alpha: (1 - easedPulse) * .85 });
+          .stroke({ width: 2.5, color: accent, alpha: (1 - easedPulse) * .85 });
       }
 
       for (const particle of particles) {
@@ -280,7 +281,7 @@
           continue;
         }
 
-        const color = particle.red ? RED : GREEN;
+        const color = particle.red ? RED : accent;
         trailGraphics.moveTo(particle.previousX, particle.previousY).lineTo(particle.x - particle.vx * .085, particle.y - particle.vy * .085)
           .stroke({ width: particle.red ? 1.8 : 1.2, color, alpha: particle.red ? .38 : .22 });
         particleGraphics.circle(particle.x, particle.y, particle.radius)
@@ -325,14 +326,16 @@
   .illustration-heading > div { width: 50vw; max-width: 100%; }
   .illustration-heading h2 { margin: .7rem 0 0; font-family: var(--sans); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 650; letter-spacing: -.045em; line-height: 1.06; }
   .illustration-heading p { margin: 1.25rem 0 0; color: var(--text-dim); }
-  .diagram-page { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 4px; background: #12100c; box-shadow: 0 2rem 5rem -2.5rem rgb(0 0 0 / 80%); }
-  .page-bar { display: flex; align-items: center; gap: .45rem; min-height: 2.8rem; padding: 0 1rem; border-bottom: 1px solid var(--line); background: rgb(231 221 190 / 3%); }
-  .page-bar > span { width: .42rem; height: .42rem; border-radius: 50%; background: var(--text-dimmer); }
-  .page-bar > span:first-child { background: var(--terminal); }
-  .page-bar strong, .page-bar em { color: var(--terminal); font: 700 .58rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
-  .page-bar strong { margin-left: .6rem; }
-  .page-bar em { margin-left: auto; font-style: normal; }
-  .diagram-stage { width: 100%; height: 620px; background: radial-gradient(circle at center, rgb(111 190 140 / 9%), transparent 35%), linear-gradient(rgb(231 221 190 / 3%) 1px, transparent 1px), linear-gradient(90deg, rgb(231 221 190 / 3%) 1px, transparent 1px), #12100c; background-size: auto, 2rem 2rem, 2rem 2rem, auto; }
+  .diagram-page { overflow: hidden; border: 1px solid rgb(var(--code-buster-primary-rgb) / 42%); border-radius: .75rem; background: var(--code-buster-window); box-shadow: 0 2rem 5rem -2.5rem rgb(0 0 0 / 80%), inset 0 1px 0 rgb(255 255 255 / 5%); }
+  .page-bar { position: relative; display: flex; align-items: center; gap: .47rem; min-height: 2.65rem; padding: 0 1.15rem; border-bottom: 1px solid rgb(var(--code-buster-primary-rgb) / 16%); background: linear-gradient(180deg, rgb(var(--code-buster-primary-rgb) / 11%), rgb(255 255 255 / 3%)), var(--code-buster-window); }
+  .page-bar > span { width: .58rem; height: .58rem; border-radius: 50%; background: var(--code-buster-primary); }
+  .page-bar > span:nth-child(2) { background: #fffdf8; }
+  .page-bar > span:nth-child(3) { background: var(--code-buster-secondary); }
+  .page-bar strong, .page-bar em { font: 700 .58rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .page-bar strong { position: absolute; left: 50%; color: var(--text-dimmer); transform: translateX(-50%); }
+  .page-bar em { display: inline-flex; align-items: center; gap: .45rem; margin-left: auto; color: var(--terminal); font-style: normal; }
+  .page-bar em::before { width: .38rem; height: .38rem; border-radius: 50%; background: var(--terminal); box-shadow: 0 0 .65rem rgb(var(--code-buster-primary-rgb) / 70%); content: ""; }
+  .diagram-stage { width: 100%; height: 620px; background: radial-gradient(circle at center, rgb(var(--code-buster-primary-rgb) / 10%), transparent 35%), linear-gradient(rgb(var(--code-buster-primary-rgb) / 4%) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--code-buster-primary-rgb) / 4%) 1px, transparent 1px), var(--code-buster-window-deep); background-size: auto, 2rem 2rem, 2rem 2rem, auto; }
   .diagram-stage canvas { display: block; width: 100%; height: 100%; }
   .diagram-fallback { display: grid; width: 100%; height: 100%; place-items: center; align-content: center; gap: 1rem; }
   .diagram-fallback img { width: min(44%, 16rem); height: auto; filter: drop-shadow(0 1.5rem 2.5rem rgb(0 0 0 / 45%)); }

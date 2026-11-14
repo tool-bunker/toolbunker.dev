@@ -6,7 +6,7 @@ description: Review Code Buster analysis depth and testing status by language fa
 
 # Language support
 
-Code Buster recognizes 18 source languages. Related languages are grouped below where they share an analysis adapter or rule family.
+Code Buster recognizes 19 source languages. Related languages are grouped below where they share an analysis adapter or rule family.
 
 Implementation depth and real-world validation are tracked separately. **High**, **Moderate**, and **Foundational** describe analysis depth; they do not mean every construct is understood.
 
@@ -26,6 +26,7 @@ Implementation depth and real-world validation are tracked separately. **High**,
 | Mojo | Moderate | Needs real-world validation | Imports, callables, current syntax migration, string indexing, and raises contracts |
 | Odin | Moderate | Needs real-world validation | Directory-package imports, procedures, and focused panic, pointer, transmute, and initialization rules |
 | Wren | Moderate | Needs more testing | Imports, callables, and a dedicated rule pack |
+| Shell (sh, Bash, Zsh, Ksh) | Foundational | Focused regressions | Extension and shebang discovery with checks for command execution, destructive removal, temporary-file races, secret arguments, word splitting, and discarded failures |
 | CSS | Foundational | Needs more testing | Discovery plus targeted structural and style checks |
 | HTML | Foundational | Needs more testing | Discovery, embedded scripts, correctness, and style checks |
 

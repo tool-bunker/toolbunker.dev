@@ -40,27 +40,29 @@ import SiteFooter from "../components/SiteFooter.astro";
       .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line-strong); }
       .eyebrow { color: var(--terminal); font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
       h2 { margin: 0; font-family: var(--sans); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 650; letter-spacing: -0.045em; line-height: 1.05; }
-      .section-count { color: var(--text-dimmer); font-family: var(--mono); font-size: 0.8rem; }
       .tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
       .tool-card { position: relative; min-height: 21rem; padding: 2rem; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--ink-2); }
       a.tool-card { color: var(--text); text-decoration: none; transition: border-color 0.15s ease, transform 0.15s ease; }
       a.tool-card:hover { border-color: var(--terminal); transform: translateY(-2px); }
-      .tool-card.featured { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 0.82fr) minmax(22rem, 1.18fr); align-items: center; min-height: 25rem; background: linear-gradient(135deg, rgb(111 190 140 / 5%), transparent 55%), var(--ink-2); }
+      .tool-card.featured { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 0.82fr) minmax(22rem, 1.18fr); align-items: center; min-height: 25rem; background: var(--ink-2); }
       .tool-number { color: var(--text-dimmer); font-family: var(--mono); font-size: 0.68rem; }
       .tool-card h3 { margin: 2rem 0 0.8rem; font-family: var(--sans); font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: -0.035em; }
       .tool-card p { max-width: 38rem; margin: 0; color: var(--text-dim); }
       .tool-link { display: inline-block; margin-top: 2rem; color: var(--terminal); font-family: var(--mono); font-size: 0.8rem; font-weight: 700; }
       .tool-art { position: relative; align-self: stretch; display: grid; place-items: center; }
-      .tool-art::before { position: absolute; inset: 20%; border-radius: 50%; background: rgb(111 190 140 / 10%); filter: blur(3rem); content: ""; }
+      .tool-art::before { position: absolute; inset: 20%; border-radius: 50%; background: rgb(231 221 190 / 8%); filter: blur(3rem); content: ""; }
       .tool-art img { position: relative; width: min(68%, 18rem); height: auto; filter: drop-shadow(0 1.5rem 2.5rem rgb(0 0 0 / 45%)); }
-      .spagetti-card { background: linear-gradient(135deg, rgb(255 213 90 / 7%), transparent 55%), var(--ink-2); }
-      a.tool-card.spagetti-card:hover { border-color: #ffd55a; }
-      .spagetti-card .tool-link { color: #ffd55a; }
-      .spagetti-card .tool-art::before { background: rgb(255 213 90 / 10%); }
-      .spagetti-card .tool-art img { width: min(60%, 17rem); }
+      .tool-card.codebuster-card { border-color: rgb(var(--code-buster-primary-rgb) / 24%); background-color: var(--ink-2); background-image: linear-gradient(135deg, rgb(var(--code-buster-primary-rgb) / 7%), transparent 55%); }
+      a.tool-card.codebuster-card:hover { border-color: var(--code-buster-link); }
+      .codebuster-card .tool-link { color: var(--code-buster-link); }
+      .codebuster-card .tool-art::before { background: rgb(var(--code-buster-primary-rgb) / 12%); }
+      .codebuster-card .tool-art img { width: min(56%, 16rem); }
+      .tool-card.spaghetti-card { border-color: rgb(var(--spaghetti-primary-rgb) / 24%); background-color: var(--ink-2); background-image: linear-gradient(135deg, rgb(var(--spaghetti-primary-rgb) / 10%), rgb(var(--spaghetti-secondary-rgb) / 5%) 58%, transparent 80%); }
+      a.tool-card.spaghetti-card:hover { border-color: var(--spaghetti-primary); }
+      .spaghetti-card .tool-link { color: var(--spaghetti-secondary); }
+      .spaghetti-card .tool-art::before { background: linear-gradient(135deg, rgb(var(--spaghetti-primary-rgb) / 20%), rgb(var(--spaghetti-secondary-rgb) / 14%)); }
+      .spaghetti-card .tool-art img { width: min(56%, 16rem); }
 
-      .coming-card { grid-column: 1 / -1; min-height: 12rem; border-style: dashed; }
-      .coming-card h3 { margin-top: 1.2rem; }
       .principles { padding: 7rem 0; border-top: 1px solid var(--line); }
       .principles-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(3rem, 9vw, 8rem); }
       .principles h2 { margin-top: 0.65rem; }
@@ -84,7 +86,6 @@ import SiteFooter from "../components/SiteFooter.astro";
         .tool-card.featured { grid-template-columns: 1fr; padding-bottom: 2rem; }
         .tool-card.featured .tool-art { order: -1; min-height: 12rem; margin: 0 0 .5rem; padding: 0; }
         .tool-card { min-height: 18rem; }
-        .tool-card.coming-card { min-height: 12rem; }
         .principle-list { grid-template-columns: 1fr; }
       }
     </style>
@@ -105,11 +106,10 @@ import SiteFooter from "../components/SiteFooter.astro";
       <section class="tools" id="tools" aria-labelledby="tools-title">
         <div class="wrap">
           <div class="section-heading">
-            <div><span class="eyebrow">Built in the open</span><h2 id="tools-title">The projects</h2></div>
-            <span class="section-count">02 projects · MIT licensed</span>
+            <h2 id="tools-title">The projects</h2>
           </div>
           <div class="tool-grid">
-            <a class="tool-card featured" href="/codebuster/">
+            <a class="tool-card featured codebuster-card" href="/codebuster/">
               <div class="tool-copy">
                 <span class="tool-number">TOOL / 001</span>
                 <h3>Code Buster</h3>
@@ -117,26 +117,20 @@ import SiteFooter from "../components/SiteFooter.astro";
                 <span class="tool-link">Inspect Code Buster →</span>
               </div>
               <div class="tool-art">
-                <img src="/codebuster_logo.svg" alt="Code Buster logo" width="309" height="334" loading="lazy" decoding="async" />
+                <img src="/codebuster_logo.svg" alt="Code Buster logo" width="334" height="334" loading="lazy" decoding="async" />
               </div>
             </a>
-            <a class="tool-card featured spagetti-card" href="/spagetti/">
+            <a class="tool-card featured spaghetti-card" href="/spaghetti-meter/">
               <div class="tool-copy">
-                <span class="tool-number">APP / 002 · PRE-RELEASE</span>
-                <h3>Spagetti</h3>
+                <span class="tool-number">APP / 002</span>
+                <h3>Spaghetti Meter</h3>
                 <p>A local desktop app that measures how tangled a repository is, then drops the score into a bowl of animated spaghetti.</p>
-                <span class="tool-link">Meet Spagetti →</span>
+                <span class="tool-link">Meet Spaghetti Meter →</span>
               </div>
               <div class="tool-art">
-                <img src="/spaghetti.svg" alt="Spagetti bowl logo" width="543" height="420" loading="lazy" decoding="async" />
+                <img src="/spaghetti.svg" alt="Spaghetti Meter app icon" width="543" height="543" loading="lazy" decoding="async" />
               </div>
             </a>
-            <article class="tool-card coming-card">
-              <span class="tool-number">BUILD WITH US</span>
-              <h3>Have an idea worth making?</h3>
-              <p>Tool Bunker grows through useful problems, strange ideas, open discussion, and maintainable implementations.</p>
-              <a class="tool-link" href="https://github.com/tool-bunker">Propose or contribute on GitHub →</a>
-            </article>
           </div>
         </div>
       </section>
@@ -161,7 +155,7 @@ import SiteFooter from "../components/SiteFooter.astro";
             <h2 id="about-title">Useful things.<br />Built in the open.</h2>
             <p>Tool Bunker is an open-source home for practical tools, apps, and playful experiments, built in public and open to anyone who wants to use, discuss, or improve them.</p>
             <p>This is not a company or a product suite. It is a place for useful ideas and open collaboration, with the hope that it grows into a group of contributors making things people enjoy using.</p>
-            <p>Tool Bunker is currently maintained by <a href="https://github.com/robertsson">@robertsson</a>. Have an idea, a question, or something worth discussing? <a href="https://github.com/robertsson">Get in touch on GitHub</a>.</p>
+            <p>Tool Bunker is currently maintained by <a href="https://github.com/robertsson">@robertsson</a>.</p>
           </div>
         </div>
       </section>

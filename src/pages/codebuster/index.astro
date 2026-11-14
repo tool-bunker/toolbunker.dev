@@ -8,7 +8,7 @@ const softwareJsonLd = {
   name: "Code Buster",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "macOS, Linux, Windows",
-  softwareVersion: "0.13.0",
+  softwareVersion: "0.14.4",
   description: "Local repository-aware static analysis for AI-assisted development.",
   url: "https://toolbunker.dev/codebuster/",
   downloadUrl: "https://toolbunker.dev/codebuster/docs/getting-started/installation",
@@ -30,7 +30,7 @@ const softwareJsonLd = {
     .ai-hero .lede { max-width: 44rem; font-size: clamp(1.05rem, 1.7vw, 1.25rem); }
     .ai-copy { grid-area: copy; }
     .ai-art { position: relative; grid-area: art; }
-    .ai-art::before { position: absolute; z-index: -1; inset: 16%; border-radius: 50%; background: rgb(111 190 140 / 12%); filter: blur(4rem); content: ''; }
+    .ai-art::before { position: absolute; z-index: -1; inset: 16%; border-radius: 50%; background: rgb(var(--code-buster-primary-rgb) / 14%); filter: blur(4rem); content: ''; }
     .ai-art img { display: block; width: min(72%, 20rem); height: auto; margin-inline: auto; filter: drop-shadow(0 1.8rem 3rem rgb(0 0 0 / 45%)); }
     .compatibility { padding: 1.35rem 0; border-block: 1px solid var(--line); background: rgb(231 221 190 / 2%); }
     .compatibility-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .7rem; }
@@ -55,7 +55,7 @@ const softwareJsonLd = {
     .proof-heading p, .catalog-heading p, .participate-heading p { margin: 1.25rem 0 0; color: var(--text-dim); }
     .proof-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border: 1px solid var(--line-strong); background: var(--line-strong); gap: 1px; }
     .proof-step { min-height: 20rem; padding: 1.7rem; background: var(--ink-2); }
-    .proof-step:nth-child(2) { background: #121a14; }
+    .proof-step:nth-child(2) { background: #1c121c; }
     .proof-label { color: var(--text-dimmer); font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; }
     .proof-step:nth-child(2) .proof-label { color: var(--terminal); }
     .proof-step h3 { margin: 2rem 0 .8rem; font-family: var(--sans); font-size: 1.15rem; }
@@ -87,12 +87,13 @@ const softwareJsonLd = {
       .feedback-flow, .finding-grid, .participation-grid { grid-template-columns: 1fr 1fr; }
       .proof-grid { grid-template-columns: 1fr; }
       .flow-node::after { display: none; }
-      .ai-art { width: min(24vw, 6.5rem); max-width: none; margin-inline: auto; padding-bottom: 0; }
+      .ai-art { width: min(42vw, 10rem); max-width: none; margin-inline: auto; padding-bottom: 0; }
       .ai-art img { width: 100%; }
       .ai-art::before { inset: 8%; filter: blur(2rem); }
     }
     @media (max-width: 560px) {
       .ai-hero { padding-top: 4rem; }
+      .ai-copy .status-stamp { display: none; }
       .compatibility-label { width: 100%; margin: 0 0 .25rem; text-align: center; }
       .feedback-flow, .finding-grid, .participation-grid { grid-template-columns: 1fr; }
     }
@@ -101,7 +102,7 @@ const softwareJsonLd = {
       <div class="wrap">
         <div class="ai-hero-grid">
           <div class="ai-art">
-            <img src="/codebuster_logo.svg" alt="Code Buster logo" width="309" height="334" decoding="async" fetchpriority="high">
+            <img src="/codebuster_logo.svg" alt="Code Buster logo" width="334" height="334" decoding="async" fetchpriority="high">
           </div>
           <div class="ai-copy">
             <span class="status-stamp"><span></span>Static analysis for AI-assisted development</span>
@@ -117,7 +118,7 @@ const softwareJsonLd = {
                     <button id="install-tab-brew" type="button" role="tab" aria-selected="true" aria-controls="install-panel" tabindex="0" data-command="brew install tool-bunker/tap/code-buster" data-note="Native install for Apple Silicon macOS. Rust is not required.">Brew</button>
                     <button id="install-tab-curl" type="button" role="tab" aria-selected="false" aria-controls="install-panel" tabindex="-1" data-command="curl -fsSL https://toolbunker.dev/codebuster/install | sh" data-note="Native install for Apple Silicon macOS and x86-64 Linux.">Curl</button>
                     <button id="install-tab-powershell" type="button" role="tab" aria-selected="false" aria-controls="install-panel" tabindex="-1" data-command="irm https://toolbunker.dev/codebuster/install.ps1 | iex" data-note="Native install for x86-64 Windows PowerShell.">PowerShell</button>
-                    <button id="install-tab-cargo" type="button" role="tab" aria-selected="false" aria-controls="install-panel" tabindex="-1" data-command="cargo install code-buster --version 0.13.0 --locked" data-note="Build the pinned release with Rust 1.88 or newer.">Cargo</button>
+                    <button id="install-tab-cargo" type="button" role="tab" aria-selected="false" aria-controls="install-panel" tabindex="-1" data-command="cargo install code-buster --version 0.14.4 --locked" data-note="Build the pinned release with Rust 1.88 or newer.">Cargo</button>
                   </div>
                   <a href="/codebuster/docs/getting-started/installation">All options</a>
                 </div>
@@ -127,7 +128,7 @@ const softwareJsonLd = {
                 </div>
                 <p class="install-note">Native install for Apple Silicon macOS. Rust is not required.</p>
                 <ul class="release-meta">
-                  <li><a href="https://github.com/tool-bunker/code-buster/releases/tag/v0.13.0">Current release v0.13.0</a></li>
+                  <li><a href="https://github.com/tool-bunker/code-buster/releases/tag/v0.14.4">Current release v0.14.4</a></li>
                   <li><a href="https://github.com/tool-bunker/code-buster">Source</a></li>
                   <li><a href="https://github.com/tool-bunker/code-buster/blob/main/LICENSE">MIT license</a></li>
                   <li><a href="/codebuster/docs/project/security-releases">Security and releases</a></li>

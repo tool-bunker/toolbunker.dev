@@ -70,7 +70,7 @@ Get-Content .\install-code-buster.ps1
 With Rust 1.88 or newer installed, build and install the pinned release:
 
 ```sh
-cargo install code-buster --version 0.13.0 --locked
+cargo install code-buster --version 0.14.4 --locked
 cb version
 ```
 

@@ -1,0 +1,719 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+
+const repositoryUrl = "https://github.com/tool-bunker/spaghetti-meter";
+const releaseUrl = `${repositoryUrl}/releases/tag/v0.1.2`;
+
+const softwareJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Spaghetti Meter",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "macOS, Linux, Windows",
+  softwareVersion: "0.1.2",
+  description: "A playful desktop app that turns a local project into a bowl of animated spaghetti.",
+  license: "https://opensource.org/license/mit",
+  url: "https://toolbunker.dev/spaghetti-meter/",
+  sameAs: repositoryUrl,
+  downloadUrl: releaseUrl,
+};
+
+// Raw counts from the pinned Code Buster 0.14.4 runs, before score weighting.
+const showcaseRuns = [
+  {
+    name: "rea",
+    location: "github.com/morluto/rea",
+    url: "https://github.com/morluto/rea",
+    version: "6.8.0",
+    revision: "25d3c723",
+    score: 46,
+    files: 3108,
+    codeLines: 671657,
+    actionable: 28,
+    advisory: 2597,
+    tone: "fresh",
+  },
+  {
+    name: "ArtCraft",
+    location: "github.com/storytold/artcraft",
+    url: "https://github.com/storytold/artcraft",
+    version: "commit 79d87b2b",
+    revision: null,
+    score: 55,
+    files: 4871,
+    codeLines: 304204,
+    actionable: 76,
+    advisory: 1576,
+    tone: "fresh",
+  },
+  {
+    name: "Hyperframes",
+    location: "github.com/heygen-com/hyperframes",
+    url: "https://github.com/heygen-com/hyperframes",
+    version: "commit fa2e6351",
+    revision: null,
+    score: 75,
+    files: 3407,
+    codeLines: 707167,
+    actionable: 805,
+    advisory: 2361,
+    tone: "fresh",
+  },
+  {
+    name: "VoiceStudio",
+    location: "github.com/debpalash/VoiceStudio",
+    url: "https://github.com/debpalash/VoiceStudio",
+    version: "0.5.8-beta.1",
+    revision: "37442971",
+    score: 126,
+    files: 1712,
+    codeLines: 311318,
+    actionable: 556,
+    advisory: 1995,
+    tone: "warm",
+  },
+  {
+    name: "T3 Code",
+    location: "github.com/pingdotgg/t3code",
+    url: "https://github.com/pingdotgg/t3code",
+    version: "commit 09a54f01",
+    revision: null,
+    score: 34,
+    files: 4315,
+    codeLines: 937824,
+    actionable: 53,
+    advisory: 2556,
+    tone: "fresh",
+  },
+  {
+    name: "Claude Mem",
+    location: "github.com/thedotmack/claude-mem",
+    url: "https://github.com/thedotmack/claude-mem",
+    version: "15.12.0",
+    revision: "3ab6e1a2",
+    score: 132,
+    files: 1054,
+    codeLines: 209436,
+    actionable: 154,
+    advisory: 4192,
+    tone: "warm",
+  },
+  {
+    name: "AnyPS5",
+    location: "github.com/boykopovar/AnyPS5",
+    url: "https://github.com/boykopovar/AnyPS5",
+    version: "commit 095ff723",
+    revision: null,
+    score: 83,
+    files: 3387,
+    codeLines: 605169,
+    actionable: 2,
+    advisory: 4821,
+    tone: "fresh",
+  },
+  {
+    name: "yt-dlp",
+    location: "github.com/yt-dlp/yt-dlp",
+    url: "https://github.com/yt-dlp/yt-dlp",
+    version: "2026.10.26",
+    revision: "412e7f0a",
+    score: 88,
+    files: 1067,
+    codeLines: 133982,
+    actionable: 124,
+    advisory: 666,
+    tone: "fresh",
+  },
+  {
+    name: "OpenJDK",
+    location: "github.com/openjdk/jdk",
+    url: "https://github.com/openjdk/jdk",
+    version: "28",
+    revision: "b97deb0f",
+    score: 94,
+    files: 19367,
+    codeLines: 3550990,
+    actionable: 77,
+    advisory: 34712,
+    tone: "fresh",
+  },
+  {
+    name: "QEMU",
+    location: "github.com/qemu/qemu",
+    url: "https://github.com/qemu/qemu",
+    version: "11.1.50",
+    revision: "71f25c75",
+    score: 46,
+    files: 5983,
+    codeLines: 1686127,
+    actionable: 235,
+    advisory: 6098,
+    tone: "fresh",
+  },
+  {
+    name: "Bevy",
+    location: "github.com/bevyengine/bevy",
+    url: "https://github.com/bevyengine/bevy",
+    version: "0.20.1",
+    revision: "a0577b5c",
+    score: 162,
+    files: 1227,
+    codeLines: 290835,
+    actionable: 1316,
+    advisory: 751,
+    tone: "warm",
+  },
+  {
+    name: "Deno",
+    location: "github.com/denoland/deno",
+    url: "https://github.com/denoland/deno",
+    version: "2.9.8",
+    revision: "fe7ed012",
+    score: 180,
+    files: 1401,
+    codeLines: 592766,
+    actionable: 2645,
+    advisory: 2580,
+    tone: "warm",
+  },
+  {
+    name: "Zed",
+    location: "github.com/zed-industries/zed",
+    url: "https://github.com/zed-industries/zed",
+    version: "1.28.1",
+    revision: "e8bc16ac",
+    score: 134,
+    files: 1934,
+    codeLines: 950471,
+    actionable: 3640,
+    advisory: 2606,
+    tone: "warm",
+  },
+  {
+    name: "OpenTTD",
+    location: "github.com/OpenTTD/OpenTTD",
+    url: "https://github.com/OpenTTD/OpenTTD",
+    version: "17.0",
+    revision: "5b268c46",
+    score: 87,
+    files: 1317,
+    codeLines: 248116,
+    actionable: 16,
+    advisory: 1881,
+    tone: "fresh",
+  },
+  {
+    name: "Code Buster",
+    location: "github.com/tool-bunker/code-buster",
+    url: "https://github.com/tool-bunker/code-buster",
+    version: "0.14.1",
+    revision: "013beb77",
+    score: 9,
+    files: 219,
+    codeLines: 75185,
+    actionable: 2,
+    advisory: 48,
+    tone: "fresh",
+  },
+];
+---
+
+<BaseLayout
+  title="Spaghetti Meter - The most important score in software"
+  description="Compete for the highest Spaghetti Meter score, defeat your friends, impress your boss, and become a certified pasta engineer. Obviously serious."
+  favicon="/spaghetti.svg"
+  image="/spaghetti.svg"
+  bodyClass="spaghetti-page"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(softwareJsonLd)}></script>
+  <style>
+    :global(.spaghetti-page) {
+      --sp-bg: var(--spaghetti-night);
+      --sp-panel: var(--spaghetti-panel);
+      --sp-panel-strong: var(--spaghetti-panel-strong);
+      --sp-cream: var(--spaghetti-cream);
+      --sp-body: var(--spaghetti-body);
+      --sp-muted: var(--spaghetti-muted);
+      --sp-primary: var(--spaghetti-primary);
+      --sp-secondary: var(--spaghetti-secondary);
+      --sp-accent: var(--spaghetti-accent);
+      --sp-highlight: var(--spaghetti-highlight);
+      --sp-green: var(--spaghetti-green);
+      background: var(--sp-bg);
+      color: var(--sp-cream);
+    }
+
+    .app-header {
+      position: relative;
+      z-index: 5;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgb(var(--spaghetti-cream-rgb) / 12%);
+      background: rgb(var(--spaghetti-night-rgb) / 88%);
+      backdrop-filter: blur(1rem);
+    }
+
+    .app-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .app-brand,
+    .app-links a {
+      color: var(--sp-body);
+      font: 700 .7rem var(--mono);
+      letter-spacing: .08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .app-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      color: var(--sp-secondary);
+    }
+
+    .app-brand img {
+      width: 1.8rem;
+      height: auto;
+      flex: none;
+    }
+
+    .app-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .app-links a:hover { color: var(--sp-primary); }
+
+    h1,
+    h2,
+    h3 { font-family: var(--sans); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(4.5rem, 9vw, 8rem) 0 clamp(5rem, 9vw, 8rem);
+      border-bottom: 1px solid rgb(var(--spaghetti-cream-rgb) / 12%);
+      background:
+        radial-gradient(circle at 86% 24%, rgb(var(--spaghetti-primary-rgb) / 24%), transparent 25rem),
+        radial-gradient(circle at 13% 14%, rgb(var(--spaghetti-secondary-rgb) / 16%), transparent 27rem),
+        radial-gradient(circle at 58% 105%, rgb(var(--spaghetti-accent-rgb) / 14%), transparent 25rem),
+        var(--sp-bg);
+    }
+
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      opacity: .32;
+      background-image: radial-gradient(circle, rgb(var(--spaghetti-cream-rgb) / 28%) 1px, transparent 1.5px);
+      background-size: 3rem 3rem;
+      content: "";
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(24rem, .92fr);
+      align-items: center;
+      gap: clamp(3rem, 7vw, 7rem);
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      padding: .48rem .72rem;
+      border: 1px solid rgb(var(--spaghetti-secondary-rgb) / 48%);
+      border-radius: 999px;
+      color: var(--sp-secondary);
+      font: 700 .65rem var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      width: .52rem;
+      height: .52rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sp-primary), var(--sp-highlight));
+      box-shadow: 0 0 1rem rgb(var(--spaghetti-primary-rgb) / 75%);
+      content: "";
+    }
+
+    h1 {
+      max-width: 10ch;
+      margin: 1.5rem 0;
+      font-size: clamp(3.4rem, 7vw, 6.7rem);
+      font-weight: 650;
+      letter-spacing: -.065em;
+      line-height: .92;
+      text-wrap: balance;
+    }
+
+    h1 em {
+      background: linear-gradient(105deg, var(--sp-primary), var(--sp-highlight) 34%, var(--sp-green) 66%, var(--sp-secondary));
+      background-clip: text;
+      color: transparent;
+      font-style: normal;
+    }
+
+    .lede {
+      max-width: 39rem;
+      margin: 0;
+      color: var(--sp-body);
+      font-size: clamp(1.08rem, 2vw, 1.3rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      margin-top: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 3rem;
+      align-items: center;
+      justify-content: center;
+      padding: .72rem 1rem;
+      border: 1px solid rgb(var(--spaghetti-cream-rgb) / 24%);
+      border-radius: 4px;
+      color: var(--sp-cream);
+      font: 700 .74rem var(--mono);
+      text-decoration: none;
+    }
+
+    .button-primary {
+      border-color: var(--sp-primary);
+      background: linear-gradient(135deg, var(--sp-primary), var(--sp-accent));
+      color: var(--spaghetti-on-primary);
+      box-shadow: 0 .75rem 2.5rem rgb(var(--spaghetti-primary-rgb) / 18%);
+    }
+
+    .button:hover { border-color: var(--sp-secondary); }
+
+    .fun-note {
+      margin: 1.1rem 0 0;
+      color: var(--sp-muted);
+      font: .7rem var(--mono);
+    }
+
+    .fun-note a { color: var(--sp-secondary); }
+
+    .score-methodology summary {
+      color: var(--sp-body);
+      cursor: pointer;
+    }
+
+    .score-methodology p { max-width: 75ch; }
+
+    .play-window {
+      width: min(100%, 27rem);
+      justify-self: center;
+      border: 1px solid rgb(var(--spaghetti-secondary-rgb) / 42%);
+      border-radius: 1.4rem;
+      overflow: hidden;
+      background: var(--sp-panel-strong);
+      box-shadow: 0 2.5rem 6rem rgb(0 0 0 / 45%);
+    }
+
+    .play-window picture,
+    .play-window img {
+      display: block;
+      width: 100%;
+    }
+
+    .play-window img { height: auto; }
+
+    .section {
+      padding: clamp(5rem, 9vw, 8rem) 0;
+    }
+
+    .section + .section {
+      border-top: 1px solid rgb(var(--spaghetti-cream-rgb) / 12%);
+    }
+
+    .section-heading {
+      margin-bottom: 2.8rem;
+    }
+
+    .eyebrow {
+      color: var(--sp-primary);
+      font: 700 .68rem var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 13ch;
+      margin: .65rem 0 0;
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      font-weight: 650;
+      letter-spacing: -.055em;
+      line-height: .98;
+      text-wrap: balance;
+    }
+
+    .section-heading h2 {
+      max-width: none;
+      text-wrap: nowrap;
+    }
+
+    .servings-section {
+      background:
+        radial-gradient(circle at 6% 54%, rgb(var(--spaghetti-primary-rgb) / 10%), transparent 25rem),
+        radial-gradient(circle at 94% 42%, rgb(var(--spaghetti-secondary-rgb) / 9%), transparent 28rem),
+        var(--sp-panel);
+    }
+
+    .showcase-table-wrap {
+      overflow-x: auto;
+      border: 1px solid rgb(var(--spaghetti-cream-rgb) / 14%);
+      border-radius: 1rem;
+      background: rgb(var(--spaghetti-night-rgb) / 68%);
+      box-shadow: 0 1.5rem 3.5rem rgb(0 0 0 / 16%);
+    }
+
+    .showcase-table-wrap:focus-visible {
+      outline: 2px solid var(--sp-secondary);
+      outline-offset: 3px;
+    }
+
+    .showcase-table {
+      width: 100%;
+      min-width: 58rem;
+      border-collapse: collapse;
+    }
+
+    .showcase-table th,
+    .showcase-table td {
+      padding: 1.15rem;
+      border-bottom: 1px solid rgb(var(--spaghetti-cream-rgb) / 12%);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .showcase-table th {
+      color: var(--sp-muted);
+      background: rgb(var(--spaghetti-cream-rgb) / 4%);
+      font: 700 .6rem var(--mono);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .showcase-table tbody tr:last-child td { border-bottom: 0; }
+    .showcase-table tbody tr { transition: background .15s ease; }
+    .showcase-table tbody tr:hover { background: rgb(var(--spaghetti-cream-rgb) / 3%); }
+
+    .repo-link,
+    .repo-pending {
+      display: block;
+      width: max-content;
+      max-width: 16rem;
+      color: var(--sp-cream);
+      font: 650 1.15rem var(--sans);
+      text-decoration: none;
+    }
+
+    .repo-link:hover { color: var(--sp-secondary); }
+
+    .repo-location {
+      display: block;
+      max-width: 17rem;
+      margin-top: .35rem;
+      overflow: hidden;
+      color: var(--sp-muted);
+      font: .62rem var(--mono);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .repo-pending + .repo-location { color: var(--sp-highlight); }
+
+    .showcase-score {
+      font: 650 clamp(2rem, 4vw, 3rem) var(--sans);
+      letter-spacing: -.05em;
+    }
+
+    .score-tidy { color: var(--sp-secondary); }
+    .score-fresh { color: var(--sp-green); }
+    .score-warm { color: var(--sp-highlight); }
+    .score-hot,
+    .score-extreme { color: var(--sp-primary); }
+
+    .file-count {
+      color: var(--sp-body);
+      font: 700 .8rem var(--mono);
+      white-space: nowrap;
+    }
+
+    .file-count small {
+      display: block;
+      margin-top: .3rem;
+      color: var(--sp-muted);
+      font-size: .65rem;
+      font-weight: 500;
+    }
+
+    .version-cell strong {
+      display: block;
+      color: var(--sp-cream);
+      font: 700 .72rem var(--mono);
+      white-space: nowrap;
+    }
+
+    .version-cell span {
+      display: block;
+      margin-top: .3rem;
+      color: var(--sp-muted);
+      font: .6rem var(--mono);
+    }
+
+    .finding-count strong {
+      display: block;
+      color: var(--sp-cream);
+      font: 700 1.15rem var(--mono);
+    }
+
+    .finding-count span {
+      display: block;
+      margin-top: .3rem;
+      color: var(--sp-muted);
+      font: .65rem/1.7 var(--mono);
+      white-space: nowrap;
+    }
+
+    .release-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 2rem;
+      padding: clamp(2rem, 5vw, 3.5rem);
+      border: 1px solid rgb(var(--spaghetti-primary-rgb) / 34%);
+      border-radius: 1rem;
+      background: linear-gradient(135deg, rgb(var(--spaghetti-primary-rgb) / 13%), rgb(var(--spaghetti-secondary-rgb) / 7%) 60%, transparent), var(--sp-panel);
+    }
+
+    .release-card h2 { max-width: 17ch; }
+
+    @media (max-width: 62rem) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .section-heading h2 { text-wrap: wrap; }
+      .hero-copy { max-width: 46rem; }
+    }
+
+    @media (max-width: 48rem) {
+      .release-card { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 35rem) {
+      .app-nav { align-items: flex-start; flex-direction: column; }
+      .hero { padding-top: 3.5rem; }
+      h1 { font-size: clamp(3rem, 16vw, 4.8rem); }
+      .hero-actions,
+      .button { width: 100%; }
+    }
+
+  </style>
+
+  <header class="app-header">
+    <div class="wrap app-nav">
+      <a class="app-brand" href="/spaghetti-meter/"><img src="/spaghetti_symbol.svg" alt="" width="543" height="420" /><span>Spaghetti Meter</span></a>
+      <nav class="app-links" aria-label="Spaghetti Meter links">
+        <a href={releaseUrl}>Download v0.1.2</a>
+        <a href={repositoryUrl}>Repository</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" aria-labelledby="spaghetti-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="hero-kicker">Higher score. Better engineer. Probably.</span>
+          <h1 id="spaghetti-title">The most important <em>score in software.</em></h1>
+          <p class="lede">Finally, a code metric worth chasing. Pile spaghetti to the ceiling and prove you can out-spaghetti your friends, coworkers, and the entire open-source ecosystem.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href={releaseUrl}>Download Spaghetti Meter v0.1.2 ↗</a>
+            <a class="button" href="#servings">View the spaghetti scores</a>
+          </div>
+        </div>
+        <div class="play-window">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcset="/spaghetti-meter/assets/deno-result.png" />
+            <img
+              src="/spaghetti-meter/assets/spaghetti-demo.gif"
+              alt="Spaghetti Meter replaying a real Deno scan, filling the bowl and revealing a score of 180."
+              width="432"
+              height="720"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <section class="section servings-section" id="servings" aria-labelledby="servings-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <h2 id="servings-title">How full is your bowl?</h2>
+        </div>
+        <section class="showcase-table-wrap" aria-label="Spaghetti Meter repository results" tabindex="0">
+          <table class="showcase-table">
+            <thead>
+              <tr><th scope="col">Repository</th><th scope="col">Prestige score</th><th scope="col">Tested version</th><th scope="col">Analyzed code</th><th scope="col">CB findings</th></tr>
+            </thead>
+            <tbody>
+              {showcaseRuns.map((run) => (
+                <tr>
+                  <td>
+                    {run.url
+                      ? <a class="repo-link" href={run.url}>{run.name} ↗</a>
+                      : <span class="repo-pending">{run.name}</span>}
+                    <span class="repo-location">{run.location}</span>
+                  </td>
+                  <td><strong class:list={["showcase-score", `score-${run.tone}`]}>{run.score}</strong></td>
+                  <td class="version-cell"><strong>{run.version}</strong>{run.revision && <span>commit {run.revision}</span>}</td>
+                  <td><span class="file-count">{run.files} files<small>{run.codeLines.toLocaleString("en-US")} code lines</small></span></td>
+                  <td class="finding-count">
+                    <strong>{(run.actionable + run.advisory).toLocaleString("en-US")}</strong>
+                    {" "}
+                    <span>{run.actionable.toLocaleString("en-US")} actionable · {run.advisory.toLocaleString("en-US")} advisory</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+        <p class="fun-note">Repository settings and exclusions apply: these counts cover supported files analyzed, not the whole repository. Scores are playful signals, not cross-language quality rankings.</p>
+        <details class="fun-note score-methodology">
+          <summary>How scores are calculated</summary>
+          <p>Repeated findings from the same rule in one file have diminishing weight. Actionable findings weigh 3 and advisories 1, normalized against analyzed code lines.</p>
+          <p>These results use Code Buster 0.14.4 and Spaghetti Meter 0.1.2. Reproduce the scan with <code>cb review --advisory --verbose --no-cache --allow-empty --format=json</code>.</p>
+          <p><a href="/codebuster/docs/reference/reports/#analyzed-source-metrics">Code Buster’s source metrics and finding modes</a> supply the analyzed-line denominator and actionable/advisory distinction used by the app.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="download" aria-labelledby="release-title">
+      <div class="wrap release-card">
+        <div>
+          <span class="eyebrow">Spaghetti Meter 0.1.2 · Code Buster 0.14.4</span>
+          <h2 id="release-title">Your bowl is ready.</h2>
+        </div>
+        <a class="button button-primary" href={releaseUrl}>Get v0.1.2 on GitHub ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
