@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 
 const repositoryUrl = "https://github.com/tool-bunker/spaghetti-meter";
-const releaseUrl = `${repositoryUrl}/releases/tag/v0.1.2`;
+const releaseUrl = `${repositoryUrl}/releases/latest`;
 
 const softwareJsonLd = {
   "@context": "https://schema.org",
@@ -11,7 +11,6 @@ const softwareJsonLd = {
   name: "Spaghetti Meter",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "macOS, Linux, Windows",
-  softwareVersion: "0.1.2",
   description: "A playful desktop app that turns a local project into a bowl of animated spaghetti.",
   license: "https://opensource.org/license/mit",
   url: "https://toolbunker.dev/spaghetti-meter/",
@@ -19,7 +18,7 @@ const softwareJsonLd = {
   downloadUrl: releaseUrl,
 };
 
-// Raw counts from the pinned Code Buster 0.14.4 runs, before score weighting.
+// Raw counts measured with Code Buster 0.14.4 and Spaghetti Meter 0.1.2, before score weighting.
 const showcaseRuns = [
   {
     name: "rea",
@@ -630,7 +629,7 @@ const showcaseRuns = [
     <div class="wrap app-nav">
       <a class="app-brand" href="/spaghetti-meter/"><img src="/spaghetti_symbol.svg" alt="" width="543" height="420" /><span>Spaghetti Meter</span></a>
       <nav class="app-links" aria-label="Spaghetti Meter links">
-        <a href={releaseUrl}>Download v0.1.2</a>
+        <a href={releaseUrl}>Download</a>
         <a href={repositoryUrl}>Repository</a>
       </nav>
     </div>
@@ -644,7 +643,7 @@ const showcaseRuns = [
           <h1 id="spaghetti-title">The most important <em>score in software.</em></h1>
           <p class="lede">Finally, a code metric worth chasing. Pile spaghetti to the ceiling and prove you can out-spaghetti your friends, coworkers, and the entire open-source ecosystem.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href={releaseUrl}>Download Spaghetti Meter v0.1.2 ↗</a>
+            <a class="button button-primary" href={releaseUrl}>Download Spaghetti Meter ↗</a>
             <a class="button" href="#servings">View the spaghetti scores</a>
           </div>
         </div>
@@ -700,7 +699,7 @@ const showcaseRuns = [
         <details class="fun-note score-methodology">
           <summary>How scores are calculated</summary>
           <p>Repeated findings from the same rule in one file have diminishing weight. Actionable findings weigh 3 and advisories 1, normalized against analyzed code lines.</p>
-          <p>These results use Code Buster 0.14.4 and Spaghetti Meter 0.1.2. Reproduce the scan with <code>cb review --advisory --verbose --no-cache --allow-empty --format=json</code>.</p>
+          <p>Reproduce the scan with <code>cb review --advisory --verbose --no-cache --allow-empty --format=json</code>. See the <a href="https://github.com/tool-bunker/code-buster/releases/tag/v0.14.4">scanner build</a> and <a href={`${repositoryUrl}/blob/v0.1.2/src-tauri/src/analysis.rs`}>scoring implementation</a> used for these results.</p>
           <p><a href="/codebuster/docs/reference/reports/#analyzed-source-metrics">Code Buster’s source metrics and finding modes</a> supply the analyzed-line denominator and actionable/advisory distinction used by the app.</p>
         </details>
       </div>
@@ -709,10 +708,9 @@ const showcaseRuns = [
     <section class="section" id="download" aria-labelledby="release-title">
       <div class="wrap release-card">
         <div>
-          <span class="eyebrow">Spaghetti Meter 0.1.2 · Code Buster 0.14.4</span>
           <h2 id="release-title">Your bowl is ready.</h2>
         </div>
-        <a class="button button-primary" href={releaseUrl}>Get v0.1.2 on GitHub ↗</a>
+        <a class="button button-primary" href={releaseUrl}>Download on GitHub ↗</a>
       </div>
     </section>
   </main>
