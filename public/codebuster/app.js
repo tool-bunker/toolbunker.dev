@@ -3,6 +3,7 @@ const switcher = document.querySelector('.install-switcher');
 if (switcher) {
   const tabs = [...switcher.querySelectorAll('[role="tab"]')];
   const code = switcher.querySelector('.install-command code');
+  const panel = switcher.querySelector('[role="tabpanel"]');
   const note = switcher.querySelector('.install-note');
   const copy = switcher.querySelector('.copy-install');
 
@@ -14,15 +15,25 @@ if (switcher) {
     }
     code.textContent = tab.dataset.command ?? '';
     note.textContent = tab.dataset.note ?? '';
+    panel.setAttribute('aria-labelledby', tab.id);
   };
 
   for (const tab of tabs) {
     tab.addEventListener('click', () => select(tab));
     tab.addEventListener('keydown', (event) => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      let next;
+      if (event.key === 'ArrowLeft') {
+        next = tabs[(tabs.indexOf(tab) - 1 + tabs.length) % tabs.length];
+      } else if (event.key === 'ArrowRight') {
+        next = tabs[(tabs.indexOf(tab) + 1) % tabs.length];
+      } else if (event.key === 'Home') {
+        next = tabs[0];
+      } else if (event.key === 'End') {
+        next = tabs[tabs.length - 1];
+      } else {
+        return;
+      }
       event.preventDefault();
-      const offset = event.key === 'ArrowRight' ? 1 : -1;
-      const next = tabs[(tabs.indexOf(tab) + offset + tabs.length) % tabs.length];
       select(next);
       next.focus();
     });

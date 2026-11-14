@@ -70,4 +70,20 @@ cb init
 cb config explain
 ```
 
-`cb init` creates a minimal `code-buster.toml`. `cb config explain` displays effective defaults, inferred repository policy, file configuration, environment input, and CLI overrides.
+`cb init` creates a minimal `code-buster.toml` with inactive, commented
+examples for the main policy sections. A profile argument pins analysis and
+adds a portable source-layout policy where the ecosystem has one:
+
+| Command | Source policy |
+| --- | --- |
+| `cb init rust` | `src`; only `lib.rs` and `main.rs` directly inside it |
+| `cb init bevy` | Rust `src` boundary; Bevy rules activate from `Cargo.toml` |
+| `cb init python` | Modern `src` layout |
+| `cb init javascript` / `cb init typescript` | Application source in `src` |
+| `cb init dart` | Public package source in `lib` |
+| `cb init java` | Maven/Gradle production source in `src/main/java` |
+| `cb init go` / `cb init csharp` | Language pinned; no non-portable root imposed |
+
+The profiles do not invent application-specific architecture. `cb config
+explain` displays effective defaults, inferred repository policy, file
+configuration, environment input, and CLI overrides.

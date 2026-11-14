@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 
 const repositoryUrl = "https://github.com/tool-bunker/spaghetti-meter";
-const releaseUrl = `${repositoryUrl}/releases/tag/v0.1.1`;
+const releaseUrl = `${repositoryUrl}/releases/tag/v0.1.2`;
 
 const softwareJsonLd = {
   "@context": "https://schema.org",
@@ -11,7 +11,7 @@ const softwareJsonLd = {
   name: "Spaghetti Meter",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "macOS, Linux, Windows",
-  softwareVersion: "0.1.1",
+  softwareVersion: "0.1.2",
   description: "A playful desktop app that turns a local project into a bowl of animated spaghetti.",
   license: "https://opensource.org/license/mit",
   url: "https://toolbunker.dev/spaghetti-meter/",
@@ -19,246 +19,205 @@ const softwareJsonLd = {
   downloadUrl: releaseUrl,
 };
 
+// Raw counts from the pinned Code Buster 0.14.4 runs, before score weighting.
 const showcaseRuns = [
   {
     name: "rea",
     location: "github.com/morluto/rea",
     url: "https://github.com/morluto/rea",
-    cohort: "Monthly #1",
-    cohortTone: "trending",
-    context: "TypeScript · 443.2k stars",
+
     version: "6.8.0",
     revision: "25d3c723",
     score: 46,
     files: 3108,
     codeLines: 671657,
-    verdict: "Light spaghetti",
-    note: "You can still see the bottom of the bowl. Keep going.",
+    actionable: 28,
+    advisory: 2597,
     tone: "fresh",
   },
   {
     name: "ArtCraft",
     location: "github.com/storytold/artcraft",
     url: "https://github.com/storytold/artcraft",
-    cohort: "Monthly #4",
-    cohortTone: "trending",
-    context: "Rust · 39.8k stars",
     version: "commit 79d87b2b",
     revision: null,
-    score: 51,
+    score: 55,
     files: 4871,
     codeLines: 304204,
-    verdict: "Saucy but sensible",
-    note: "Sauce levels stable. Engineering prestige rising.",
+    actionable: 76,
+    advisory: 1576,
     tone: "fresh",
   },
   {
     name: "Hyperframes",
     location: "github.com/heygen-com/hyperframes",
     url: "https://github.com/heygen-com/hyperframes",
-    cohort: "Monthly #5",
-    cohortTone: "trending",
-    context: "TypeScript · 81.0k stars",
     version: "commit fa2e6351",
     revision: null,
-    score: 78,
+    score: 75,
     files: 3407,
     codeLines: 707167,
-    verdict: "Expected spaghetti",
-    note: "Exactly enough complexity to look intentional.",
+    actionable: 805,
+    advisory: 2361,
     tone: "fresh",
   },
   {
     name: "VoiceStudio",
     location: "github.com/debpalash/VoiceStudio",
     url: "https://github.com/debpalash/VoiceStudio",
-    cohort: "Monthly #6",
-    cohortTone: "trending",
-    context: "Python · 104.7k stars",
     version: "0.5.8-beta.1",
     revision: "37442971",
-    score: 130,
+    score: 126,
     files: 1712,
     codeLines: 311318,
-    verdict: "Messy spaghetti",
-    note: "Refactoring could help, but where is the fun in that?",
+    actionable: 556,
+    advisory: 1995,
     tone: "warm",
   },
   {
     name: "T3 Code",
     location: "github.com/pingdotgg/t3code",
     url: "https://github.com/pingdotgg/t3code",
-    cohort: "Monthly #7",
-    cohortTone: "trending",
-    context: "TypeScript · 52.3k stars",
     version: "commit 09a54f01",
     revision: null,
-    score: 33,
+    score: 34,
     files: 4315,
     codeLines: 937824,
-    verdict: "A few loose noodles",
-    note: "A few more copy-pastes and this could become competitive.",
+    actionable: 53,
+    advisory: 2556,
     tone: "fresh",
   },
   {
     name: "Claude Mem",
     location: "github.com/thedotmack/claude-mem",
     url: "https://github.com/thedotmack/claude-mem",
-    cohort: "Monthly #8",
-    cohortTone: "trending",
-    context: "TypeScript · 114.8k stars",
     version: "15.12.0",
     revision: "3ab6e1a2",
-    score: 133,
+    score: 132,
     files: 1054,
     codeLines: 209436,
-    verdict: "Messy spaghetti",
-    note: "Refactoring could help, but where is the fun in that?",
+    actionable: 154,
+    advisory: 4192,
     tone: "warm",
   },
   {
     name: "AnyPS5",
     location: "github.com/boykopovar/AnyPS5",
     url: "https://github.com/boykopovar/AnyPS5",
-    cohort: "Monthly #9",
-    cohortTone: "trending",
-    context: "C++ · 52.3k stars",
     version: "commit 095ff723",
     revision: null,
-    score: 85,
+    score: 83,
     files: 3387,
     codeLines: 605169,
-    verdict: "A generous serving",
-    note: "The bowl is impressed. Your reviewer may have questions.",
+    actionable: 2,
+    advisory: 4821,
     tone: "fresh",
   },
   {
     name: "yt-dlp",
     location: "github.com/yt-dlp/yt-dlp",
     url: "https://github.com/yt-dlp/yt-dlp",
-    cohort: "No AI",
-    cohortTone: "policy",
-    context: "Python · no-AI policy",
     version: "2026.10.26",
     revision: "412e7f0a",
-    score: 89,
+    score: 88,
     files: 1067,
     codeLines: 133982,
-    verdict: "A generous serving",
-    note: "The bowl is impressed. Your reviewer may have questions.",
+    actionable: 124,
+    advisory: 666,
     tone: "fresh",
   },
   {
     name: "OpenJDK",
     location: "github.com/openjdk/jdk",
     url: "https://github.com/openjdk/jdk",
-    cohort: "No AI",
-    cohortTone: "policy",
-    context: "Java · no-AI policy",
+
     version: "28",
     revision: "b97deb0f",
     score: 94,
     files: 19367,
     codeLines: 3550990,
-    verdict: "Bowl at capacity",
-    note: "Perfectly contained chaos. For now.",
+    actionable: 77,
+    advisory: 34712,
     tone: "fresh",
   },
   {
     name: "QEMU",
     location: "github.com/qemu/qemu",
     url: "https://github.com/qemu/qemu",
-    cohort: "No AI",
-    cohortTone: "policy",
-    context: "C · no-AI policy",
     version: "11.1.50",
     revision: "71f25c75",
-    score: 47,
+    score: 46,
     files: 5983,
     codeLines: 1686127,
-    verdict: "Light spaghetti",
-    note: "You can still see the bottom of the bowl. Keep going.",
+    actionable: 235,
+    advisory: 6098,
     tone: "fresh",
   },
   {
-    name: "Zig",
-    location: "codeberg.org/ziglang/zig",
-    url: "https://codeberg.org/ziglang/zig",
-    cohort: "No AI",
-    cohortTone: "policy",
-    context: "Zig · no-AI policy",
-    version: "0.18.0-dev",
-    revision: "a7808add",
-    score: 126,
-    files: 64,
-    codeLines: 23657,
-    verdict: "Messy spaghetti",
-    note: "Refactoring could help, but where is the fun in that?",
+    name: "Bevy",
+    location: "github.com/bevyengine/bevy",
+    url: "https://github.com/bevyengine/bevy",
+    version: "0.20.1",
+    revision: "a0577b5c",
+    score: 162,
+    files: 1227,
+    codeLines: 290835,
+    actionable: 1316,
+    advisory: 751,
     tone: "warm",
   },
   {
-    name: "Alacritty",
-    location: "github.com/alacritty/alacritty",
-    url: "https://github.com/alacritty/alacritty",
-    cohort: "No AI",
-    cohortTone: "policy",
-    context: "Rust · no-AI policy",
-    version: "0.18.0-dev",
-    revision: "aa5d942f",
-    score: 238,
-    files: 90,
-    codeLines: 21482,
-    verdict: "Spaghetti catastrophe",
-    note: "WOW. Not even AI can untangle that mess.",
-    tone: "hot",
+    name: "Deno",
+    location: "github.com/denoland/deno",
+    url: "https://github.com/denoland/deno",
+    version: "2.9.8",
+    revision: "fe7ed012",
+    score: 180,
+    files: 1401,
+    codeLines: 592766,
+    actionable: 2645,
+    advisory: 2580,
+    tone: "warm",
   },
   {
-    name: "Typst",
-    location: "github.com/typst/typst",
-    url: "https://github.com/typst/typst",
-    cohort: "No AI",
-    cohortTone: "policy",
-    context: "Rust · no-AI policy",
-    version: "0.15.1",
-    revision: "84cca406",
-    score: 156,
-    files: 400,
-    codeLines: 101210,
-    verdict: "Spaghetti overflow",
-    note: "The bowl has filed its first containment report.",
+    name: "Zed",
+    location: "github.com/zed-industries/zed",
+    url: "https://github.com/zed-industries/zed",
+    version: "1.28.1",
+    revision: "e8bc16ac",
+    score: 134,
+    files: 1934,
+    codeLines: 950471,
+    actionable: 3640,
+    advisory: 2606,
     tone: "warm",
   },
   {
     name: "OpenTTD",
     location: "github.com/OpenTTD/OpenTTD",
     url: "https://github.com/OpenTTD/OpenTTD",
-    cohort: "No AI",
-    cohortTone: "policy",
-    context: "C++ · no-AI policy",
+
     version: "17.0",
     revision: "5b268c46",
     score: 87,
     files: 1317,
     codeLines: 248116,
-    verdict: "A generous serving",
-    note: "The bowl is impressed. Your reviewer may have questions.",
+    actionable: 16,
+    advisory: 1881,
     tone: "fresh",
   },
   {
     name: "Code Buster",
     location: "github.com/tool-bunker/code-buster",
     url: "https://github.com/tool-bunker/code-buster",
-    cohort: "Tool Bunker",
-    cohortTone: "tool",
-    context: "Rust · benchmark subject",
     version: "0.14.1",
     revision: "013beb77",
-    score: 0,
+    score: 9,
     files: 219,
-    codeLines: 75118,
-    verdict: "No spaghetti detected",
-    note: "The fork came back clean. Suspicious.",
-    tone: "tidy",
+    codeLines: 75185,
+    actionable: 2,
+    advisory: 48,
+    tone: "fresh",
   },
 ];
 ---
@@ -267,38 +226,12 @@ const showcaseRuns = [
   title="Spaghetti Meter - The most important score in software"
   description="Compete for the highest Spaghetti Meter score, defeat your friends, impress your boss, and become a certified pasta engineer. Obviously serious."
   favicon="/spaghetti.svg"
+  image="/spaghetti.svg"
   bodyClass="spaghetti-page"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(softwareJsonLd)}></script>
-  <meta slot="head" property="og:title" content="Spaghetti Meter - The most important score in software" />
-  <meta slot="head" property="og:description" content="A playful local desktop app powered by Code Buster 0.14.3. Download Spaghetti Meter 0.1.1 for macOS ARM64, Linux x86_64, or Windows x86_64." />
-  <meta slot="head" property="og:url" content="https://toolbunker.dev/spaghetti-meter/" />
-  <meta slot="head" property="og:image" content="https://toolbunker.dev/spaghetti.svg" />
-  <link slot="head" rel="canonical" href="https://toolbunker.dev/spaghetti-meter/" />
   <style>
     :global(.spaghetti-page) {
-      --spaghetti-primary: #ff3b1f;
-      --spaghetti-secondary: #00e5ff;
-      --spaghetti-accent: #8b5cf6;
-      --spaghetti-highlight: #ffd800;
-      --spaghetti-green: #58f06f;
-      --spaghetti-night: #0d0824;
-      --spaghetti-panel: #17103a;
-      --spaghetti-panel-strong: #251458;
-      --spaghetti-cream: #fff8dd;
-      --spaghetti-body: #d8d0f0;
-      --spaghetti-muted: #aaa0c8;
-      --spaghetti-on-primary: #150904;
-      --spaghetti-primary-rgb: 255 59 31;
-      --spaghetti-secondary-rgb: 0 229 255;
-      --spaghetti-accent-rgb: 139 92 246;
-      --spaghetti-highlight-rgb: 255 216 0;
-      --spaghetti-green-rgb: 88 240 111;
-      --spaghetti-cream-rgb: 255 248 221;
-      --spaghetti-night-rgb: 13 8 36;
-      --text-dim: var(--spaghetti-body);
-      --text-dimmer: var(--spaghetti-muted);
-      --tape: var(--spaghetti-secondary);
       --sp-bg: var(--spaghetti-night);
       --sp-panel: var(--spaghetti-panel);
       --sp-panel-strong: var(--spaghetti-panel-strong);
@@ -477,138 +410,30 @@ const showcaseRuns = [
 
     .fun-note a { color: var(--sp-secondary); }
 
+    .score-methodology summary {
+      color: var(--sp-body);
+      cursor: pointer;
+    }
+
+    .score-methodology p { max-width: 75ch; }
+
     .play-window {
-      position: relative;
+      width: min(100%, 27rem);
+      justify-self: center;
       border: 1px solid rgb(var(--spaghetti-secondary-rgb) / 42%);
       border-radius: 1.4rem;
       overflow: hidden;
       background: var(--sp-panel-strong);
       box-shadow: 0 2.5rem 6rem rgb(0 0 0 / 45%);
-      transform: rotate(1.5deg);
     }
 
-    .window-bar {
-      display: flex;
-      min-height: 3.2rem;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0 1rem;
-      border-bottom: 1px solid rgb(var(--spaghetti-cream-rgb) / 12%);
-      background: rgb(var(--spaghetti-cream-rgb) / 4%);
-    }
-
-    .window-dots {
-      display: flex;
-      gap: .45rem;
-    }
-
-    .window-dots span {
-      width: .62rem;
-      height: .62rem;
-      border-radius: 50%;
-      background: var(--sp-primary);
-    }
-
-    .window-dots span:nth-child(2) { background: var(--sp-highlight); }
-    .window-dots span:nth-child(3) { background: var(--sp-secondary); }
-
-    .window-bar strong {
-      color: var(--sp-muted);
-      font: 700 .62rem var(--mono);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .window-screen {
-      position: relative;
-      display: grid;
-      min-height: 31rem;
-      place-items: center;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 24% 22%, rgb(var(--spaghetti-highlight-rgb) / 22%), transparent 12rem),
-        radial-gradient(circle at 82% 36%, rgb(var(--spaghetti-secondary-rgb) / 22%), transparent 14rem),
-        radial-gradient(circle at 50% 95%, rgb(var(--spaghetti-primary-rgb) / 28%), transparent 18rem),
-        var(--sp-panel);
-    }
-
-    .falling-noodles {
-      position: absolute;
-      inset: -8% -6% 0;
-      width: 112%;
-      height: 108%;
-      opacity: .72;
-    }
-
-    .falling-noodles path {
-      fill: none;
-      stroke-linecap: round;
-      stroke-width: 8;
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: noodle-draw 4.5s cubic-bezier(.5, 0, .2, 1) infinite;
-    }
-
-    .falling-noodles path:nth-child(1) { stroke: var(--sp-primary); }
-    .falling-noodles path:nth-child(2) { stroke: var(--sp-secondary); animation-delay: -.8s; }
-    .falling-noodles path:nth-child(3) { stroke: var(--sp-highlight); animation-delay: -1.6s; }
-    .falling-noodles path:nth-child(4) { stroke: var(--sp-green); animation-delay: -2.4s; }
-    .falling-noodles path:nth-child(5) { stroke: var(--sp-accent); animation-delay: -3.2s; }
-
-    .window-screen img {
-      position: relative;
-      z-index: 1;
-      width: min(64%, 20rem);
-      height: auto;
-      filter: drop-shadow(0 2rem 2.5rem rgb(0 0 0 / 42%));
-      animation: bowl-float 4s ease-in-out infinite;
-    }
-
-    .verdict {
-      position: absolute;
-      z-index: 2;
-      right: 1.2rem;
-      bottom: 1.2rem;
-      left: 1.2rem;
-      padding: 1rem 1.1rem;
-      border: 1px solid rgb(var(--spaghetti-cream-rgb) / 16%);
-      border-radius: .7rem;
-      background: rgb(var(--spaghetti-night-rgb) / 88%);
-      box-shadow: 0 1rem 2rem rgb(0 0 0 / 25%);
-      backdrop-filter: blur(.8rem);
-    }
-
-    .verdict span {
-      color: var(--sp-secondary);
-      font: 700 .62rem var(--mono);
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .verdict strong {
+    .play-window picture,
+    .play-window img {
       display: block;
-      margin-top: .25rem;
-      color: var(--sp-cream);
-      font-size: 1.05rem;
+      width: 100%;
     }
 
-    .word-strip {
-      overflow: hidden;
-      border-block: 1px solid rgb(var(--spaghetti-cream-rgb) / 12%);
-      background: linear-gradient(90deg, rgb(var(--spaghetti-primary-rgb) / 12%), rgb(var(--spaghetti-secondary-rgb) / 9%), rgb(var(--spaghetti-green-rgb) / 10%));
-    }
-
-    .word-strip p {
-      width: max-content;
-      margin: 0 auto;
-      padding: 1rem;
-      color: var(--sp-body);
-      font: 700 .68rem var(--mono);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      word-spacing: 1rem;
-    }
+    .play-window img { height: auto; }
 
     .section {
       padding: clamp(5rem, 9vw, 8rem) 0;
@@ -619,10 +444,7 @@ const showcaseRuns = [
     }
 
     .section-heading {
-      display: grid;
-      grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
-      align-items: end;
-      gap: clamp(2rem, 7vw, 6rem);
+
       margin-bottom: 2.8rem;
     }
 
@@ -643,60 +465,10 @@ const showcaseRuns = [
       text-wrap: balance;
     }
 
-    .section-heading p {
-      max-width: 43rem;
-      margin: 0;
-      color: var(--sp-body);
-      font-size: 1.08rem;
+    .section-heading h2 {
+      max-width: none;
+      text-wrap: nowrap;
     }
-
-    .ritual-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .ritual-card {
-      position: relative;
-      min-height: 20rem;
-      padding: 1.7rem;
-      overflow: hidden;
-      border: 1px solid rgb(var(--spaghetti-cream-rgb) / 14%);
-      border-radius: .8rem;
-      background: var(--sp-panel);
-    }
-
-    .ritual-card::after {
-      position: absolute;
-      right: -2rem;
-      bottom: -3rem;
-      width: 10rem;
-      height: 10rem;
-      border: 1.2rem solid rgb(var(--spaghetti-primary-rgb) / 12%);
-      border-radius: 50%;
-      content: "";
-    }
-
-    .ritual-card:nth-child(2)::after { border-color: rgb(var(--spaghetti-secondary-rgb) / 14%); }
-    .ritual-card:nth-child(3)::after { border-color: rgb(var(--spaghetti-green-rgb) / 14%); }
-
-    .ritual-word {
-      color: var(--sp-secondary);
-      font: 700 .68rem var(--mono);
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .ritual-card:nth-child(2) .ritual-word { color: var(--sp-highlight); }
-    .ritual-card:nth-child(3) .ritual-word { color: var(--sp-green); }
-
-    h3 {
-      margin: 4.5rem 0 .75rem;
-      font-size: 1.55rem;
-      letter-spacing: -.035em;
-    }
-
-    .ritual-card p { margin: 0; color: var(--sp-body); }
     .servings-section {
       background:
         radial-gradient(circle at 6% 54%, rgb(var(--spaghetti-primary-rgb) / 10%), transparent 25rem),
@@ -719,7 +491,7 @@ const showcaseRuns = [
 
     .showcase-table {
       width: 100%;
-      min-width: 69rem;
+      min-width: 58rem;
       border-collapse: collapse;
     }
 
@@ -769,29 +541,6 @@ const showcaseRuns = [
 
     .repo-pending + .repo-location { color: var(--sp-highlight); }
 
-    .cohort-badge {
-      display: block;
-      width: max-content;
-      padding: .28rem .45rem;
-      border: 1px solid currentColor;
-      border-radius: .3rem;
-      font: 700 .58rem var(--mono);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .cohort-trending { color: var(--sp-primary); }
-    .cohort-policy { color: var(--sp-secondary); }
-    .cohort-tool { color: var(--sp-green); }
-
-    .cohort-context {
-      display: block;
-      margin-top: .45rem;
-      color: var(--sp-muted);
-      font: .62rem var(--mono);
-      white-space: nowrap;
-    }
 
     .showcase-score {
       font: 650 clamp(2rem, 4vw, 3rem) var(--sans);
@@ -832,117 +581,40 @@ const showcaseRuns = [
       font: .6rem var(--mono);
     }
 
-    .verdict-cell strong {
+    .finding-count strong {
       display: block;
       color: var(--sp-cream);
-      font-size: .95rem;
+      font: 700 1.15rem var(--mono);
     }
 
-    .verdict-cell span {
+    .finding-count span {
       display: block;
-      max-width: 22rem;
       margin-top: .3rem;
       color: var(--sp-muted);
-      font-size: .78rem;
+      font: .65rem/1.7 var(--mono);
+      white-space: nowrap;
     }
-
-
-    .again-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(24rem, .9fr);
-      align-items: center;
-      gap: clamp(3rem, 8vw, 8rem);
-    }
-
-    .again-copy h2 { max-width: 14ch; }
-    .again-copy > p { max-width: 42rem; color: var(--sp-body); font-size: 1.08rem; }
-
-    .again-list {
-      display: grid;
-      gap: .75rem;
-    }
-
-    .again-item {
-      padding: 1.25rem 1.35rem;
-      border: 1px solid rgb(var(--spaghetti-cream-rgb) / 14%);
-      border-radius: .7rem;
-      background: var(--sp-panel);
-      color: var(--sp-body);
-    }
-
-    .again-item strong {
-      display: block;
-      margin-bottom: .25rem;
-      color: var(--sp-secondary);
-    }
-
-    .again-item:nth-child(2) strong { color: var(--sp-highlight); }
-    .again-item:nth-child(3) strong { color: var(--sp-green); }
-
-    .privacy-card,
     .release-card {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
       gap: 2rem;
       padding: clamp(2rem, 5vw, 3.5rem);
-      border: 1px solid rgb(var(--spaghetti-cream-rgb) / 16%);
+      border: 1px solid rgb(var(--spaghetti-primary-rgb) / 34%);
       border-radius: 1rem;
-      background: var(--sp-panel);
-    }
-
-    .privacy-card h2,
-    .release-card h2 { max-width: 17ch; }
-
-    .privacy-card p,
-    .release-card p { max-width: 45rem; color: var(--sp-body); }
-
-    .privacy-mark {
-      display: grid;
-      width: 8rem;
-      aspect-ratio: 1;
-      place-items: center;
-      border: 1px solid rgb(var(--spaghetti-green-rgb) / 42%);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgb(var(--spaghetti-green-rgb) / 18%), transparent 68%);
-      color: var(--sp-green);
-      font: 700 .68rem var(--mono);
-      letter-spacing: .08em;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .release-card {
-      border-color: rgb(var(--spaghetti-primary-rgb) / 34%);
       background: linear-gradient(135deg, rgb(var(--spaghetti-primary-rgb) / 13%), rgb(var(--spaghetti-secondary-rgb) / 7%) 60%, transparent), var(--sp-panel);
     }
 
-    @keyframes noodle-draw {
-      0% { opacity: 0; stroke-dashoffset: 1; transform: translateY(-2rem); }
-      28%, 72% { opacity: 1; stroke-dashoffset: 0; transform: translateY(0); }
-      100% { opacity: 0; stroke-dashoffset: 0; transform: translateY(1rem); }
-    }
-
-    @keyframes bowl-float {
-      0%, 100% { transform: translateY(0) rotate(-1deg); }
-      50% { transform: translateY(-.7rem) rotate(1deg); }
-    }
+    .release-card h2 { max-width: 17ch; }
 
     @media (max-width: 62rem) {
-      .hero-grid,
-      .section-heading,
-      .again-grid { grid-template-columns: 1fr; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .section-heading h2 { text-wrap: wrap; }
       .hero-copy { max-width: 46rem; }
-      .play-window { width: min(100%, 38rem); margin-inline: auto; }
     }
 
     @media (max-width: 48rem) {
-      .ritual-grid { grid-template-columns: 1fr; }
-      .ritual-card { min-height: 14rem; }
-      .ritual-card h3 { margin-top: 2.8rem; }
-      .privacy-card,
       .release-card { grid-template-columns: 1fr; }
-      .privacy-mark { width: 6.5rem; }
     }
 
     @media (max-width: 35rem) {
@@ -951,14 +623,6 @@ const showcaseRuns = [
       h1 { font-size: clamp(3rem, 16vw, 4.8rem); }
       .hero-actions,
       .button { width: 100%; }
-      .play-window { transform: none; }
-      .window-screen { min-height: 25rem; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .falling-noodles path,
-      .window-screen img { animation: none; }
-      .falling-noodles path { opacity: .72; stroke-dashoffset: 0; }
     }
   </style>
 
@@ -966,7 +630,7 @@ const showcaseRuns = [
     <div class="wrap app-nav">
       <a class="app-brand" href="/spaghetti-meter/"><img src="/spaghetti_symbol.svg" alt="" width="543" height="420" /><span>Spaghetti Meter</span></a>
       <nav class="app-links" aria-label="Spaghetti Meter links">
-        <a href={releaseUrl}>Download v0.1.1</a>
+        <a href={releaseUrl}>Download v0.1.2</a>
         <a href={repositoryUrl}>Repository</a>
       </nav>
     </div>
@@ -978,50 +642,24 @@ const showcaseRuns = [
         <div class="hero-copy">
           <span class="hero-kicker">Higher score. Better engineer. Probably.</span>
           <h1 id="spaghetti-title">The most important <em>score in software.</em></h1>
-          <p class="lede">Finally, a code metric worth chasing. Pile noodles to the ceiling and prove you can out-spaghetti your friends, coworkers, and the entire open-source ecosystem.</p>
+          <p class="lede">Finally, a code metric worth chasing. Pile spaghetti to the ceiling and prove you can out-spaghetti your friends, coworkers, and the entire open-source ecosystem.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href={releaseUrl}>Download Spaghetti Meter v0.1.1 ↗</a>
-            <a class="button" href="#servings">View the noodle elite</a>
+            <a class="button button-primary" href={releaseUrl}>Download Spaghetti Meter v0.1.2 ↗</a>
+            <a class="button" href="#servings">View the spaghetti scores</a>
           </div>
-          <p class="fun-note">Share it with your boss. They will definitely love a high score.</p>
         </div>
         <div class="play-window">
-          <div class="window-bar">
-            <span class="window-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-            <strong>Official engineering assessment</strong>
-          </div>
-          <div class="window-screen">
-            <svg class="falling-noodles" viewBox="0 0 520 520" aria-hidden="true">
-              <path pathLength="1" d="M42 -10 C22 86 132 92 92 183 S18 313 124 390 S188 468 148 540"></path>
-              <path pathLength="1" d="M156 -20 C236 72 96 127 177 211 S282 307 203 384 S214 467 264 540"></path>
-              <path pathLength="1" d="M278 -20 C227 73 355 114 290 210 S241 325 341 380 S391 466 354 540"></path>
-              <path pathLength="1" d="M393 -10 C481 64 359 143 432 218 S483 328 402 399 S385 479 445 540"></path>
-              <path pathLength="1" d="M500 4 C413 92 512 174 443 252 S339 355 457 443 S484 508 473 550"></path>
-            </svg>
-            <img src="/spaghetti_symbol.svg" alt="" width="543" height="420" decoding="async" fetchpriority="high" />
-            <div class="verdict">
-              <span>Career status</span>
-              <strong>Promoted to Principal Pasta Engineer</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="word-strip" aria-hidden="true">
-      <p>Nest · Duplicate · Generate · Abstract · Never delete · Score higher · Win software</p>
-    </div>
-
-    <section class="section" id="experience" aria-labelledby="experience-title">
-      <div class="wrap">
-        <div class="section-heading">
-          <div><span class="eyebrow">The path to greatness</span><h2 id="experience-title">Become unreasonably successful.</h2></div>
-          <p>A low score is merely a temporary failure of imagination. Add complexity, summon more noodles, and return stronger.</p>
-        </div>
-        <div class="ritual-grid">
-          <article class="ritual-card"><span class="ritual-word">Compete</span><h3>Establish your weakness</h3><p>Scan a repository and discover how embarrassingly far you are from true pasta excellence.</p></article>
-          <article class="ritual-card"><span class="ritual-word">Optimize</span><h3>Add more spaghetti</h3><p>Nest those if statements, duplicate a helper, and ask AI for another abstraction layer. Every noodle counts.</p></article>
-          <article class="ritual-card"><span class="ritual-word">Dominate</span><h3>Defeat your friends</h3><p>Challenge teammates, compare scores, and refuse to stop until your repository blocks out the sun.</p></article>
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcset="/spaghetti-meter/assets/deno-result.png" />
+            <img
+              src="/spaghetti-meter/assets/spaghetti-demo.gif"
+              alt="Spaghetti Meter replaying a real Deno scan, filling the bowl and revealing a score of 180."
+              width="432"
+              height="720"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
         </div>
       </div>
     </section>
@@ -1029,13 +667,12 @@ const showcaseRuns = [
     <section class="section servings-section" id="servings" aria-labelledby="servings-title">
       <div class="wrap">
         <div class="section-heading">
-          <div><span class="eyebrow">Official noodle leaderboard</span><h2 id="servings-title">Trending code meets the no-AI club.</h2></div>
-          <p>Scanned on <time datetime="2026-11-10">10 November 2026</time> with published Code Buster 0.14.3 and scored with Spaghetti Meter 0.1.1’s native density-aware scorer. All 15 repositories were rerun at the pinned source commits shown below.</p>
+          <h2 id="servings-title">How full is your bowl?</h2>
         </div>
         <section class="showcase-table-wrap" aria-label="Spaghetti Meter repository results" tabindex="0">
           <table class="showcase-table">
             <thead>
-              <tr><th scope="col">Repository</th><th scope="col">Cohort</th><th scope="col">Prestige score</th><th scope="col">Tested version</th><th scope="col">Analyzed code</th><th scope="col">Verdict</th></tr>
+              <tr><th scope="col">Repository</th><th scope="col">Prestige score</th><th scope="col">Tested version</th><th scope="col">Analyzed code</th><th scope="col">CB findings</th></tr>
             </thead>
             <tbody>
               {showcaseRuns.map((run) => (
@@ -1046,59 +683,36 @@ const showcaseRuns = [
                       : <span class="repo-pending">{run.name}</span>}
                     <span class="repo-location">{run.location}</span>
                   </td>
-                  <td class="cohort-cell">
-                    <strong class:list={["cohort-badge", `cohort-${run.cohortTone}`]}>{run.cohort}</strong>
-                    <span class="cohort-context">{run.context}</span>
-                  </td>
                   <td><strong class:list={["showcase-score", `score-${run.tone}`]}>{run.score}</strong></td>
                   <td class="version-cell"><strong>{run.version}</strong>{run.revision && <span>commit {run.revision}</span>}</td>
                   <td><span class="file-count">{run.files} files<small>{run.codeLines.toLocaleString("en-US")} code lines</small></span></td>
-                  <td class="verdict-cell"><strong>{run.verdict}</strong><span>{run.note}</span></td>
+                  <td class="finding-count">
+                    <strong>{(run.actionable + run.advisory).toLocaleString("en-US")}</strong>
+                    {" "}
+                    <span>{run.actionable.toLocaleString("en-US")} actionable · {run.advisory.toLocaleString("en-US")} advisory</span>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </section>
-        <p class="fun-note">Reproduce with Code Buster 0.14.3: <code>cb review --advisory --verbose --no-cache --format=json</code>. Repeated findings from the same rule in one file have diminishing weight; actionable findings weigh 3 and advisories 1, normalized against analyzed code lines. Repository settings and default exclusions apply: these counts cover supported files analyzed, not the whole repository. Scores are playful signals, not cross-language quality rankings or proof of AI use.</p>
-        <p class="fun-note"><a href="/codebuster/docs/reference/reports/#analyzed-source-metrics">Code Buster’s source metrics and finding modes</a> supply the analyzed-line denominator and actionable/advisory distinction used by the app.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="again-title">
-      <div class="wrap again-grid">
-        <div class="again-copy">
-          <span class="eyebrow">Performance optimization</span>
-          <h2 id="again-title">How to increase your score immediately.</h2>
-          <p>Do not refactor. You are trying to win. Follow these industry-leading techniques until the bowl files a formal complaint.</p>
-        </div>
-        <div class="again-list">
-          <div class="again-item"><strong>Nest every if statement</strong><span>Early returns reduce indentation and therefore destroy valuable noodle density.</span></div>
-          <div class="again-item"><strong>Ask AI to keep going</strong><span>One abstraction is responsible. Seven overlapping abstractions demonstrate vision.</span></div>
-          <div class="again-item"><strong>Never delete working code</strong><span>Comment it out, copy it twice, and preserve all historical recipes forever.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="privacy-title">
-      <div class="wrap privacy-card">
-        <div>
-          <span class="eyebrow">Secret competitive advantage</span>
-          <h2 id="privacy-title">Your noodle strategy stays local.</h2>
-          <p>Nobody needs to see the source of your success. Reveal only the terrifying score when it is strategically useful.</p>
-        </div>
-        <span class="privacy-mark">Secret<br />recipe</span>
+        <p class="fun-note">Repository settings and exclusions apply: these counts cover supported files analyzed, not the whole repository. Scores are playful signals, not cross-language quality rankings.</p>
+        <details class="fun-note score-methodology">
+          <summary>How scores are calculated</summary>
+          <p>Repeated findings from the same rule in one file have diminishing weight. Actionable findings weigh 3 and advisories 1, normalized against analyzed code lines.</p>
+          <p>These results use Code Buster 0.14.4 and Spaghetti Meter 0.1.2. Reproduce the scan with <code>cb review --advisory --verbose --no-cache --allow-empty --format=json</code>.</p>
+          <p><a href="/codebuster/docs/reference/reports/#analyzed-source-metrics">Code Buster’s source metrics and finding modes</a> supply the analyzed-line denominator and actionable/advisory distinction used by the app.</p>
+        </details>
       </div>
     </section>
 
     <section class="section" id="download" aria-labelledby="release-title">
       <div class="wrap release-card">
         <div>
-          <span class="eyebrow">Spaghetti Meter 0.1.1 · Code Buster 0.14.3</span>
+          <span class="eyebrow">Spaghetti Meter 0.1.2 · Code Buster 0.14.4</span>
           <h2 id="release-title">Your bowl is ready.</h2>
-          <p>Download the desktop app for macOS ARM64 (DMG or app bundle), Linux x86_64 (AppImage, Debian or RPM package; glibc 2.39 or newer), or Windows x86_64 (NSIS installer or MSI). Code Buster is bundled; no separate installation is needed.</p>
-          <p>Builds are unsigned. Only proceed if you trust this release: on macOS, Control-click the app and choose Open, or use System Settings → Privacy &amp; Security → Open Anyway after a blocked launch; on Windows, SmartScreen may offer More info → Run anyway. On Linux, mark the AppImage executable before launching it. Download each new release explicitly; the app does not update itself.</p>
         </div>
-        <a class="button button-primary" href={releaseUrl}>Get v0.1.1 on GitHub ↗</a>
+        <a class="button button-primary" href={releaseUrl}>Get v0.1.2 on GitHub ↗</a>
       </div>
     </section>
   </main>

@@ -64,6 +64,9 @@ fi
 tar -xzf "$temporary/$archive" -C "$temporary" cb
 mkdir -p "$bin_dir"
 install -m 0755 "$temporary/cb" "$bin_dir/cb"
+share_dir="$prefix/share/code-buster"
+mkdir -p "$share_dir"
+printf '%s\n' 'channel = "native"' > "$share_dir/install.toml"
 
 printf 'Installed Code Buster to %s\n' "$bin_dir/cb"
 case ":$PATH:" in

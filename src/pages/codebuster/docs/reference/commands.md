@@ -30,7 +30,7 @@ the installed version.
 | --- | --- |
 | `baseline` | Create, update, prune, or inspect a finding baseline |
 | `fix` | Preview or apply supported safe fixes |
-| `init` | Create minimal repository configuration |
+| `init [language] [path]` | Create minimal or language-aware repository configuration |
 | `doctor` | Diagnose setup, discovery, and processing |
 | `config` | Explain configuration or show selected files |
 | `update` | Update Code Buster through its detected installation channel |
@@ -66,6 +66,23 @@ view.
 `origin/HEAD`, `origin/main`, `origin/master`, `main`, and `master`. It reports
 an error when no merge base is available. Use `--changed` for staged, unstaged,
 and untracked work relative to `HEAD`.
+
+`cb init <profile>` writes a language- or framework-specific policy in the
+current directory. Rust and Bevy receive a strict Cargo source boundary, and
+Bevy rules activate only after `Cargo.toml` declares Bevy. Python, JavaScript,
+TypeScript, Dart, and Java receive conservative source-root policies. Go and C#
+are pinned without an imposed directory layout. Add a path to target another
+existing directory, for example `cb init bevy <path>`. Plain `cb init [path]`
+retains automatic language detection and includes inactive examples for the
+main configuration sections.
+
+## Updating Code Buster
+
+`cb update` detects Homebrew, crates.io Cargo, verified native-installer, and
+local-source installations. Use `cb update --dry-run` to print the selected
+channel and subprocesses without changing the installed executable. An
+unrecognized copied executable is not overwritten; the command explains the
+supported reinstall choices and exits with status 2.
 
 ## Common options
 

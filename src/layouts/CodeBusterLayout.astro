@@ -12,10 +12,16 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} bodyClass="code-buster-page">
+<BaseLayout
+  title={title}
+  description={description}
+  favicon="/codebuster_logo.svg"
+  image="/codebuster/assets/code-buster.png"
+  bodyClass="code-buster-page"
+>
   <slot name="head" slot="head" />
   <CodeBusterHeader />
-  <main>
+  <main id="main-content">
     <slot />
   </main>
   <SiteFooter variant="code-buster" />

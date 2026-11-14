@@ -25,12 +25,7 @@ brew install tool-bunker/tap/code-buster
 cb version
 ```
 
-Upgrade later with:
-
-```sh
-brew update
-brew upgrade code-buster
-```
+After installation, use `cb update` to upgrade through Homebrew.
 
 ## Install script
 
@@ -75,9 +70,31 @@ Get-Content .\install-code-buster.ps1
 With Rust 1.88 or newer installed, build and install the pinned release:
 
 ```sh
-cargo install code-buster --version 0.14.0 --locked
+cargo install code-buster --version 0.14.4 --locked
 cb version
 ```
+
+## Updating
+
+Run the updater regardless of whether Code Buster was installed with Homebrew,
+Cargo, the verified native installer, or from a local source checkout:
+
+```sh
+cb update
+```
+
+Preview the detected channel and command without changing the installation:
+
+```sh
+cb update --dry-run
+```
+
+The Homebrew channel runs `brew update` followed by
+`brew upgrade code-buster`. The Cargo channel installs the latest crates.io
+release. Native installations rerun the verified installer into their existing
+prefix; on Windows, that installer is scheduled to run after the current `cb`
+process exits so `cb.exe` can be replaced. Local source builds reinstall their
+checkout without fetching or changing its Git state.
 
 ## Build from source
 

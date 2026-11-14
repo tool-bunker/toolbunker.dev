@@ -43,6 +43,9 @@ try {
   New-Item -ItemType Directory -Force -Path $binDirectory | Out-Null
   $executable = Join-Path $binDirectory 'cb.exe'
   Copy-Item -Force (Join-Path $expanded 'cb.exe') $executable
+  $shareDirectory = Join-Path $prefix 'share\code-buster'
+  New-Item -ItemType Directory -Force -Path $shareDirectory | Out-Null
+  Set-Content -Path (Join-Path $shareDirectory 'install.toml') -Value 'channel = "native"'
 
   Write-Host "Installed Code Buster to $executable"
   if (($env:PATH -split ';') -notcontains $binDirectory) {

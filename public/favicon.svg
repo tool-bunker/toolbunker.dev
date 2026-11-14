@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Tool Bunker</title>
+  <rect width="64" height="64" rx="12" fill="#15120e"/>
+  <path d="M14 17h36v9H37v24H27V26H14z" fill="#ede7d8"/>
+  <circle cx="47" cy="47" r="7" fill="#6fbe8c"/>
+</svg>

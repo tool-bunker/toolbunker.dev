@@ -7,13 +7,68 @@
   --stamp-bright: #d24a27;
   --tape: #f0b90b;
   --terminal: #6fbe8c;
+  --code-buster-link: #8ef0aa;
+  --code-buster-primary: #78e89a;
+  --code-buster-primary-hover: #a7f4bb;
+  --code-buster-secondary: #ff6f9f;
+  --code-buster-secondary-hover: #ff91c2;
+  --code-buster-on-primary: #111a15;
+  --code-buster-primary-rgb: 120 232 154;
+  --code-buster-secondary-rgb: 255 111 159;
+  --code-buster-window: #090d0b;
+  --code-buster-window-deep: #050806;
+  --spaghetti-primary: #ff3b1f;
+  --spaghetti-secondary: #00e5ff;
+  --spaghetti-accent: #8b5cf6;
+  --spaghetti-highlight: #ffd800;
+  --spaghetti-green: #58f06f;
+  --spaghetti-purple: #7b2cff;
+  --spaghetti-night: #0d0824;
+  --spaghetti-panel: #17103a;
+  --spaghetti-panel-strong: #251458;
+  --spaghetti-cream: #fff8dd;
+  --spaghetti-body: #d8d0f0;
+  --spaghetti-muted: #aaa0c8;
+  --spaghetti-on-primary: #150904;
+  --spaghetti-primary-rgb: 255 59 31;
+  --spaghetti-secondary-rgb: 0 229 255;
+  --spaghetti-accent-rgb: 139 92 246;
+  --spaghetti-highlight-rgb: 255 216 0;
+  --spaghetti-green-rgb: 88 240 111;
+  --spaghetti-cream-rgb: 255 248 221;
+  --spaghetti-night-rgb: 13 8 36;
+  --spaghetti-code-bg: #08061c;
   --text: #ede7d8;
   --text-dim: #a89e87;
-  --text-dimmer: #756b58;
+  --text-dimmer: #8f856f;
   --line: rgb(231 221 190 / 14%);
   --line-strong: rgb(231 221 190 / 26%);
   --mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --sans: "Inter", system-ui, -apple-system, sans-serif;
+  --sans: "Space Grotesk", system-ui, -apple-system, sans-serif;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/space-mono-regular-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/space-mono-bold-latin.woff2") format("woff2");
 }
 
 * {
@@ -50,6 +105,38 @@ body {
 :focus-visible {
   outline: 2px solid var(--tape);
   outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--tape);
+  border-radius: 2px;
+  background: var(--ink);
+  color: var(--text);
+  font: 700 0.75rem var(--mono);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.heading-anchor {
+  margin-left: 0.45rem;
+  color: var(--text-dimmer);
+  font-size: 0.75em;
+  text-decoration: none;
+  opacity: 0;
+}
+
+:is(h2, h3):hover .heading-anchor,
+.heading-anchor:focus {
+  opacity: 1;
 }
 
 .wrap {

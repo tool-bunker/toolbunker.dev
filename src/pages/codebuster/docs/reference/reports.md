@@ -13,6 +13,10 @@ Understand human output, machine formats, findings, coverage, and run status.
 - **Text**: terminal-oriented findings and summaries.
 - **Markdown**: stable review tables for rendered reports.
 
+Complexity findings lead with a plain-language concern: too many decision paths, difficult-to-follow control flow, or both. Text and Markdown omit the numeric counters by default. Add `--verbose` to see cyclomatic and cognitive measurements alongside their configured limits; terminal output dims this supporting detail. Grouped localization findings retain their grouping information. Machine formats preserve the original complexity message and measurements.
+
+File/function length, duplicate blocks, JSON field mismatches, concentrated signs of unnecessary flexibility, and broad exception handlers also use descriptive headlines. Verbose supporting detail retains line counts and limits, duplicate fingerprints, mismatched field names, and contributing YAGNI rules. TODO marker messages remain unchanged. Human presentation does not change rule detection, finding identity, or machine-readable evidence.
+
 ## Machine formats
 
 - **JSON**: complete versioned report envelope.
@@ -58,7 +62,7 @@ The additional JSON root field, or NDJSON summary-record field, is:
 }
 ```
 
-`fileCodeLines` covers every selected source path, including files with zero code lines; `codeLines` is its sum. Measurements use the same Rust/Python inline-test masking as analysis and classify comments by source language. Embedded code is included except for Rust documentation examples. String-literal content remains code, including Python runtime docstrings.
+`fileCodeLines` covers every selected source path, including files with zero code lines; `codeLines` is its sum. Measurements use the same Rust/Python inline-test masking as analysis, classify comments by source language, and exclude Rust doc-comment examples. Embedded runtime code and string-literal content remain code, including Python runtime docstrings.
 
 These are measurements of analyzed source, not the repository's total size. Use the effective finding modes rather than severity to distinguish actionable findings from advisories. Source metrics are omitted unless verbose JSON or NDJSON is requested; ordinary scans do not run the counters.
 
