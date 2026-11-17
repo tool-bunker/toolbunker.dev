@@ -41,8 +41,10 @@ cargo build --release --locked
 After that pull request is merged, a maintainer manually runs the
 `Code Buster Release` workflow from `main` with the exact package version. The
 workflow rechecks formatting, Clippy, tests, packaging, the changelog heading,
-and the pinned README install command before it creates the tag. It then builds
-and smokes native Linux, macOS, and Windows artifacts and publishes checksums.
+and the README and pinned GitHub integration install commands before it creates
+the tag. It then builds and smokes native Linux, macOS, and Windows artifacts,
+publishes the crate through crates.io Trusted Publishing, and publishes the
+GitHub release with checksums and the full version-specific changelog notes.
 
 ## Release evidence
 
